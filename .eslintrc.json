@@ -7,34 +7,18 @@
 			"jsx": true
 		}
 	},
-	"plugins": [
-		"prettier"
-	],
+	"plugins": ["prettier"],
 	"rules": {
 		"prettier/prettier": "error",
-		"semi": [
-			1,
-			"never"
-		],
+		"semi": ["error", "never"],
 		"new-cap": [
 			1,
 			{
-				"capIsNewExceptions": [
-					"Router"
-				]
+				"capIsNewExceptions": ["Router"]
 			}
 		],
-		"complexity": [
-			"error",
-			15
-		],
-		"indent": [
-			"error",
-			"tab"
-		],
-		"quotes": [
-			"error",
-			"single"
-		]
+		"complexity": ["error", 15],
+		"indent": ["error", "tab"],
+		"quotes": ["error", "single"]
 	}
 }

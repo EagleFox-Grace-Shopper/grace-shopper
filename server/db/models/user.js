@@ -32,7 +32,7 @@ const User = db.define('user', {
     allowNull: false,
   },
   addresss: {
-    type: Sequelize.String,
+    type: Sequelize.STRING,
   }
 })
 

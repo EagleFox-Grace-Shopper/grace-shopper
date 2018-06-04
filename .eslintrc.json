@@ -1,8 +1,36 @@
 {
-	"root": true,
-	"extends": "fullstack",
-	"rules": {
-		"semi": 0,
-		"new-cap": [1, { "capIsNewExceptions": ["Router"] }]
-	}
+  "root": true,
+  "extends": "fullstack",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    }
+  },
+  "rules": {
+    "semi": [
+      1,
+      "never"
+    ],
+    "new-cap": [
+      1,
+      {
+        "capIsNewExceptions": [
+          "Router"
+        ]
+      }
+    ],
+    "complexity": [
+      "error",
+      15
+    ],
+    "indent": [
+      "error",
+      "tab"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ]
+  }
 }

@@ -1,36 +1,40 @@
 {
-  "root": true,
-  "extends": "fullstack",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
-    }
-  },
-  "rules": {
-    "semi": [
-      1,
-      "never"
-    ],
-    "new-cap": [
-      1,
-      {
-        "capIsNewExceptions": [
-          "Router"
-        ]
-      }
-    ],
-    "complexity": [
-      "error",
-      15
-    ],
-    "indent": [
-      "error",
-      "tab"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ]
-  }
+	"root": true,
+	"extends": "fullstack",
+	"parserOptions": {
+		"ecmaFeatures": {
+			"experimentalObjectRestSpread": true,
+			"jsx": true
+		}
+	},
+	"plugins": [
+		"prettier"
+	],
+	"rules": {
+		"prettier/prettier": "error",
+		"semi": [
+			1,
+			"never"
+		],
+		"new-cap": [
+			1,
+			{
+				"capIsNewExceptions": [
+					"Router"
+				]
+			}
+		],
+		"complexity": [
+			"error",
+			15
+		],
+		"indent": [
+			"error",
+			"tab"
+		],
+		"quotes": [
+			"error",
+			"single"
+		]
+	}
 }

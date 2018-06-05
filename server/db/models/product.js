@@ -6,9 +6,9 @@ const Product = db.define('product', {
     type: Sequelize.STRING,
     allowNull: false
   },
-   description: {
-  type: Sequelize.TEXT,
-  allowNull: false
+  description: {
+    type: Sequelize.TEXT,
+    allowNull: false
   },
   price: {
     type: Sequelize.INTEGER,

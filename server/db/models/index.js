@@ -9,8 +9,8 @@ const Product = require('./product')
  *    BlogPost.belongsTo(User)
  */
 
-Product.belongsToMany(Category, {through: 'ProductCategory'})
-Category.belongsToMany(Product, {through: 'ProductCategory'})
+Product.belongsToMany(Category, {through: 'productCategory'})
+Category.belongsToMany(Product, {through: 'productCategory'})
 
 //Potential future routes
 //Review.belongsToMany(Product)

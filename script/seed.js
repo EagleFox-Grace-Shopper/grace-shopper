@@ -1,7 +1,8 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {User, Product, Category} = require('../server/db/models')
+
 
 /**
  * Welcome to the seed file! This seed file uses a newer language feature called...
@@ -21,13 +22,23 @@ async function seed () {
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({name: 'Chan', email: 'chan@email.com', password: '123', address: '123 Main Street, Chicago, IL 94597'}),
+    User.create({name: 'Andrew Trahan', email: 'andrew@email.com', password: '12345', address: '123 Wicker Street, Chicago, IL 94597'}),
+    User.create({name: 'Homum Ahsan', email: 'homum@email.com', password: 'supersmash64', address: '123 Division Street, Chicago, IL 60647'}),
+    User.create({name: 'Justin H', email: 'justin@email.com', password: 'puppies123', address: '3006 W Fullerton Ave, Chicago, IL 60647'}),
+  ])
+
+  const products = await Promise.all([
+    Product.create({title: '',
+      description: '',
+      price: '',
+      quantity: '',
+      imageUrl: ''})
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
   console.log(`seeded ${users.length} users`)
-  console.log(`seeded successfully`)
+  console.log('seeded successfully')
 }
 
 // Execute the `seed` function, IF we ran this module directly (`node seed`).
@@ -35,15 +46,15 @@ async function seed () {
 // any errors that might occur inside of `seed`.
 if (module === require.main) {
   seed()
-  .catch(err => {
-    console.error(err)
-    process.exitCode = 1
-  })
-  .finally(() => { // `finally` is like then + catch. It runs no matter what.
-    console.log('closing db connection')
-    db.close()
-    console.log('db connection closed')
-  })
+    .catch(err => {
+      console.error(err)
+      process.exitCode = 1
+    })
+    .then(() => { // `finally` is like then + catch. It runs no matter what.
+      console.log('closing db connection')
+      db.close()
+      console.log('db connection closed')
+    })
   /*
    * note: everything outside of the async function is totally synchronous
    * The console.log below will occur before any of the logs that occur inside

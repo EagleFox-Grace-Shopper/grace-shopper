@@ -53,7 +53,7 @@ const mapAddProduct = (state) => {
   return {
     name: 'addProduct',
     displayName: 'Add Product',
-    error: state.user.error
+    selectedProduct: {}
   }
 }
 
@@ -61,7 +61,8 @@ const mapEditProduct = (state) => {
   return {
     name: 'editProduct',
     displayName: 'Edit Product',
-    error: state.user.error
+    error: state.product.error,
+    selectedProduct: state.product.selectedProduct
   }
 }
 

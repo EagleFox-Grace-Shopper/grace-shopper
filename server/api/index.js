@@ -3,6 +3,14 @@ module.exports = router
 
 router.use('/users', require('./users'))
 
+router.use('/admin', (req, res, next) => {
+  if (req.user) {
+    require('./admin')
+  } else {
+    res.status(401).send('Unauthorized')
+  }
+})
+
 router.use((req, res, next) => {
   const error = new Error('Not Found')
   error.status = 404

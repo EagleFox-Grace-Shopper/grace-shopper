@@ -7,35 +7,34 @@ import { auth } from '../store'
  * COMPONENT
  */
 const ProductForm = (props) => {
-  const { name, displayName, handleSubmit, error } = props
+  const { name, displayName, handleSubmit, selectedProduct } = props
 
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
         <div>
           <label htmlFor="title"><small>Product Title</small></label>
-          <input name="title" type="text" />
+          <input name="title" type="text" value={selectedProduct.title || ''} />
         </div>
         <div>
           <label htmlFor="description"><small>Description</small></label>
-          <input name="description" type="description" />
+          <textarea name="description" value={selectedProduct.description || ''} />
         </div>
         <div>
           <label htmlFor="price"><small>Product Price</small></label>
-          <input name="price" type="text" />
+          <input name="price" type="text" value={selectedProduct.price || 0} />
         </div>
         <div>
           <label htmlFor="quantity"><small>Inventory Qty</small></label>
-          <input name="quantity" type="quantity" />
+          <input name="quantity" type="number" value={selectedProduct.quantity || 0} />
         </div>
         <div>
           <label htmlFor="imageUrl"><small>Image URL</small></label>
-          <input name="imageUrl" type="imageUrl" />
+          <input name="imageUrl" type="text" value={selectedProduct.imageUrl || ''} />
         </div>
         <div>
           <button type="submit">{displayName}</button>
         </div>
-        {error && error.response && <div> {error.response.data} </div>}
       </form>
     </div>
   )

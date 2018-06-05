@@ -8,15 +8,29 @@ const Product = db.model('products')
 
 describe('Product routes', () => {
   describe('/api/products/', () => {
-    const testTitle = 'testTitle'
+    const testTitle = 'Title Of Product'
 
     beforeEach(() => {
-      return Product.create({
-        title: testTitle,
-        description: 'description text',
-        price: 14,
-        quantity: 200,
+      Product.create({
+        title: testTitle + '1',
+        description: 'description text 1',
+        price: 11,
+        quantity: 201,
         imageUrl: 'defaultImage.jpg',
+      })
+      Product.create({
+        title: testTitle + '2',
+        description: 'description text 2',
+        price: 12,
+        quantity: 202,
+        imageUrl: 'defaultImage2.jpg',
+      })
+      Product.create({
+        title: testTitle + '3',
+        description: 'description text 3',
+        price: 13,
+        quantity: 203,
+        imageUrl: 'defaultImage3.jpg',
       })
     })
 
@@ -26,7 +40,16 @@ describe('Product routes', () => {
         .expect(200)
         .then(res => {
           expect(res.body).to.be.an('array')
-          expect(res.body[0].title).to.be.equal(testTitle)
+          expect(res.body[0].title).to.be.equal(testTitle + '1')
+        })
+    })
+    it('GET /api/products/id', () => {
+      return request(app)
+        .get('/api/products/2')
+        .expect(200)
+        .then(res => {
+          expect(res.body).to.be.an('object')
+          expect(res.body.title).to.be.equal(testTitle + '2')
         })
     })
   }) // end describe('/api/users')

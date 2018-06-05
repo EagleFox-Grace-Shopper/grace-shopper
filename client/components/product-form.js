@@ -37,7 +37,6 @@ const ProductForm = (props) => {
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <a href="/auth/google">{displayName} with Google</a>
     </div>
   )
 }
@@ -52,7 +51,7 @@ const ProductForm = (props) => {
 const mapAddProduct = (state) => {
   return {
     name: 'addProduct',
-    displayName: 'Add Product',
+    displayName: 'Add',
     selectedProduct: {}
   }
 }
@@ -60,7 +59,7 @@ const mapAddProduct = (state) => {
 const mapEditProduct = (state) => {
   return {
     name: 'editProduct',
-    displayName: 'Edit Product',
+    displayName: 'Edit',
     error: state.product.error,
     selectedProduct: state.product.selectedProduct
   }
@@ -88,5 +87,4 @@ ProductForm.propTypes = {
   name: PropTypes.string.isRequired,
   displayName: PropTypes.string.isRequired,
   handleSubmit: PropTypes.func.isRequired,
-  error: PropTypes.object
 }

@@ -30,5 +30,5 @@ Category.belongsToMany(Product, {through: 'productCategory'})
 module.exports = {
   User,
   Product,
-  Category
+  Category,
 }

@@ -34,9 +34,7 @@ class Routes extends Component {
             <Route path="/home" component={UserHome} />
             {
               isAdmin &&
-              <Switch>
-                <Route exact path="/products/:id/edit" component={EditProduct} />
-              </Switch>
+              <Route exact path="/products/:id/edit" component={EditProduct} />
             }
           </Switch>
         }

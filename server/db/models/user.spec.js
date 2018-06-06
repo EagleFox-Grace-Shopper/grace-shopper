@@ -14,12 +14,11 @@ describe('User model', () => {
         return User.create({
           email: 'cody@puppybook.com',
           password: 'bones',
-          name: 'CodyMan',
+          name: 'Cody',
         })
           .then(user => {
             cody = user
           })
-          .catch(err => console.log(err))
       })
 
       it('returns true if the password is correct', () => {

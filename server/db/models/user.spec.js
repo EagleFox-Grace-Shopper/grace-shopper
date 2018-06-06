@@ -5,6 +5,7 @@ const db = require('../index')
 const User = db.model('user')
 
 describe('User model', () => {
+
   describe('instanceMethods', () => {
     describe('correctPassword', () => {
       let cody
@@ -12,7 +13,8 @@ describe('User model', () => {
       beforeEach(() => {
         return User.create({
           email: 'cody@puppybook.com',
-          password: 'bones'
+          password: 'bones',
+          name: 'Cody',
         })
           .then(user => {
             cody = user

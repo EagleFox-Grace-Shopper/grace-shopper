@@ -12,15 +12,15 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class ProductList extends Component {
-  render () {
+  render() {
 
     const productList = this.props.productList
-
+    console.log(productList)
     return (
       <div>
         <h2>All Products</h2>
         <ul>
-          { productList.map(product => <ProductCard product={product} key={product.id} />) }
+          {productList.map(product => <ProductCard product={product} key={product.id} />)}
         </ul>
       </div>
     )

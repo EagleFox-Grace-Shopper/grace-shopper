@@ -20,6 +20,7 @@ const Product = db.define('product', {
   },
   imageUrl: {
     type: Sequelize.STRING,
+    allowNull: true,
     validate: {
       isUrl: true
     }

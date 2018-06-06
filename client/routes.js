@@ -22,6 +22,7 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* <Route path="/" component={productList} /> */}
+        <Route exact path="/products/:id" component={SingleProduct} />
         {
           isLoggedIn &&
           <Switch>
@@ -31,10 +32,9 @@ class Routes extends Component {
               isAdmin &&
               <Switch>
                 <Route exact path="/products/add" component={AddProduct} />
-                <Route path="/products/:id/edit" component={EditProduct} />
+                <Route exact path="/products/:id/edit" component={EditProduct} />
               </Switch>
             }
-            <Route exact path="/products/:id" component={SingleProduct} />
           </Switch>
         }
         {/* Displays our Login component as a fallback

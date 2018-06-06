@@ -20,8 +20,13 @@ router.get('/', async (req, res, next) => {
     }
   } else {
     try {
-
-      const productsAll = await Product.findAll({})
+      let productsAll
+      productsAll = (req.query.search) ? (await Product.findAll(
+        {where:
+          {title:
+            {$like: '%' + req.query.search + '%'}}}
+      )) : (
+        productsAll = await Product.findAll({}))
       res.json(productsAll)
     } catch (error) {
       next(error)

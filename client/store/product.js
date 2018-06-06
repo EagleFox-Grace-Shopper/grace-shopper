@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_PRODUCT_LIST = 'GET_PRODUCT_LIST'
 const GET_PRODUCTS_BY_CAT = 'GET_PRODUCTS_BY_CAT'
+const GET_PRODUCTS_BY_SEARCH = 'GET_PRODUCTS_BY_SEARCH'
 const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 const SET_PRODUCT = 'SET_PRODUCT'
 
@@ -32,6 +33,13 @@ const removeProduct = () => ({ type: REMOVE_PRODUCT })
 const getProductByCat = products => {
   return {
     type: GET_PRODUCTS_BY_CAT,
+    products
+  }
+}
+
+const getProductBySearch = products => {
+  return {
+    type: GET_PRODUCTS_BY_SEARCH,
     products
   }
 }
@@ -75,6 +83,13 @@ export const getProductsByCatThunk = (categoryId) => {
   }
 }
 
+export const getProductsBySearchThunk = (search) => {
+  return async dispatch => {
+    const { data } = await axios.get(`/api/products?search=${search}`)
+    dispatch(getProductBySearch(data))
+  }
+}
+
 /**
  * REDUCER
  */
@@ -86,6 +101,8 @@ export default function (state = defaultProducts, action) {
     return { ...state, selectedProduct: action.product }
   case GET_PRODUCTS_BY_CAT:
     return { ...state, productList: action.products }
+  case GET_PRODUCTS_BY_SEARCH:
+    return {...state, productList: action.products}
   case REMOVE_PRODUCT:
     return defaultProducts
   default:

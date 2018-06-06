@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-import {getInitialProductThunk} from '../store'
+import { getInitialProductThunk } from '../store'
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -10,23 +10,23 @@ class SingleProduct extends Component {
       selectedProduct: this.props.selectedProduct,
     }
   }
-  async componentWillMount(){
+  async componentWillMount() {
 
   }
-  async componentDidMount(){
+  async componentDidMount() {
     const urlId = Number(this.props.match.params.id)
-    const curProduct = await this.props.getInitialProduct(urlId)
-    this.setState({selectedProduct: curProduct})
+    await this.props.getInitialProduct(urlId)
+    this.setState({ selectedProduct: this.props.selectedProduct })
   }
 
   render() {
     const urlId = Number(this.props.match.params.id)
 
-    const title       = this.state.selectedProduct.title
+    const title = this.state.selectedProduct.title
     const description = this.state.selectedProduct.description
-    const price       = this.state.selectedProduct.price
-    const quantity    = this.state.selectedProduct.quantity
-    const imageUrl    = this.state.selectedProduct.imageUrl
+    const price = this.state.selectedProduct.price
+    const quantity = this.state.selectedProduct.quantity
+    const imageUrl = this.state.selectedProduct.imageUrl
 
     return (
       <div>
@@ -44,7 +44,7 @@ class SingleProduct extends Component {
 
         <div>
           <h3>
-          $
+            $
             {price}
           </h3>
         </div>
@@ -71,7 +71,7 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getInitialProduct(productId){
+    getInitialProduct(productId) {
       return dispatch(getInitialProductThunk(productId))
     }
   }

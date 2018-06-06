@@ -4,7 +4,7 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_PRODUCT = 'GET_PRODUCT'
+const GET_PRODUCT_LIST = 'GET_PRODUCT_LIST'
 const GET_PRODUCTS_BY_CAT = 'GET_PRODUCTS_BY_CAT'
 const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 const SET_PRODUCT = 'SET_PRODUCT'
@@ -20,9 +20,11 @@ const defaultProducts = {
 /**
  * ACTION CREATORS
  */
-const getProduct = product => {
-  return {type: GET_PRODUCT,
-    product }
+const getProductList = productList => {
+  return {
+    type: GET_PRODUCT_LIST,
+    productList
+  }
 }
 const setProduct = product => ({ type: SET_PRODUCT, product })
 const removeProduct = () => ({ type: REMOVE_PRODUCT })
@@ -42,14 +44,14 @@ export const addProductThunk = (product) => {
   return async (dispatch) => {
     const res = await axios.post('/api/products/add', product)
     const addedProduct = res.data
-    dispatch(getProduct, addedProduct)
+    dispatch(setProduct(addedProduct))
   }
 }
-export const editProductThunk = (product, productId) => {
+export const editProductThunk = (product) => {
   return async (dispatch) => {
-    const res = await axios.put(`/api/products/${productId}`, product)
+    const res = await axios.put(`/api/products/${product.id}`, product)
     const editedProduct = res.data
-    dispatch(getProduct, editedProduct)
+    dispatch(setProduct(editedProduct))
   }
 }
 export const removeProductThunk = (productId) => {
@@ -62,14 +64,13 @@ export const getInitialProductThunk = (productId) => {
   return async (dispatch) => {
     const res = await axios.get(`/api/products/${productId}`)
     const gotProduct = res.data
-    dispatch(setProduct, gotProduct)
-    return gotProduct
+    dispatch(setProduct(gotProduct))
   }
 }
 
 export const getProductsByCatThunk = (categoryId) => {
   return async dispatch => {
-    const {data} = await axios.get(`/api/products?categoryId=${categoryId}`)
+    const { data } = await axios.get(`/api/products?categoryId=${categoryId}`)
     dispatch(getProductByCat(data))
   }
 }
@@ -79,12 +80,12 @@ export const getProductsByCatThunk = (categoryId) => {
  */
 export default function (state = defaultProducts, action) {
   switch (action.type) {
-  case GET_PRODUCT:
-    return action.product
+  case GET_PRODUCT_LIST:
+    return { ...state, productList: action.productList }
   case SET_PRODUCT:
-    return {...state, selectedProduct: action.product}
+    return { ...state, selectedProduct: action.product }
   case GET_PRODUCTS_BY_CAT:
-    return {...state, productList: action.products}
+    return { ...state, productList: action.products }
   case REMOVE_PRODUCT:
     return defaultProducts
   default:

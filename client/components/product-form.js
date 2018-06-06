@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { addProductThunk, editProductThunk, getInitialProductThunk } from '../store'
@@ -10,25 +11,42 @@ class ProductForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedProduct: this.props.selectedProduct
+      selectedProduct: {
+        title: '',
+        description: '',
+        price: 0,
+        quantity: 0,
+        imageUrl: ''
+      },
+      redirect: false
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
-  async componentDidMount(){
+  async componentDidMount() {
     const urlId = Number(this.props.match.params.id)
-    if (Number(this.props.selectedProduct.id) !== urlId) {
-      const curProduct = await this.props.getInitialProduct(urlId)
-      this.setState({selectedProduct: {...curProduct, id: urlId}})
+    if (urlId && Number(this.props.selectedProduct.id) !== urlId) {
+      await this.props.getInitialProduct(urlId)
+      this.setState({ selectedProduct: this.props.selectedProduct })
     }
   }
-  handleChange(evt){
-    this.setState({selectedProduct: { [evt.target.name]: [evt.target.value]}})
+  handleChange(evt) {
+    const curItem = { ...this.state.selectedProduct }
+    this.setState({ selectedProduct: { ...curItem, [evt.target.name]: evt.target.value } })
+  }
+  async handleSubmit(evt) {
+    evt.preventDefault()
+    const formName = evt.target.name
+    formName === 'addProduct' ?
+      await this.props.addProduct(this.state.selectedProduct)
+      : await this.props.editProduct(this.state.selectedProduct)
+    await this.setState({ selectedProduct: this.props.selectedProduct, redirect: true })
   }
   render() {
-    return (
+    return this.state.redirect ? <Redirect to={`/products/${this.props.selectedProduct.id}`} /> : (
       <div>
         <h2>{this.props.displayName} Product Form</h2>
-        <form onSubmit={this.props.handleSubmit} name={this.props.name} onChange={this.handleChange}>
+        <form onSubmit={this.handleSubmit} name={this.props.name} onChange={this.handleChange}>
           <div>
             <label htmlFor="title"><small>Product Title</small></label>
             <input name="title" type="text" value={this.state.selectedProduct.title} />
@@ -59,17 +77,11 @@ class ProductForm extends React.Component {
 }
 
 
-const mapAddProduct = () => {
+const mapAddProduct = (store) => {
   return {
     name: 'addProduct',
     displayName: 'Add',
-    selectedProduct: {
-      title: '',
-      description: '',
-      price: 0,
-      quantity: 0,
-      imageUrl: ''
-    }
+    selectedProduct: store.product.selectedProduct
   }
 }
 
@@ -81,28 +93,16 @@ const mapEditProduct = (store) => {
   }
 }
 
-const mapDispatch = (dispatch, ownProps) => {
+const mapDispatch = (dispatch) => {
   return {
-    getInitialProduct(productId) {
+    getInitialProduct: (productId) => {
       return dispatch(getInitialProductThunk(productId))
     },
-    handleSubmit(evt) {
-      evt.preventDefault()
-      const formName = evt.target.name
-      const title = evt.target.title.value
-      const description = evt.target.description.value
-      const price = Number(evt.target.price.value)
-      const quantity = Number(evt.target.quantity.value)
-      const imageUrl = (
-        evt.target.imageUrl.value ?
-          evt.target.imageUrl.value
-          : null
-      )
-      const urlId = ownProps.match.params.id
-      const newProductObject = {title, description, price, quantity, imageUrl}
-      formName === 'addProduct' ?
-        dispatch(addProductThunk(newProductObject))
-        : dispatch(editProductThunk(newProductObject, urlId))
+    addProduct: (product) => {
+      return dispatch(addProductThunk(product))
+    },
+    editProduct: (product) => {
+      return dispatch(editProductThunk(product))
     }
   }
 }

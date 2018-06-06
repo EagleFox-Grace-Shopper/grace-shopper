@@ -1,14 +1,31 @@
 //api get for product info
 const router = require('express').Router()
-const { Product, User } = require('../db/models')
+const {Product, User, Category} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
-  try {
-    const productsAll = await Product.findAll({})
-    res.json(productsAll)
-  } catch (error) {
-    next(error)
-  }
+  if (req.query.categoryId) {
+    try {
+      const response = await Category.findAll({
+        include: [
+          {all: true}
+        ],
+        where: {
+          id: req.query.categoryId
+        }
+      })
+      const productsByCat = response[0].dataValues.products
+      res.json(productsByCat)
+    } catch (error){
+      next(error)
+    }
+  } else {
+    try {
+
+      const productsAll = await Product.findAll({})
+      res.json(productsAll)
+    } catch (error) {
+      next(error)
+    }}
 })
 
 router.get('/:id', async (req, res, next) => {
@@ -20,8 +37,25 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
+router.get('/category/:categoryId', async (req, res, next) => {
+  try {
+    const response = await Category.findAll({
+      include: [
+        {all: true}
+      ],
+      where: {
+        id: req.params.categoryId
+      }
+    })
+    const productsByCat = response[0].dataValues.products
+    res.json(productsByCat)
+  } catch (error){
+    next(error)
+  }
+})
+
 router.post('/add', (req, res, next) => {
-  if (!req.user.isAdmin) {
+  if (!req.user.isAdmin){
     res.sendStatus(403)
   } else {
     try {

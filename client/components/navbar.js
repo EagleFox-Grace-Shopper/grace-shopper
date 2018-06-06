@@ -3,44 +3,63 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {getProductsByCatThunk} from '../store/product'
 
-const Navbar = ({ handleClick, isLoggedIn }) => (
-  <div>
-    <h1>BOILERMAKER</h1>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
+const Navbar = ( { getProducts, cats, logOut, isLoggedIn}) => {
+  return (
+    <div>
+      <h1>EAGLEFOX SHOP</h1>
+      <nav>
+        <ul className="dropdown">
+          <a className="dropbtn">Categories</a>
+          <div className="dropdown-content">
+            {cats.map(cat => (
+              <Link
+                to={`/browse/${cat.name}`}
+                key={cat.id}
+                onClick={() => getProducts(cat.id)}><a>{cat.name}</a>
+              </Link>
+            ))}
+          </div>
+        </ul>
+        {isLoggedIn ? (
+          <div>
+            {/* The navbar will show these links after you log in */}
+            <Link to="/home">Home</Link>
+            <a href="#" onClick={logOut}>
             Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-    <hr />
-  </div>
-)
+            </a>
+          </div>
+        ) : (
+          <div>
+            {/* The navbar will show these links before you log in */}
+            <Link to="/login">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </div>
+        )}
+
+      </nav>
+      <hr />
+    </div>
+  )}
 
 /**
  * CONTAINER
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    cats: [{id: 1, name: 'wacky'}, {id: 2, name: 'clothing'}, {id: 3, name: 'kitchen'}, {id: 4, name: 'stuff'}]
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
+    logOut: () => {
       dispatch(logout())
+    },
+    getProducts: (categoryId) => {
+      dispatch(getProductsByCatThunk(categoryId))
     }
   }
 }
@@ -51,6 +70,6 @@ export default connect(mapState, mapDispatch)(Navbar)
  * PROP TYPES
  */
 Navbar.propTypes = {
-  handleClick: PropTypes.func.isRequired,
+  logOut: PropTypes.func.isRequired,
   isLoggedIn: PropTypes.bool.isRequired
 }

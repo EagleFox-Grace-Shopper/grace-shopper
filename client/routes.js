@@ -22,6 +22,10 @@ class Routes extends Component {
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {/* <Route path="/" component={productList} /> */}
+        {
+          isAdmin &&
+          <Route exact path="/products/add" component={AddProduct} />
+        }
         <Route exact path="/products/:id" component={SingleProduct} />
         {
           isLoggedIn &&
@@ -31,7 +35,6 @@ class Routes extends Component {
             {
               isAdmin &&
               <Switch>
-                <Route exact path="/products/add" component={AddProduct} />
                 <Route exact path="/products/:id/edit" component={EditProduct} />
               </Switch>
             }

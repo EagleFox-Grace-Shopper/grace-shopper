@@ -67,9 +67,9 @@ export const getInitialProductThunk = (productId) => {
   }
 }
 
-const getProductsByCatThunk = (categoryId) => {
+export const getProductsByCatThunk = (categoryId) => {
   return async dispatch => {
-    const {data} = await axios.get(`/api/products/category/${categoryId}`)
+    const {data} = await axios.get(`/api/products?categoryId=${categoryId}`)
     dispatch(getProductByCat(data))
   }
 }

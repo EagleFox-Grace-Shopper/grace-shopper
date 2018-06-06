@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {getProductsByCatThunk} from '../store/product'
 
-const Navbar = ( { cats, logOut, isLoggedIn}) => {
+const Navbar = ( { getProducts, cats, logOut, isLoggedIn}) => {
   return (
     <div>
       <h1>EAGLEFOX SHOP</h1>
@@ -13,7 +14,11 @@ const Navbar = ( { cats, logOut, isLoggedIn}) => {
           <a className="dropbtn">Categories</a>
           <div className="dropdown-content">
             {cats.map(cat => (
-              <Link to={`/api/categories/${cat.id}`} key={cat.id}><a>{cat.name}</a></Link>
+              <Link
+                to={`/browse/${cat.name}`}
+                key={cat.id}
+                onClick={() => getProducts(cat.id)}><a>{cat.name}</a>
+              </Link>
             ))}
           </div>
         </ul>
@@ -53,8 +58,8 @@ const mapDispatch = dispatch => {
     logOut: () => {
       dispatch(logout())
     },
-    getProducts: () => {
-      dispatch()
+    getProducts: (categoryId) => {
+      dispatch(getProductsByCatThunk(categoryId))
     }
   }
 }

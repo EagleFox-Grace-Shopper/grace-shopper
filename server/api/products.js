@@ -3,12 +3,31 @@ const router = require('express').Router()
 const {Product, User, Category} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
-  try {
-    const productsAll = await Product.findAll({})
-    res.json(productsAll)
-  } catch (error) {
-    next(error)
-  }
+  console.log('products route')
+  if (req.query.categoryId) {
+    try {
+      const response = await Category.findAll({
+        include: [
+          {all: true}
+        ],
+        where: {
+          id: req.query.categoryId
+        }
+      })
+      const productsByCat = response[0].dataValues.products
+      console.log('productsByCat', productsByCat)
+      res.json(productsByCat)
+    } catch (error){
+      next(error)
+    }
+  } else {
+    try {
+
+      const productsAll = await Product.findAll({})
+      res.json(productsAll)
+    } catch (error) {
+      next(error)
+    }}
 })
 
 router.get('/:id', async (req, res, next) => {

@@ -1,10 +1,21 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-export class ProductCard extends Component {
+export default function ProductCard (props) {
+
+  const product = props.selectedProduct
+
   render () {
     return (
       <div>
-        <h5>hello world</h5>
+        <h4>{product.title}</h4>
+      </div>
+
+      <div>
+        <h3>${product.price}</h3>
+      </div>
+
+      <div>
+          <img src={product.imageUrl} />
       </div>
     )
   }

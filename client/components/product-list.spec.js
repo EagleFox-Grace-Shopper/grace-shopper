@@ -10,7 +10,7 @@ describe('ProductList', () => {
     productList = shallow(<ProductList />)
   })
 
-  // it('renders the form', () => {
-  //   expect(productForm.find('form').text()).to.be.equal('')
+  // it('', () => {
+  //   expect(productList.find('').text()).to.be.equal('')
   // })
 })

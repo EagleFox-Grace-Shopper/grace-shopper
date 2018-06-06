@@ -13,11 +13,14 @@ const mapDispatchToProps = (dispatch) => {
 
 class ProductList extends Component {
   render () {
+
+    const productList = this.props.productList
+
     return (
       <div>
         <h2>All Products</h2>
         <ul>
-          <ProductCard />
+          { productList.map(product => <ProductCard product={product} key={product.id} />) }
         </ul>
       </div>
     )

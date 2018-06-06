@@ -80,15 +80,15 @@ export const getProductsByCatThunk = (categoryId) => {
  */
 export default function (state = defaultProducts, action) {
   switch (action.type) {
-    case GET_PRODUCT_LIST:
-      return { ...state, productList: action.productList }
-    case SET_PRODUCT:
-      return { ...state, selectedProduct: action.product }
-    case GET_PRODUCTS_BY_CAT:
-      return { ...state, productList: action.products }
-    case REMOVE_PRODUCT:
-      return defaultProducts
-    default:
-      return state
+  case GET_PRODUCT_LIST:
+    return { ...state, productList: action.productList }
+  case SET_PRODUCT:
+    return { ...state, selectedProduct: action.product }
+  case GET_PRODUCTS_BY_CAT:
+    return { ...state, productList: action.products }
+  case REMOVE_PRODUCT:
+    return defaultProducts
+  default:
+    return state
   }
 }

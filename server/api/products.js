@@ -24,11 +24,11 @@ router.get('/:id', async (req, res, next) => {
 router.post('/add', (req, res, next) => {
   try {
     Product.create({
-      title: req.body.product.title,
-      description: req.body.product.description,
-      price: req.body.product.price,
-      quantity: req.body.product.quantity,
-      imageUrl: req.body.product.imageUrl
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      imageUrl: req.body.imageUrl
     })
   } catch (err) {
     next(err)
@@ -38,11 +38,11 @@ router.post('/add', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
   try {
     Product.update({
-      title: req.body.product.title,
-      description: req.body.product.description,
-      price: req.body.product.price,
-      quantity: req.body.product.quantity,
-      imageUrl: req.body.product.imageUrl
+      title: req.body.title,
+      description: req.body.description,
+      price: req.body.price,
+      quantity: req.body.quantity,
+      imageUrl: req.body.imageUrl
     }, {
       where: { id: req.params.id }
     })

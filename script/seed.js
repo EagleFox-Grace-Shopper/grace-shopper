@@ -5,7 +5,7 @@ const {User, Product, Category, productCategory} = require('../server/db/models'
 
 
 async function seed () {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   console.log('db synced!')
 
   const users = await Promise.all([

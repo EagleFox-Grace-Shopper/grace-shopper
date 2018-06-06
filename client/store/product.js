@@ -5,13 +5,14 @@ import history from '../history'
  * ACTION TYPES
  */
 const GET_PRODUCT = 'GET_PRODUCT'
+const GET_PRODUCTS_BY_CAT = 'GET_PRODUCTS_BY_CAT'
 const REMOVE_PRODUCT = 'REMOVE_PRODUCT'
 const SET_PRODUCT = 'SET_PRODUCT'
 
 /**
  * INITIAL STATE
  */
-const defaultProduct = {
+const defaultProducts = {
   productList: [],
   selectedProduct: {}
 }
@@ -19,9 +20,20 @@ const defaultProduct = {
 /**
  * ACTION CREATORS
  */
-const getProduct = product => ({ type: GET_PRODUCT, product })
+const getProduct = product => {
+  return {type: GET_PRODUCT,
+    product }
+}
 const setProduct = product => ({ type: SET_PRODUCT, product })
 const removeProduct = () => ({ type: REMOVE_PRODUCT })
+
+const getProductByCat = products => {
+  return {
+    type: GET_PRODUCTS_BY_CAT,
+    products
+  }
+}
+
 
 /**
  * THUNK CREATORS
@@ -55,18 +67,27 @@ export const getInitialProductThunk = (productId) => {
   }
 }
 
+const getProductsByCatThunk = (categoryId) => {
+  return async dispatch => {
+    const {data} = await axios.get(`/api/products/category/${categoryId}`)
+    dispatch(getProductByCat(data))
+  }
+}
+
 /**
  * REDUCER
  */
-export default function (state = defaultProduct, action) {
+export default function (state = defaultProducts, action) {
   switch (action.type) {
-    case GET_PRODUCT:
-      return action.product
-    case SET_PRODUCT:
-      return {...state, selectedProduct: action.product}
-    case REMOVE_PRODUCT:
-      return defaultProduct
-    default:
-      return state
+  case GET_PRODUCT:
+    return action.product
+  case SET_PRODUCT:
+    return {...state, selectedProduct: action.product}
+  case GET_PRODUCTS_BY_CAT:
+    return {...state, productList: action.products}
+  case REMOVE_PRODUCT:
+    return defaultProducts
+  default:
+    return state
   }
 }

@@ -7,10 +7,10 @@ describe('ProductCard', () => {
   let productCard
 
   beforeEach(() => {
-    productCard = shallow(<ProductCard />)
+    productCard = shallow(<ProductCard product={} />)
   })
 
-  // it('renders the form', () => {
-  //   expect(productForm.find('form').text()).to.be.equal('')
-  // })
+  it('renders the product in an h4', () => {
+    expect(productCard.find('h4').text()).to.be.equal('')
+  })
 })

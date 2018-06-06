@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import ProductCard from './product-card'
 import { connect } from 'react-redux'
 
-const mapStateToProps = (initialState) => {
+const mapStateToProps = (state) => {
   return {
-    productList: initialState.productList
+    productList: state.productList
   }
 }
 

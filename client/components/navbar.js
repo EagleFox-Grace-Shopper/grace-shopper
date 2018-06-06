@@ -8,36 +8,45 @@ import {getProductsByCatThunk} from '../store/product'
 const Navbar = ( { getProducts, cats, logOut, isLoggedIn}) => {
   return (
     <div>
-      <h1>EAGLEFOX SHOP</h1>
+      <a href="/"><h1>EAGLEFOX SHOP</h1></a>
       <nav>
-        <ul className="dropdown">
-          <a className="dropbtn">Categories</a>
-          <div className="dropdown-content">
-            {cats.map(cat => (
-              <Link
-                to={`/browse/${cat.name}`}
-                key={cat.id}
-                onClick={() => getProducts(cat.id)}><a>{cat.name}</a>
-              </Link>
-            ))}
-          </div>
-        </ul>
-        {isLoggedIn ? (
-          <div>
-            {/* The navbar will show these links after you log in */}
-            <Link to="/home">Home</Link>
-            <a href="#" onClick={logOut}>
+        <ul className="navStuff">
+          <li>
+            <ul className="dropdown">
+              <a className="dropbtn">Categories</a>
+              <div className="dropdown-content">
+                {cats.map(cat => (
+                  <Link
+                    to={`/browse/${cat.name}`}
+                    key={cat.id}
+                    onClick={() => getProducts(cat.id)}><a>{cat.name}</a>
+                  </Link>
+                ))}
+              </div>
+            </ul>
+          </li>
+          <li className="search-container">
+            <form action="/action_page.php">
+              <input type="text" placeholder="Enter product name..." name="search" />
+              <button type="submit">Search</button>
+            </form>
+          </li>
+          {isLoggedIn ? (
+            <li className="userActions">
+              {/* The navbar will show these links after you log in */}
+              <Link to="/home">Home</Link>
+              <a href="#" onClick={logOut}>
             Logout
-            </a>
-          </div>
-        ) : (
-          <div>
-            {/* The navbar will show these links before you log in */}
-            <Link to="/login">Login</Link>
-            <Link to="/signup">Sign Up</Link>
-          </div>
-        )}
-
+              </a>
+            </li>
+          ) : (
+            <li className="userActions">
+              {/* The navbar will show these links before you log in */}
+              <Link to="/login">Login</Link>
+              <Link to="/signup">Sign Up</Link>
+            </li>
+          )}
+        </ul>
       </nav>
       <hr />
     </div>

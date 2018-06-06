@@ -3,7 +3,6 @@ const router = require('express').Router()
 const {Product, User, Category} = require('../db/models')
 
 router.get('/', async (req, res, next) => {
-  console.log('products route')
   if (req.query.categoryId) {
     try {
       const response = await Category.findAll({
@@ -15,7 +14,6 @@ router.get('/', async (req, res, next) => {
         }
       })
       const productsByCat = response[0].dataValues.products
-      console.log('productsByCat', productsByCat)
       res.json(productsByCat)
     } catch (error){
       next(error)

@@ -1,13 +1,13 @@
 //api get for product info
 const router = require('express').Router()
-const {Product, User, Category} = require('../db/models')
+const { Product, User, Category } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   if (req.query.categoryId) {
     try {
       const response = await Category.findAll({
         include: [
-          {all: true}
+          { all: true }
         ],
         where: {
           id: req.query.categoryId
@@ -15,7 +15,7 @@ router.get('/', async (req, res, next) => {
       })
       const productsByCat = response[0].dataValues.products
       res.json(productsByCat)
-    } catch (error){
+    } catch (error) {
       next(error)
     }
   } else {
@@ -25,7 +25,8 @@ router.get('/', async (req, res, next) => {
       res.json(productsAll)
     } catch (error) {
       next(error)
-    }}
+    }
+  }
 })
 
 router.get('/:id', async (req, res, next) => {
@@ -41,7 +42,7 @@ router.get('/category/:categoryId', async (req, res, next) => {
   try {
     const response = await Category.findAll({
       include: [
-        {all: true}
+        { all: true }
       ],
       where: {
         id: req.params.categoryId
@@ -49,45 +50,48 @@ router.get('/category/:categoryId', async (req, res, next) => {
     })
     const productsByCat = response[0].dataValues.products
     res.json(productsByCat)
-  } catch (error){
+  } catch (error) {
     next(error)
   }
 })
 
-router.post('/add', (req, res, next) => {
-  if (!req.user.isAdmin){
+router.post('/add', async (req, res, next) => {
+  if (!req.user.isAdmin) {
     res.sendStatus(403)
   } else {
     try {
-      Product.create({
+      const entry = await Product.create({
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
         quantity: req.body.quantity,
         imageUrl: req.body.imageUrl
       })
-      res.sendStatus(201)
+      const addedProduct = entry.dataValues
+      res.status(201).json(addedProduct)
     } catch (err) {
       next(err)
     }
   }
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   if (!req.user.isAdmin) {
     res.sendStatus(403)
   } else {
     try {
-      Product.update({
+      const entry = await Product.update({
         title: req.body.title,
         description: req.body.description,
         price: req.body.price,
         quantity: req.body.quantity,
         imageUrl: req.body.imageUrl
       }, {
-        where: { id: req.params.id }
+        where: { id: req.params.id },
+        returning: true
       })
-      res.sendStatus(201)
+      const editedProduct = entry[1][0].dataValues
+      res.status(201).json(editedProduct)
     } catch (err) {
       next(err)
     }

@@ -7,10 +7,12 @@ class SingleProduct extends Component {
     this.state = {}
   }
 
-
   render() {
     return (
       <div>
+      <navbar />
+      <image picture />
+      <
         <h1> singleProduct testing </h1>
       </div>
     )
@@ -24,6 +26,8 @@ const mapStateToProps = (store) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)

@@ -1,24 +1,24 @@
 /* global describe beforeEach it */
 
-const {expect} = require('chai')
+const { expect } = require('chai')
 const db = require('../index')
 const Category = db.model('category')
 
 describe('Category model', () => {
 
   it('successfully adds a category to the table', async () => {
-    let category = await Category.create({name: 'wacky stuff'})
+    let category = await Category.create({ name: 'wacky stuff' })
     expect(category.dataValues.name).to.be.equal('wacky stuff')
   })
 
 
   //not working validation tests
-  xit('fails when an empty string is supplied for name',  () => {
+  it('fails when an empty string is supplied for name', () => {
     // let category
     // expect(Category.create({name: ''}).then()).to.throw(Error)
-    let category = async function() {
+    let category = async function () {
       try {
-        await Category.create({name: ''})
+        await Category.create({ name: '' })
       } catch (err) {
         console.log('got error', err.name)
         return err.name
@@ -29,10 +29,11 @@ describe('Category model', () => {
   })
 
 
-  xit('fails when name is not supplied', () => {
+  it('fails when name is not supplied', () => {
     let category
     Category.create({}).then(cat => {
-      category = cat})
+      category = cat
+    })
 
     expect(category).to.be.an.instanceOf(Error)
   })

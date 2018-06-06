@@ -44,7 +44,7 @@ describe('Product routes', () => {
       return User.create(cody)
     })
 
-    it('GET /api/products', () => {
+    xit('GET /api/products', () => {
       return request(app)
         .get('/api/products')
         .expect(200)
@@ -53,7 +53,7 @@ describe('Product routes', () => {
           expect(res.body[0].title).to.be.equal(testTitle + '1')
         })
     })
-    it('GET /api/products/id', () => {
+    xit('GET /api/products/id', () => {
       return request(app)
         .get('/api/products/2')
         .expect(200)
@@ -62,18 +62,18 @@ describe('Product routes', () => {
           expect(res.body.title).to.be.equal(testTitle + '2')
         })
     })
-    it('/api/admin check if authenticated', async () => {
+    xit('/api/admin check if authenticated', async () => {
       const res = await request(app).post('/api/admin/addproduct').expect()
     })
 
-    it('POST /api/admin/addproduct', async () => {
+    xit('POST /api/admin/addproduct', async () => {
       const res = await request(app).post('/api/admin/addproduct').expect(201)
       expect(res.body).to.be.an('array')
       expect(res.body[0].email).to.be.equal(cody.email)
       expect(res.body[0].isAdmin).to.be.equal(true)
     })
 
-    it('PUT /api/admin/editproduct', async () => {
+    xit('PUT /api/admin/editproduct', async () => {
       const res = await request(app).post('/api/admin/editproduct', { id: 1, name: 'editName' }).expect(201)
       expect(res.body).to.be.an('array')
       expect(res.body[0].email).to.be.equal(codysEmail)

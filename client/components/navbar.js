@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import {getProductsByCatThunk} from '../store/product'
+import {getProductsByCatThunk, getProductsBySearchThunk} from '../store/product'
 
-const Navbar = ( { getProducts, cats, logOut, isLoggedIn}) => {
+const Navbar = ( { searchProducts, getProducts, cats, logOut, isLoggedIn}) => {
   return (
     <div>
       <a href="/"><h1>EAGLEFOX SHOP</h1></a>
@@ -26,10 +26,18 @@ const Navbar = ( { getProducts, cats, logOut, isLoggedIn}) => {
             </ul>
           </li>
           <li className="search-container">
-            <form action="/action_page.php">
-              <input type="text" placeholder="Enter product name..." name="search" />
-              <button type="submit">Search</button>
-            </form>
+
+            <input type="text" placeholder="Enter product name..." name="search" id="search" />
+            <input
+              type="submit"
+              value="Search"
+              onClick={() => {
+                window.location = `/products?search=${document.getElementById('search').value}`
+                searchProducts(document.getElementById('search').value)
+
+              }}
+            />
+
           </li>
           {isLoggedIn ? (
             <li className="userActions">
@@ -69,6 +77,9 @@ const mapDispatch = dispatch => {
     },
     getProducts: (categoryId) => {
       dispatch(getProductsByCatThunk(categoryId))
+    },
+    searchProducts: (search) => {
+      dispatch(getProductsBySearchThunk(search))
     }
   }
 }

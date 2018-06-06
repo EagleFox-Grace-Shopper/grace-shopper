@@ -24,7 +24,7 @@ router.get('/', async (req, res, next) => {
       productsAll = (req.query.search) ? (await Product.findAll(
         {where:
           {title:
-            {$like: '%' + req.query.search + '%'}}}
+            {$iLike: '%' + req.query.search + '%'}}}
       )) : (
         productsAll = await Product.findAll({}))
       res.json(productsAll)

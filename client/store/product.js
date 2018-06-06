@@ -37,7 +37,7 @@ const getProductByCat = products => {
   }
 }
 
-const getProductBySearch = products => {
+const getProductsBySearch = products => {
   return {
     type: GET_PRODUCTS_BY_SEARCH,
     products
@@ -86,7 +86,7 @@ export const getProductsByCatThunk = (categoryId) => {
 export const getProductsBySearchThunk = (search) => {
   return async dispatch => {
     const { data } = await axios.get(`/api/products?search=${search}`)
-    dispatch(getProductBySearch(data))
+    dispatch(getProductsBySearch(data))
   }
 }
 

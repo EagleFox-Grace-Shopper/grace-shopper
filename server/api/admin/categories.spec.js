@@ -2,13 +2,13 @@
 
 const { expect } = require('chai')
 const request = require('supertest')
-const db = require('../db/index')
-const app = require('../index')
+const db = require('../../db/index')
+const app = require('../../index')
 const Product = db.model('product')
 const User = db.model('user')
 
 describe('Admin API routes', () => {
-  describe('/api/admin/products/', () => {
+  describe('/api/admin/categories/', () => {
     const userAgent = request.agent(app)
     const unAuthRequest = request(app)
 
@@ -65,21 +65,21 @@ describe('Admin API routes', () => {
       expect(res.statusCode).to.equal(200)
     })
 
-    it('/api/admin check if authenticated', async () => {
-      const adminResponse = await userAgent.post('/api/admin/products/add').send(addProduct1)
-      const unAuthResponse = await unAuthRequest.post('/api/admin/products/add').send(addProduct1)
+    xit('/api/admin check if authenticated', async () => {
+      const adminResponse = await userAgent.post('/api/admin/categories/add').send(addProduct1)
+      const unAuthResponse = await unAuthRequest.post('/api/admin/categories/add').send(addProduct1)
 
       expect(adminResponse.statusCode).to.equal(201)
       expect(unAuthResponse.statusCode).to.equal(403)
     })
 
-    it('POST /api/admin/addproduct', async () => {
+    xit('POST /api/admin/categories/add', async () => {
       const res = await userAgent.post('/api/admin/products/add').send(addProduct1)
       expect(res.body).to.be.an('object')
       expect(res.body.title).to.be.equal(addProduct1.title)
     })
 
-    it('PUT /api/admin/editproduct', async () => {
+    xit('PUT /api/admin/categories/:edit', async () => {
       const res = await userAgent.put('/api/admin/products/1').send(addProduct1)
       expect(res.body).to.be.an('object')
       expect(res.body.title).to.be.equal(addProduct1.title)

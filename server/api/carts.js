@@ -38,7 +38,6 @@ example req.body is:
 router.post('/:userId/add', async (req, res, next) => {
   try {
     const product = await Product.findById(req.body.productId)
-    console.log('product', product)
     if (!product){
       throw new Error('product of specified id does not exist')
     }
@@ -90,13 +89,6 @@ example req.body is:
 
 router.put('/:userId/update', async (req, res, next) => {
   try {
-    /*
-    const product = await Product.findById(req.body.productId)
-    console.log('product', product)
-    if (!product){
-      throw new Error('product of specified id does not exist')
-    }
-    */
     const productQuantity = Number(req.body.quantity)
     if (!productQuantity){
       throw new Error('"quantity" not specified in req.body')
@@ -110,7 +102,7 @@ router.put('/:userId/update', async (req, res, next) => {
     })
 
     if (cartItem){
-      const cartItemUpdated = CartItem.update(
+      const cartItemUpdated = await CartItem.update(
         {quantity: productQuantity},
         {where: {id: cartItem.id}},
       )

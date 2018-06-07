@@ -27,6 +27,7 @@ const getProductList = productList => {
     productList
   }
 }
+
 const setProduct = product => ({ type: SET_PRODUCT, product })
 const removeProduct = () => ({ type: REMOVE_PRODUCT })
 
@@ -73,6 +74,14 @@ export const getInitialProductThunk = (productId) => {
     const res = await axios.get(`/api/products/${productId}`)
     const gotProduct = res.data
     dispatch(setProduct(gotProduct))
+  }
+}
+
+export const getInitialProductListThunk = () => {
+  return async (dispatch) => {
+    const res = await axios.get('/api/products')
+    const products = res.data
+    dispatch(getProductList(products))
   }
 }
 

@@ -13,11 +13,9 @@ import { expect } from 'chai'
 import React from 'react'
 import { shallow } from 'enzyme'
 import {Navbar} from './navbar'
-import {Provider} from 'react-redux'
 
 describe('Navbar', () => {
   let nav
-  let store
 
   beforeEach(() => {
     nav = shallow(<Navbar

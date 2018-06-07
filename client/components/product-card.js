@@ -13,7 +13,7 @@ export default function ProductCard (props) {
           <h3>${product.price}</h3>
         </div>
 
-        <div>
+        <div className='product-card'>
             <img src={product.imageUrl} />
         </div>
       </div>

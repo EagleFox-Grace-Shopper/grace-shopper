@@ -7,7 +7,7 @@ describe('ProductCard', () => {
   let productCard
 
   beforeEach(() => {
-    productCard = shallow(<ProductCard product={} />)
+    productCard = shallow(<ProductCard product="" />)
   })
 
   it('renders the product in an h4', () => {

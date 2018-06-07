@@ -3,6 +3,12 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const User = db.define('user', {
+  name: {
+    type: Sequelize.STRING,
+    validate: {
+      notEmpty: true
+    }
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -20,16 +26,12 @@ const User = db.define('user', {
     type: Sequelize.STRING,
     // Making `.salt` act like a function hides it when serializing to JSON.
     // This is a hack to get around Sequelize's lack of a "private" option.
-    get () {
+    get() {
       return () => this.getDataValue('salt')
     }
   },
   googleId: {
     type: Sequelize.STRING
-  },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
   },
   address: {
     type: Sequelize.STRING,

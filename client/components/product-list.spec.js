@@ -10,7 +10,7 @@ describe('ProductList', () => {
     productList = shallow(<ProductList />)
   })
 
-  // it('', () => {
+  // xit('', () => {
   //   expect(productList.find('').text()).to.be.equal('')
   // })
 })

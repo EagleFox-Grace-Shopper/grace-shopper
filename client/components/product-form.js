@@ -7,7 +7,7 @@ import { addProductThunk, editProductThunk, getInitialProductThunk } from '../st
 /**
  * COMPONENT
  */
-class ProductForm extends React.Component {
+export class ProductForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,30 +20,41 @@ class ProductForm extends React.Component {
       },
       redirect: false
     }
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
   }
   async componentDidMount() {
     const urlId = Number(this.props.match.params.id)
     if (urlId && Number(this.props.selectedProduct.id) !== urlId) {
       await this.props.getInitialProduct(urlId)
-      this.setState({ selectedProduct: this.props.selectedProduct })
     }
+    this.setState({ selectedProduct: this.props.selectedProduct })
   }
-  handleChange(evt) {
+  handleChange = (evt) => {
     const curItem = { ...this.state.selectedProduct }
-    this.setState({ selectedProduct: { ...curItem, [evt.target.name]: evt.target.value } })
+    this.setState({
+      selectedProduct: {
+        ...curItem,
+        [evt.target.name]: evt.target.value
+      }
+    })
   }
-  async handleSubmit(evt) {
+  handleSubmit = async (evt) => {
     evt.preventDefault()
     const formName = evt.target.name
-    formName === 'addProduct' ?
+    if (formName === 'addProduct') {
       await this.props.addProduct(this.state.selectedProduct)
-      : await this.props.editProduct(this.state.selectedProduct)
-    await this.setState({ selectedProduct: this.props.selectedProduct, redirect: true })
+    } else {
+      await this.props.editProduct(this.state.selectedProduct)
+    }
+    await this.setState({
+      selectedProduct: this.props.selectedProduct,
+      redirect: true
+    })
   }
   render() {
-    return this.state.redirect ? <Redirect to={`/products/${this.props.selectedProduct.id}`} /> : (
+    if (this.state.redirect) {
+      return <Redirect to={`/products/${this.props.selectedProduct.id}`} />
+    }
+    return (
       <div>
         <h2>{this.props.displayName} Product Form</h2>
         <form onSubmit={this.handleSubmit} name={this.props.name} onChange={this.handleChange}>

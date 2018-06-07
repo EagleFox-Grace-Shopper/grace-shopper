@@ -111,3 +111,15 @@ li.dropdown {
 .userActions {
   float: right
 }
+
+/*
+PRODUCT CARD CSS
+*/
+
+.product-card img {
+  height: 200px;
+  width: 300px
+}
+
+
+

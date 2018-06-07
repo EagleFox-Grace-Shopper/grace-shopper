@@ -33,6 +33,10 @@ router.get('/', async (req, res, next) => {
     }
   }
 })
+router.get('/categories', async (req, res, next) => {
+  const allCategories = await Category.findAll()
+  res.json(allCategories)
+})
 
 router.get('/:id', async (req, res, next) => {
   try {
@@ -119,5 +123,6 @@ router.delete('/:id', (req, res, next) => {
     }
   }
 })
+
 
 module.exports = router

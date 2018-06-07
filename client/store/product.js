@@ -51,21 +51,21 @@ const getProductsBySearch = products => {
  */
 export const addProductThunk = (product) => {
   return async (dispatch) => {
-    const res = await axios.post('/api/products/add', product)
+    const res = await axios.post('/api/admin/products/add', product)
     const addedProduct = res.data
     dispatch(setProduct(addedProduct))
   }
 }
 export const editProductThunk = (product) => {
   return async (dispatch) => {
-    const res = await axios.put(`/api/products/${product.id}`, product)
+    const res = await axios.put(`/api/admin/products/${product.id}`, product)
     const editedProduct = res.data
     dispatch(setProduct(editedProduct))
   }
 }
 export const removeProductThunk = (productId) => {
   return async (dispatch) => {
-    await axios.delete(`/api/products/${productId}`)
+    await axios.delete(`/api/admin/products/${productId}`)
     dispatch(removeProduct)
   }
 }
@@ -111,7 +111,7 @@ export default function (state = defaultProducts, action) {
   case GET_PRODUCTS_BY_CAT:
     return { ...state, productList: action.products }
   case GET_PRODUCTS_BY_SEARCH:
-    return {...state, productList: action.products}
+    return { ...state, productList: action.products }
   case REMOVE_PRODUCT:
     return defaultProducts
   default:

@@ -55,7 +55,7 @@ const removeCategory = id => {
 
 export const getCategoriesThunk = () => {
   return async dispatch => {
-    const {data} = await axios.get('/api/products/categories') //need to write
+    const {data} = await axios.get('/api/products/categories')
     dispatch(getCategories(data))
   }
 }

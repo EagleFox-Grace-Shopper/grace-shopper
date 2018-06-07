@@ -11,7 +11,7 @@ describe('<SingleProduct /> component', () => {
     renderedSingleProduct = shallow(<SingleProduct />)
   })
 
-  it('has a `selectedProduct` field on its state', () => {
+  xit('has a `selectedProduct` field on its state', () => {
     expect(renderedSingleProduct.state().selectedProduct).to.exist
   })
 })

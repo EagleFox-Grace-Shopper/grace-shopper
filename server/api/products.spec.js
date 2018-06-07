@@ -16,32 +16,29 @@ describe('Product routes', () => {
       isAdmin: true
     }
 
-    beforeEach(() => {
-    })
-
-    beforeEach(() => {
-      Product.create({
+    beforeEach(async () => {
+      await Product.create({
         title: testTitle + '1',
         description: 'description text 1',
         price: 11,
         quantity: 201,
         imageUrl: 'defaultImage.jpg',
       })
-      Product.create({
+      await Product.create({
         title: testTitle + '2',
         description: 'description text 2',
         price: 12,
         quantity: 202,
         imageUrl: 'defaultImage2.jpg',
       })
-      Product.create({
+      await Product.create({
         title: testTitle + '3',
         description: 'description text 3',
         price: 13,
         quantity: 203,
         imageUrl: 'defaultImage3.jpg',
       })
-      return User.create(cody)
+      await User.create(cody)
     })
 
     it('GET /api/products', () => {
@@ -62,18 +59,18 @@ describe('Product routes', () => {
           expect(res.body.title).to.be.equal(testTitle + '2')
         })
     })
-    it('/api/admin check if authenticated', async () => {
-      const res = await request(app).post('/api/admin/addproduct').expect()
+    xit('/api/admin check if authenticated', async () => {
+      const addedProduct = await request(app).post('/api/admin/addproduct')
     })
 
-    it('POST /api/admin/addproduct', async () => {
+    xit('POST /api/admin/addproduct', async () => {
       const res = await request(app).post('/api/admin/addproduct').expect(201)
       expect(res.body).to.be.an('array')
       expect(res.body[0].email).to.be.equal(cody.email)
       expect(res.body[0].isAdmin).to.be.equal(true)
     })
 
-    it('PUT /api/admin/editproduct', async () => {
+    xit('PUT /api/admin/editproduct', async () => {
       const res = await request(app).post('/api/admin/editproduct', { id: 1, name: 'editName' }).expect(201)
       expect(res.body).to.be.an('array')
       expect(res.body[0].email).to.be.equal(codysEmail)

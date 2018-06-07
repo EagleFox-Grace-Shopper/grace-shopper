@@ -20,16 +20,16 @@ Category.belongsToMany(Product, {through: 'productCategory'})
 //User.hasOne(Cart)
 //Cart.belongsTo(User)
 
-CartItem.belongsTo(Product);
-CartItem.belongsTo(User);
-
+User.hasMany(CartItem)
+CartItem.belongsTo(User, {as: 'cartUser'})
+CartItem.belongsTo(Product, {as: 'cartProduct'})
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
  * we can just require it from 'db/models'
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
- */
+*/
 
 module.exports = {
   User,

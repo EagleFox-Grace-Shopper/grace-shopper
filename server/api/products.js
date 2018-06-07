@@ -1,6 +1,6 @@
 //api get for product info
 const router = require('express').Router()
-const { Product, User, Category } = require('../db/models')
+const { Product, Category } = require('../db/models')
 
 router.get('/', async (req, res, next) => {
   if (req.query.categoryId) {
@@ -30,7 +30,9 @@ router.get('/', async (req, res, next) => {
   }
 })
 router.get('/categories', async (req, res, next) => {
+  console.log('categories route')
   const allCategories = await Category.findAll()
+  console.log('allCategories', allCategories)
   res.json(allCategories)
 })
 
@@ -60,7 +62,6 @@ router.get('/category/:categoryId', async (req, res, next) => {
   }
 })
 
-<<<<<<< HEAD
 router.post('/add', async (req, res, next) => {
   if (!req.user.isAdmin) {
     res.sendStatus(403)
@@ -122,6 +123,4 @@ router.delete('/:id', (req, res, next) => {
 })
 
 
-=======
->>>>>>> master
 module.exports = router

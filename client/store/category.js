@@ -1,5 +1,4 @@
 import axios from 'axios'
-import history from '../history'
 
 /**
  * ACTION TYPES
@@ -81,8 +80,6 @@ export const removeCategoryThunk = id => {
   }
 }
 
-//admin/categories/add
-//admin/categories/:id (PUT or DELETE)
 
 /**
  * REDUCER

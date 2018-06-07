@@ -42,11 +42,11 @@ describe('Category Redux', () => {
       store.clearActions()
     })
 
-    xit('getCategories retrieves all categories', async () => {
-      mockAxios.onGet('/api/products/categories')
+    it('getCategories retrieves all categories', async () => {
+      const categories = await Category.findAll()
+      mockAxios.onGet('/api/products/categories').replyOnce(201, categories)
       await store.dispatch(getCategoriesThunk())
       const actions = store.getActions()
-      console.log('theActions', actions)
       expect(actions[0].type).to.equal('GET_CATEGORIES')
       expect(actions[0].categories.length).to.equal(2)
     })
@@ -60,6 +60,10 @@ describe('Category Redux', () => {
     })
 
     it('editCategoryThunk edits a category', async () => {
+
+    })
+
+    it('removeCategoryThunk removes a category', async() => {
 
     })
   })

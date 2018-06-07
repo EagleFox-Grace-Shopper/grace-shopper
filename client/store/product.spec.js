@@ -38,6 +38,15 @@ describe('Product Redux', () => {
       imageUrl: 'http://www.add1.com'
     }
 
+    const edit1 = {
+      id: 1,
+      title: 'edit1',
+      description: 'edit1',
+      price: 1,
+      quantity: 2,
+      imageUrl: 'http://www.edit1.com'
+    }
+
     const nonAdmin = {
       name: 'cody',
       email: 'cody@email.com'
@@ -63,11 +72,19 @@ describe('Product Redux', () => {
     })
 
     it('addProductThunk', async () => {
-      mockAxios.onPost('api/products/add').replyOnce(201, add1)
+      mockAxios.onPost('api/admin/products/add').replyOnce(201, add1)
       await store.dispatch(addProductThunk(add1))
       const actions = store.getActions()
       expect(actions[0].type).to.equal('SET_PRODUCT')
       expect(actions[0].product).to.deep.equal(add1)
+    })
+
+    it('editProductThunk', async () => {
+      mockAxios.onPut('api/admin/products/1', edit1).replyOnce(204, edit1)
+      await store.dispatch(editProductThunk(edit1))
+      const actions = store.getActions()
+      expect(actions[0].type).to.equal('SET_PRODUCT')
+      expect(actions[0].product).to.deep.equal(edit1)
     })
   })
 })

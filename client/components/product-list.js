@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import ProductCard from './product-card'
 import { connect } from 'react-redux'
+import { getInitialProductListThunk } from '../store'
 
 const mapStateToProps = (state) => {
   return {
@@ -9,13 +10,21 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
+  return {
+    getProductListThunk: dispatch(getInitialProductListThunk())
+  }
 }
 
 class ProductList extends Component {
-  render() {
+
+  async componentDidMount(){
+    await this.props.getProductListThunk()
+  }
+
+  render () {
 
     const productList = this.props.productList
-    console.log(productList)
+    console.log('productlist:', productList)
     return (
       <div>
         <h2>All Products</h2>

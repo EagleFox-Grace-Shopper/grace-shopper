@@ -1,14 +1,3 @@
-// //Categories
-//   renders
-//   works
-// //search
-//   renders
-//   works
-// //login, signup
-//   renders
-//   works
-//   changes based on login status
-
 import { expect } from 'chai'
 import React from 'react'
 import { shallow } from 'enzyme'

@@ -2,7 +2,7 @@ const router = require('express').Router()
 module.exports = router
 
 const adminGateway = (req, res, next) => {
-  if (!req.user.isAdmin) {
+  if (!req.user || !req.user.isAdmin) {
     res.sendStatus(403)
   } else {
     next()

@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {getProductsByCatThunk, getProductsBySearchThunk} from '../store/product'
 
-const Navbar = ( { searchProducts, getProducts, cats, logOut, isLoggedIn}) => {
+export const Navbar = ( { searchProducts, getProducts, cats, logOut, isLoggedIn}) => {
   return (
     <div>
       <a href="/"><h1>EAGLEFOX SHOP</h1></a>

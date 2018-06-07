@@ -13,7 +13,6 @@ const CartItem = require('./cart-item')
 Product.belongsToMany(Category, {through: 'productCategory'})
 Category.belongsToMany(Product, {through: 'productCategory'})
 
-
 //Potential future routes
 //Review.belongsToMany(Product)
 //Product.hasMany(Review)
@@ -21,8 +20,8 @@ Category.belongsToMany(Product, {through: 'productCategory'})
 //Cart.belongsTo(User)
 
 User.hasMany(CartItem)
-CartItem.belongsTo(User, {as: 'cartUser'})
-CartItem.belongsTo(Product, {as: 'cartProduct'})
+CartItem.belongsTo(User)
+CartItem.belongsTo(Product)
 
 /**
  * We'll export all of our models here, so that any time a module needs a model,
@@ -35,4 +34,5 @@ module.exports = {
   User,
   Product,
   Category,
+  CartItem,
 }

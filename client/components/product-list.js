@@ -29,7 +29,7 @@ class ProductList extends Component {
       <div>
         <h2>All Products</h2>
         <ul>
-          { productList.map(product => <ProductCard product={product} key={product.id} />) }
+          {productList.map(product => <ProductCard product={product} key={product.id} />)}
         </ul>
       </div>
     )

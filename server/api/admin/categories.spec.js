@@ -2,23 +2,27 @@
 
 const { expect } = require('chai')
 const request = require('supertest')
-const db = require('../db')
-const app = require('../index')
+const db = require('../../db/index')
+const app = require('../../index')
 const Product = db.model('product')
 const User = db.model('user')
 
 describe('Admin API routes', () => {
-  describe('/api/admin/products/', () => {
-    let userAgent
+  describe('/api/admin/categories/', () => {
+    const userAgent = request.agent(app)
+    const unAuthRequest = request(app)
+
     const testTitle = 'Title Of Product'
     const admin = {
       email: 'andrew@puppybook.com',
       name: 'Andrew',
+      password: '1',
       isAdmin: true
     }
     const nonAdmin = {
       email: 'cody@puppybook.com',
       name: 'Cody',
+      password: '1',
       isAdmin: false
     }
 
@@ -31,6 +35,7 @@ describe('Admin API routes', () => {
     }
 
     beforeEach(async () => {
+      await db.sync({ force: true })
       await Product.create({
         title: testTitle + '1',
         description: 'description text 1',
@@ -54,35 +59,30 @@ describe('Admin API routes', () => {
       })
       await User.create(admin)
       await User.create(nonAdmin)
-      userAgent = request.agent()
-    })
-
-    xit('/api/admin check if authenticated', () => {
-      userAgent
-        .post('/api/admin/products/add', addProduct1)
+      const res = await userAgent
+        .post('/auth/login')
         .send(admin)
-        .end((err, res) => {
-          if (err) {
-            throw err
-          }
-          expect(res.statusCode).to.equal(201)
-        })
-      // const unAuthRes = await userAgent.post('/api/admin/products/add', addProduct1).send(nonAdmin)
-      expect(userAgent.statusCode).to.equal(201)
-      // expect(unAuthRes.statusCode).to.equal(403)
+      expect(res.statusCode).to.equal(200)
     })
 
-    xit('POST /api/admin/addproduct', async () => {
-      const res = await request(app).post('/api/admin/addproduct').expect(201)
-      expect(res.body).to.be.an('array')
-      expect(res.body[0].email).to.be.equal(cody.email)
-      expect(res.body[0].isAdmin).to.be.equal(true)
+    xit('/api/admin check if authenticated', async () => {
+      const adminResponse = await userAgent.post('/api/admin/categories/add').send(addProduct1)
+      const unAuthResponse = await unAuthRequest.post('/api/admin/categories/add').send(addProduct1)
+
+      expect(adminResponse.statusCode).to.equal(201)
+      expect(unAuthResponse.statusCode).to.equal(403)
     })
 
-    xit('PUT /api/admin/editproduct', async () => {
-      const res = await request(app).post('/api/admin/editproduct', { id: 1, name: 'editName' }).expect(201)
-      expect(res.body).to.be.an('array')
-      expect(res.body[0].email).to.be.equal(codysEmail)
+    xit('POST /api/admin/categories/add', async () => {
+      const res = await userAgent.post('/api/admin/products/add').send(addProduct1)
+      expect(res.body).to.be.an('object')
+      expect(res.body.title).to.be.equal(addProduct1.title)
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+
+    xit('PUT /api/admin/categories/:edit', async () => {
+      const res = await userAgent.put('/api/admin/products/1').send(addProduct1)
+      expect(res.body).to.be.an('object')
+      expect(res.body.title).to.be.equal(addProduct1.title)
+    })
+  })
+})

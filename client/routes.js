@@ -41,7 +41,7 @@ class Routes extends Component {
         } */}
         {/* Displays our Login component as a fallback
         Should be a 404 page not found component */}
-        <Route component={Login} />
+        <Route component={ProductList} />
       </Switch>
     )
   }

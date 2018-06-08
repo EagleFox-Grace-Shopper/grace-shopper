@@ -2,6 +2,19 @@ import React, { Component } from 'react'
 import ProductCard from './product-card'
 import { connect } from 'react-redux'
 import { getInitialProductListThunk } from '../store'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  position: relative;
+  margin: auto;
+  width: 80%;
+`
+
+const ProductListContent = styled.ul`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+`
 
 const mapStateToProps = (state) => {
   return {
@@ -17,21 +30,23 @@ const mapDispatchToProps = (dispatch) => {
 
 class ProductList extends Component {
 
-  async componentDidMount(){
-    await this.props.getProductListThunk()
+  async componentDidMount() {
+    if (this.props.productList.length === 0) {
+      await this.props.getProductListThunk()
+    }
   }
 
-  render () {
+  render() {
 
     const productList = this.props.productList
     console.log('productlist:', productList)
     return (
-      <div>
+      <Wrapper>
         <h2>All Products</h2>
-        <ul>
+        <ProductListContent>
           {productList.map(product => <ProductCard product={product} key={product.id} />)}
-        </ul>
-      </div>
+        </ProductListContent>
+      </Wrapper>
     )
   }
 }

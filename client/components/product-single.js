@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { ButtonAddToCart } from './index'
 
 import { getInitialProductThunk } from '../store'
 
@@ -20,7 +21,7 @@ class SingleProduct extends Component {
   }
 
   render() {
-    const urlId = Number(this.props.match.params.id)
+    const productId = Number(this.props.match.params.id)
 
     const title = this.state.selectedProduct.title
     const description = this.state.selectedProduct.description
@@ -51,13 +52,15 @@ class SingleProduct extends Component {
 
         <div>
           <p>
-            {quantity}
+            {quantity} available in store
           </p>
         </div>
 
         <div>
           <img src={imageUrl} />
         </div>
+        <ButtonAddToCart itemId={productId} />
+
       </div>
     )
   }

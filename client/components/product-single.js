@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonAddToCart } from './index'
+import { Link } from 'react-router-dom'
 
 import { getInitialProductThunk } from '../store'
 
@@ -10,9 +11,6 @@ class SingleProduct extends Component {
     this.state = {
       selectedProduct: this.props.selectedProduct,
     }
-  }
-  async componentWillMount() {
-
   }
   async componentDidMount() {
     const urlId = Number(this.props.match.params.id)
@@ -61,6 +59,10 @@ class SingleProduct extends Component {
         </div>
         <ButtonAddToCart itemId={productId} />
 
+        <Link to={`/products/${productId}/edit`}>
+          <button type="button">Edit Product</button>
+        </Link>
+
       </div>
     )
   }
@@ -68,7 +70,8 @@ class SingleProduct extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    selectedProduct: store.product.selectedProduct
+    selectedProduct: store.product.selectedProduct,
+    isAdmin: !!store.user.isAdmin,
   }
 }
 

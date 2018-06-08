@@ -3,7 +3,7 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import configureMockStore from 'redux-mock-store'
 import thunkMiddleware from 'redux-thunk'
-import { addCategoryThunk, getCategoriesThunk } from './category'
+import { addCategoryThunk, getCategoriesThunk, editCategoryThunk } from './category'
 
 const db = require('../../server/db')
 const Category = db.models.category
@@ -28,6 +28,11 @@ describe('Category Redux', () => {
 
     const cat2 = {
       name: 'Electronics'
+    }
+
+    const edit1 = {
+      id: 1,
+      title: 'Xmas'
     }
 
     beforeEach(async () => {
@@ -59,11 +64,15 @@ describe('Category Redux', () => {
       expect(actions[0].category).to.deep.equal(add1)
     })
 
-    it('editCategoryThunk edits a category', async () => {
-
+    xit('editCategoryThunk edits a category', async () => {
+      mockAxios.onPut('api/admin/categories/1', edit1).replyOnce(201, edit1)
+      await store.dispatch(editCategoryThunk(edit1))
+      const actions = store.getActions()
+      expect(actions[0].type).to.equal('EDIT_CATEGORY')
+      expect(actions[0].category).to.deep.equal(edit1)
     })
 
-    it('removeCategoryThunk removes a category', async() => {
+    xit('removeCategoryThunk removes a category', async() => {
 
     })
   })

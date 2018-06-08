@@ -66,7 +66,7 @@ export const Navbar = ( { searchProducts, getProducts, cats, logOut, isLoggedIn}
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    cats: [{id: 1, name: 'wacky'}, {id: 2, name: 'clothing'}, {id: 3, name: 'kitchen'}, {id: 4, name: 'stuff'}]
+    cats: state.category.categories
   }
 }
 

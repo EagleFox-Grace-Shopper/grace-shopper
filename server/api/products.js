@@ -30,9 +30,7 @@ router.get('/', async (req, res, next) => {
   }
 })
 router.get('/categories', async (req, res, next) => {
-  console.log('categories route')
   const allCategories = await Category.findAll()
-  console.log('allCategories', allCategories)
   res.json(allCategories)
 })
 
@@ -49,7 +47,7 @@ router.get('/category/:categoryId', async (req, res, next) => {
   try {
     const response = await Category.findAll({
       include: [
-        { all: true }
+        { model: Product }
       ],
       where: {
         id: req.params.categoryId

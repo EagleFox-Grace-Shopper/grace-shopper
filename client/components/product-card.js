@@ -1,22 +1,32 @@
 import React from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
-export default function ProductCard (props) {
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+`
+const CardImage = styled.img`
+  height: 200px;
+  width: 300px;
+`
 
+export default function ProductCard(props) {
   const product = props.product
-    return (
+  return (
+    <Wrapper>
+      <Link to={`products/${product.id}`}>
+        <h3>{product.title}</h3>
+      </Link>
       <div>
-        <div>
-          <h4>{product.title}</h4>
-        </div>
-
-        <div>
-          <h3>${product.price}</h3>
-        </div>
-
-        <div className='product-card'>
-            <img src={product.imageUrl} />
-        </div>
+        <h3>${product.price}</h3>
       </div>
-    )
+      <Link to={`products/${product.id}`}>
+        <CardImage src={product.imageUrl} />
+      </Link>
+    </Wrapper>
+  )
 }
 

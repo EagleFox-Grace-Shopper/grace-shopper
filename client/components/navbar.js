@@ -1,31 +1,95 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
-import {logout} from '../store'
-import {getProductsByCatThunk, getProductsBySearchThunk} from '../store/product'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { logout } from '../store'
+import { getProductsByCatThunk, getProductsBySearchThunk } from '../store/product'
+import styled from 'styled-components'
 
-export const Navbar = ( { searchProducts, getProducts, cats, logOut, isLoggedIn}) => {
+const Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  background-color: #333;
+  width: 100%;
+`
+const Title = styled.a`
+  width: 25em;
+  padding-left: 10px;
+  color: white;
+`
+const Nav = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  width: 100%;
+`
+
+const NavItem = styled.div`
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+`
+
+const NavLeft = styled.div`
+  display: flex;
+`
+
+const NavRight = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`
+
+const CatDropdownContent = styled.div`
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+`
+
+const CatDropdown = styled.ul`
+  display: block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  &:hover ${CatDropdownContent}{
+    display: block;
+  }
+`
+const CatItem = styled.a`
+  color: black;
+  padding: 12px 16px;
+  text - decoration: none;
+  display: block;
+  text - align: left;
+  &:hover {
+    background-color: #f1f1f1
+  }
+`
+
+const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin }) => {
   return (
-    <div>
-      <a href="/"><h1>EAGLEFOX SHOP</h1></a>
-      <nav>
-        <ul className="navStuff">
-          <li>
-            <ul className="dropdown">
-              <a className="dropbtn">Categories</a>
-              <div className="dropdown-content">
-                {cats.map(cat => (
-                  <Link
-                    to={`/browse/${cat.name}`}
-                    key={cat.id}
-                    onClick={() => getProducts(cat.id)}><a>{cat.name}</a>
-                  </Link>
-                ))}
-              </div>
-            </ul>
-          </li>
-          <li className="search-container">
+    <Wrapper>
+      <Title href="/"><h1>EAGLEFOX SHOP</h1></Title>
+      <Nav>
+        <NavLeft>
+          <CatDropdown>
+            <NavItem>Categories</NavItem>
+            <CatDropdownContent>
+              {cats.map(cat => (
+                <Link
+                  to={`/browse/${cat.name}`}
+                  key={cat.id}
+                  onClick={() => getProducts(cat.id)}><CatItem>{cat.name}</CatItem>
+                </Link>
+              ))}
+            </CatDropdownContent>
+          </CatDropdown>
+          <form className="search-container">
 
             <input type="text" placeholder="Enter product name..." name="search" id="search" />
             <input
@@ -37,28 +101,45 @@ export const Navbar = ( { searchProducts, getProducts, cats, logOut, isLoggedIn}
 
               }}
             />
-
-          </li>
+          </form>
+        </NavLeft>
+        <NavRight>
+          {isAdmin ? (
+            <NavRight>
+              <hr />
+              <Link to="/products/add">
+                <NavItem>Add Product</NavItem>
+              </Link>
+            </NavRight>
+          ) : (<div />)}
           {isLoggedIn ? (
-            <li className="userActions">
-              {/* The navbar will show these links after you log in */}
-              <Link to="/home">Home</Link>
-              <a href="#" onClick={logOut}>
-            Logout
+            <NavRight>
+              <hr />
+              <Link to="/home">
+                <NavItem>Home</NavItem>
+              </Link>
+              <hr />
+              <a href="/" onClick={logOut}>
+                <NavItem>Logout</NavItem>
               </a>
-            </li>
+            </NavRight>
           ) : (
-            <li className="userActions">
-              {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
-            </li>
+            <NavRight>
+              <hr />
+              <Link to="/login">
+                <NavItem>Login</NavItem>
+              </Link>
+              <hr />
+              <Link to="/signup">
+                <NavItem>Sign Up</NavItem>
+              </Link>
+            </NavRight>
           )}
-        </ul>
-      </nav>
-      <hr />
-    </div>
-  )}
+        </NavRight>
+      </Nav>
+    </Wrapper>
+  )
+}
 
 /**
  * CONTAINER
@@ -66,7 +147,8 @@ export const Navbar = ( { searchProducts, getProducts, cats, logOut, isLoggedIn}
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    cats: state.category.categories
+    isAdmin: !!state.user.isAdmin,
+    cats: [{ id: 1, name: 'wacky' }, { id: 2, name: 'clothing' }, { id: 3, name: 'kitchen' }, { id: 4, name: 'stuff' }]
   }
 }
 

@@ -66,7 +66,7 @@ const CatDropdown = styled.ul`
     display: block;
   }
 `
-const CatItem = styled.a`
+const CatItem = styled.div`
   color: black;
   padding: 12px 16px;
   text - decoration: none;
@@ -90,7 +90,8 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
                 <Link
                   to={`/browse/${cat.name}`}
                   key={cat.id}
-                  onClick={() => getProducts(cat.id)}><CatItem>{cat.name}</CatItem>
+                  onClick={() => getProducts(cat.id)}>
+                  <CatItem>{cat.name}</CatItem>
                 </Link>
               ))}
             </CatDropdownContent>
@@ -98,13 +99,12 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
           <form className="search-container">
 
             <input type="text" placeholder="Enter product name..." name="search" id="search" />
-            <input
-              type="submit"
+            <button
+              type="button"
               value="Search"
               onClick={() => {
                 window.location = `/products?search=${document.getElementById('search').value}`
                 searchProducts(document.getElementById('search').value)
-
               }}
             />
           </form>

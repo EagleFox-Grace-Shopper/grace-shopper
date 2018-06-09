@@ -73,7 +73,7 @@ const CatItem = styled.a`
   }
 `
 
-const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin }) => {
+export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin }) => {
   return (
     <Wrapper>
       <Title href="/"><h1>EAGLEFOX SHOP</h1></Title>
@@ -127,17 +127,17 @@ const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin
               </a>
             </NavRight>
           ) : (
-              <NavRight>
-                <hr />
-                <Link to="/login">
-                  <NavItem>Login</NavItem>
-                </Link>
-                <hr />
-                <Link to="/signup">
-                  <NavItem>Sign Up</NavItem>
-                </Link>
-              </NavRight>
-            )}
+            <NavRight>
+              <hr />
+              <Link to="/login">
+                <NavItem>Login</NavItem>
+              </Link>
+              <hr />
+              <Link to="/signup">
+                <NavItem>Sign Up</NavItem>
+              </Link>
+            </NavRight>
+          )}
         </NavRight>
       </Nav>
     </Wrapper>

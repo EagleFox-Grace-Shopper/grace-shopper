@@ -15,9 +15,13 @@ const Wrapper = styled.div`
   height: 4em;
 `
 const Title = styled.a`
-  width: 25em;
+  width: 11em;
   padding-left: 10px;
   color: white;
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 `
 const Nav = styled.div`
   display: flex;
@@ -76,7 +80,7 @@ const CatItem = styled.a`
 export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin }) => {
   return (
     <Wrapper>
-      <Title href="/"><h1>EAGLEFOX SHOP</h1></Title>
+      <Title href="/">EAGLEFOX SHOP</Title>
       <Nav>
         <NavLeft>
           <CatDropdown>

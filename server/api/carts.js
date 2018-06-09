@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {CartItem, Product} = require('../db/models')
+const { CartItem, Product, Order, OrderLine } = require('../db/models')
 
 //route to get all the items in the cart
 router.get('/:userId', async (req, res, next) => {
@@ -38,7 +38,7 @@ example req.body is:
 router.post('/:userId/add', async (req, res, next) => {
   try {
     const product = await Product.findById(req.body.productId)
-    if (!product){
+    if (!product) {
       throw new Error('product of specified id does not exist')
     }
     const productQuantity = req.body.quantity ?
@@ -56,7 +56,7 @@ router.post('/:userId/add', async (req, res, next) => {
       }
     )
 
-    if (cartItem[1] === false){
+    if (cartItem[1] === false) {
       CartItem.update(
         {
           quantity: productQuantity + cartItem[0].quantity,
@@ -70,7 +70,7 @@ router.post('/:userId/add', async (req, res, next) => {
     }
 
     res.json(cartItem[0])
-  } catch (error){
+  } catch (error) {
     next(error)
   }
 })
@@ -90,7 +90,7 @@ example req.body is:
 router.put('/:userId/update', async (req, res, next) => {
   try {
     const productQuantity = Number(req.body.quantity)
-    if (!productQuantity){
+    if (!productQuantity) {
       throw new Error('"quantity" not specified in req.body')
     }
 
@@ -101,19 +101,20 @@ router.put('/:userId/update', async (req, res, next) => {
       }
     })
 
-    if (cartItem){
+    if (cartItem) {
       const cartItemUpdated = await CartItem.update(
-        {quantity: productQuantity},
-        {where: {id: cartItem.id}},
+        { quantity: productQuantity },
+        { where: { id: cartItem.id } },
       )
       res.json(cartItemUpdated)
     }
     else {
       throw new Error('cartItem does not exist in database')
     }
-  } catch (error){
+  } catch (error) {
     next(error)
   }
 })
+
 
 module.exports = router

@@ -4,8 +4,7 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const GET_CART = 'GET_CART'
-const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM'
+const COMPLETE_ORDER = 'COMPLETE_ORDER'
 const SET_CART = 'SET_CART'
 
 /**
@@ -18,9 +17,8 @@ const initialState = {
 /**
  * ACTION CREATORS
  */
-const getCart = cart => ({ type: GET_CART, cart })
 const setCart = cart => ({ type: SET_CART, cart })
-const removeCartItem = itemId => ({ type: REMOVE_CART_ITEM, itemId })
+const completeOrder = (cart, order) => ({ type: COMPLETE_ORDER, cart, order })
 
 /**
  * THUNK CREATORS
@@ -46,18 +44,25 @@ export const removeCartItemThunk = (itemId) => {
     dispatch(setCart(newCart))
   }
 }
+export const checkoutThunk = () => {
+  return async (dispatch) => {
+    const res = await axios.post('/api/cart/checkout')
+    const newCart = res.data.cart
+    const orderInfo = res.data.orderInfo
+    dispatch(setCart(newCart))
+    dispatch(setOrder(orderInfo))
+  }
+}
 
 /**
  * REDUCER
  */
 export default function (state = initialState, action) {
   switch (action.type) {
-  case GET_CART:
-    return { ...state, cart: action.cart }
   case SET_CART:
     return { ...state, cart: action.cart }
-  case REMOVE_CART_ITEM:
-    return { ...state, cart: action.cart }
+  case COMPLETE_ORDER:
+    return { ...state, cart: action.cart, order: action.order }
   default:
     return state
   }

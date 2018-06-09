@@ -51,12 +51,6 @@ const createApp = () => {
   app.use(passport.initialize())
   app.use(passport.session())
 
-  //BEG *session logging code.  Remove for commit*
-  app.use((req, res, next) => {
-    console.log('SESSION: ', req.session)
-    next()
-  })
-  //END *session logging code.  Remove for commit*
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))

@@ -12,7 +12,7 @@ router.post('/add', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   const entry = await Category.update({
-    name: req.body.title
+    name: req.body.name
   }, {
     where: { id: req.params.id },
     returning: true

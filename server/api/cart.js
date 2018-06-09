@@ -7,17 +7,11 @@ router.use((req, res, next) => {
   if (!req.session.cart) {
     req.session.cart = []
   }
-  console.log('req.session.cart is', req.session.cart)
   next()
-})
-
-router.get('/getUserInfo', (req, res, next) => {
-  res.json(req.user)
 })
 
 const getCart = async (id) => {
   //access the cart from the db
-  console.log('in getCart function')
   const cartItems = await CartItem.findAll({
     where: {
       userId: id,
@@ -26,7 +20,6 @@ const getCart = async (id) => {
       model: Product,
     }]
   })
-  console.log('cartItems is: ', cartItems)
   return cartItems
 }
 
@@ -55,53 +48,63 @@ example req.body is:
 */
 
 router.post('/', async (req, res, next) => {
-  try {
-    //check if product exists
-    const productData = await Product.findById(req.body.productId)
-    if (!productData){
-      throw new Error('product of specified id does not exist')
+  //check if product exists
+  const productData = await Product.findById(req.body.productId)
+  if (!productData){
+    throw new Error('product of specified id does not exist')
+  }
+
+  //if not a user
+  if (!req.user){
+    //create a cartItemObject
+    const cartItemObject = {
+      productId: req.body.productId,
+      quantity: req.body.quantity,
+      product: productData,
     }
 
-    console.log('req.session.cart is', req.session.cart)
-    //if not a user
-    if (!req.user){
-      //create a cartItemObject
-      const cartItemObject = {
+    //find index of the cart in our session
+    const itemIdx = req.session.cart.findIndex((item) => {
+      return item.productId === req.body.productId
+    })
+
+    //update or create cartItemObject in our session array
+    if (itemIdx !== -1){
+      req.session.cart[itemIdx] = cartItemObject
+    } else {
+      req.session.cart.push(cartItemObject)
+    }
+
+    res.set(201).json(req.session.cart)
+
+  } else {
+
+    //get the cartItemData, to get its id for use as the unique key
+    const cartItemData = await CartItem.findOne({
+      where: {
+        userId: req.user.id,
+        productId: req.body.productId
+      }
+    })
+
+    //assign id if found or undefined if notFound
+    const cartItemId = cartItemData ?
+      cartItemData.dataValues.id :
+      undefined
+
+      //upserts data into database
+    await CartItem.upsert(
+      {
+        id: cartItemId,
+        userId: req.user.id,
         productId: req.body.productId,
         quantity: req.body.quantity,
-        product: productData,
       }
+    )
 
-      console.log('req.session.cart is', req.session.cart)
-      //find index of the cart in our session
-      const itemIdx = req.session.cart.findIndex((item) => {
-        return item.id === req.body.productId
-      })
-
-      //update or create cartItemObject in our session array
-      if (itemIdx !== -1){
-        req.session.cart[itemIdx] = cartItemObject
-      } else {
-        req.session.cart.push(cartItemObject)
-      }
-
-      res.set(201).json(req.session.cart)
-
-    } else {
-      console.log('is user, getting cart from database')
-      await CartItem.upsert(
-        {
-          userId: req.user.id,
-          productId: req.body.productId,
-          quantity: req.body.quantity
-        }
-      )
-      const cartItems = await getCart(req.user.id)
-      req.session.cart = cartItems
-      res.set(200).json(cartItems)
-    }
-  } catch (error){
-    next(error)
+    const cartItems = await getCart(req.user.id)
+    req.session.cart = cartItems
+    res.set(200).json(cartItems)
   }
 })
 
@@ -115,40 +118,36 @@ example req.body is:
   }
 */
 router.delete('/', async (req, res, next) => {
-  try {
-    //check if product exists
-    const productData = await Product.findById(req.body.productId)
-    if (!productData){
-      throw new Error('product of specified id does not exist')
-    }
+  //check if product exists
+  const productData = await Product.findById(req.body.productId)
+  if (!productData){
+    throw new Error('product of specified id does not exist')
+  }
 
-    //if not a user
-    if (!req.user){
-      //find index of the cart in our session
-      const itemIdx = req.session.cart.findIndex((item) => {
-        return item.id === req.body.productId
-      })
+  //if not a user
+  if (!req.user){
+    //find index of the cart in our session
+    const itemIdx = req.session.cart.findIndex((item) => {
+      return item.productId === req.body.productId
+    })
 
-      //remove the item from the array(mutating method)
-      req.session.cart.splice(itemIdx, 1)
+    //remove the item from the array(mutating method)
+    req.session.cart.splice(itemIdx, 1)
 
-      //return the cart session
-      res.set(201).json(req.session.cart)
-    } else {
+    //return the cart session
+    res.set(201).json(req.session.cart)
+  } else {
 
-      await CartItem.destroy({
-        where: {
-          userId: req.body.userId,
-          productId: req.body.productId,
-        }
-      })
-      const cartItems = await getCart(req.user.id)
+    await CartItem.destroy({
+      where: {
+        userId: req.body.userId,
+        productId: req.body.productId,
+      }
+    })
+    const cartItems = await getCart(req.user.id)
 
-      req.session.cart = cartItems
-      res.set(201).json(cartItems)
-    }
-  } catch (error){
-    next(error)
+    req.session.cart = cartItems
+    res.set(201).json(cartItems)
   }
 })
 

@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { ButtonAddToCart } from '.'
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,10 +15,6 @@ const CardImage = styled.img`
 
 export default function ProductCard(props) {
   const product = props.product
-  const cartItem = {
-    productId: product.id,
-    quantity: 1
-  }
   return (
     <Wrapper>
       <Link to={`products/${product.id}`}>
@@ -31,7 +26,6 @@ export default function ProductCard(props) {
       <Link to={`products/${product.id}`}>
         <CardImage src={product.imageUrl} />
       </Link>
-      <ButtonAddToCart cartItem={cartItem} />
     </Wrapper>
   )
 }

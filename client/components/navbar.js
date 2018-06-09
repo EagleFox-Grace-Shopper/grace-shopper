@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import { getProductsByCatThunk, getProductsBySearchThunk } from '../store/product'
+import { CartIcon } from './index'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -11,6 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   background-color: #333;
   width: 100%;
+  height: 4em;
 `
 const Title = styled.a`
   width: 25em;
@@ -104,6 +106,7 @@ const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin
           </form>
         </NavLeft>
         <NavRight>
+          <CartIcon />
           {isAdmin ? (
             <NavRight>
               <hr />
@@ -124,17 +127,17 @@ const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin
               </a>
             </NavRight>
           ) : (
-            <NavRight>
-              <hr />
-              <Link to="/login">
-                <NavItem>Login</NavItem>
-              </Link>
-              <hr />
-              <Link to="/signup">
-                <NavItem>Sign Up</NavItem>
-              </Link>
-            </NavRight>
-          )}
+              <NavRight>
+                <hr />
+                <Link to="/login">
+                  <NavItem>Login</NavItem>
+                </Link>
+                <hr />
+                <Link to="/signup">
+                  <NavItem>Sign Up</NavItem>
+                </Link>
+              </NavRight>
+            )}
         </NavRight>
       </Nav>
     </Wrapper>

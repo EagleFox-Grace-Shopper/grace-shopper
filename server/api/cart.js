@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {CartItem, Product} = require('../db/models')
 
-//this sets up the cart and product if one does not exist.
+//this sets up the cart if one does not exist.
 router.use((req, res, next) => {
   if (!req.session.cart) {
     req.session.cart = []
@@ -32,7 +32,7 @@ router.get('/', async (req, res, next) => {
     res.json(req.session.cart)
   } else {
     const cartItems = await getCart(req.user.id)
-    res.set(200).json(cartItems)
+    res.status(201).json(cartItems)
   }
 })
 
@@ -70,12 +70,12 @@ router.post('/', async (req, res, next) => {
 
     //update or create cartItemObject in our session array
     if (itemIdx !== -1){
-      req.session.cart[itemIdx] = cartItemObject
+      req.session.cart[itemIdx].quantity = cartItemObject.quantity
     } else {
       req.session.cart.push(cartItemObject)
     }
 
-    res.set(201).json(req.session.cart)
+    res.status(201).json(req.session.cart)
 
   } else {
 
@@ -104,7 +104,7 @@ router.post('/', async (req, res, next) => {
 
     const cartItems = await getCart(req.user.id)
     req.session.cart = cartItems
-    res.set(200).json(cartItems)
+    res.status(201).json(cartItems)
   }
 })
 
@@ -135,7 +135,7 @@ router.delete('/', async (req, res, next) => {
     req.session.cart.splice(itemIdx, 1)
 
     //return the cart session
-    res.set(201).json(req.session.cart)
+    res.status(201).json(req.session.cart)
   } else {
 
     await CartItem.destroy({
@@ -147,7 +147,7 @@ router.delete('/', async (req, res, next) => {
     const cartItems = await getCart(req.user.id)
 
     req.session.cart = cartItems
-    res.set(201).json(cartItems)
+    res.status(201).json(cartItems)
   }
 })
 

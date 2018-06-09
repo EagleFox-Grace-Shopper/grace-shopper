@@ -50,7 +50,7 @@ async function seed () {
       description: 'The finest airline experience possible',
       price: 149.99,
       quantity: 22,
-      imageUrl: 'https://i.imgur.com/DTWcje7.jpg'
+      imageUrl: 'https://i.imgur.com/FZkpsst.jpg'
     }),
     Product.create({
       title: 'Magnetic Cookie Dunker',

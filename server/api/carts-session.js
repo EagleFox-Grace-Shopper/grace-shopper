@@ -12,7 +12,6 @@ router.use((req, res, next) => {
   next()
 })
 
-
 router.get('/:userId', (req, res, next) => {
   res.json(req.session.cart)
 })

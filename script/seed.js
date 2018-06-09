@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const { User, Product, Category } = require('../server/db/models')
+const { User, Product, Category, CartItem} = require('../server/db/models')
 
 
 async function seed () {
@@ -116,6 +116,15 @@ async function seed () {
   ]
   await db.models.productCategory.bulkCreate(productCategoryData)
 
+  const cartItemsData = [
+    { userId: 1, productId: crocksocks.id, quantity: 2},
+    { userId: 1, productId: grillba.id, quantity: 4},
+    { userId: 1, productId: licki.id, quantity: 5},
+    { userId: 2, productId: crocksocks.id, quantity: 2},
+  ]
+
+
+  await CartItem.bulkCreate(cartItemsData)
 
   console.log(`seeded ${users.length} users`)
   // console.log(`seeded ${products.length} products and ${categories.length} categories`)

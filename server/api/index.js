@@ -9,11 +9,10 @@ const adminGateway = (req, res, next) => {
   }
 }
 
-router.use('/cartsSession' , require('./carts-session'))
+router.use('/cart', require('./cart'))
 router.use('/users', require('./users'))
 router.use('/products', require('./products'))
 router.use('/categories', require('./categories'))
-router.use('/carts', require('./carts'))
 router.use('/admin', adminGateway, require('./admin'))
 
 

@@ -4,11 +4,15 @@
  * having to figure out which file they belong to!
  */
 
-export {default as Navbar} from './navbar'
-export {default as UserHome} from './user-home'
-export {Login, Signup} from './auth-form'
-export {AddProduct, EditProduct} from './product-form'
-export {default as SingleProduct} from './product-single'
-export {default as ProductList} from './product-list'
-export {default as ButtonAddToCart} from './button-add-to-cart.js'
+export { default as Navbar } from './navbar'
+export { default as UserHome } from './user-home'
+export { Login, Signup } from './auth-form'
+export { AddProduct, EditProduct } from './product-form'
+export { default as SingleProduct } from './product-single'
+export { default as ProductList } from './product-list'
+export { default as ButtonAddToCart } from './button-add-to-cart.js'
+export { default as CartItemRow } from './cart-item-row'
+export { default as Cart } from './cart'
+export { default as CartIcon } from './cart-icon'
+
 export {default as categoryList} from './category-list'

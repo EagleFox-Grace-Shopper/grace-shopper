@@ -1,25 +1,26 @@
 import React from 'react'
+import { setCartThunk } from '../store/cart'
+import { connect } from 'react-redux'
 
-class ButtonAddToCart extends React.Component {
+const ButtonAddToCart = (props) => {
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => props.addToCart(props.cartItem)}
+      >
+        Add to Cart
+      </button>
+    </div>
+  )
+}
 
-  constructor(props){
-    super(props)
-    this.addToCart = this.addToCart.bind(this)
-  }
-
-  addToCart = () => {
-    console.log('add to cart functionality needs to be written!')
-  }
-
-  render(){
-    return (
-      <div>
-        <button id= "addToCart" onClick={this.addToCart}>
-          Add to Cart
-        </button>
-      </div>
-    )
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToCart(cartItem) {
+      return dispatch(setCartThunk(cartItem))
+    }
   }
 }
 
-export default ButtonAddToCart
+export default connect(null, mapDispatchToProps)(ButtonAddToCart)

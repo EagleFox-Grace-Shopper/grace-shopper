@@ -15,4 +15,4 @@ export { default as CartItemRow } from './cart-item-row'
 export { default as Cart } from './cart'
 export { default as CartIcon } from './cart-icon'
 
-export {default as categoryList} from './category-list'
+export {default as categoryForm} from './category-form'

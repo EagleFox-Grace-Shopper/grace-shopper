@@ -97,13 +97,16 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
             <input
               type="submit"
               value="Search"
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault()
+                console.log('search term', document.getElementById('search').value)
                 window.location = `/products?search=${document.getElementById('search').value}`
                 searchProducts(document.getElementById('search').value)
 
               }}
             />
           </form>
+          <Link to="/catform"><NavItem>Catform</NavItem></Link>
         </NavLeft>
         <NavRight>
           <CartIcon />
@@ -151,7 +154,7 @@ const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
     isAdmin: !!state.user.isAdmin,
-    cats: [{ id: 1, name: 'wacky' }, { id: 2, name: 'clothing' }, { id: 3, name: 'kitchen' }, { id: 4, name: 'stuff' }]
+    cats: state.category.categories
   }
 }
 

@@ -6,7 +6,7 @@ router.use((req, res, next) => {
   //if (!req.session.counter) req.session.counter = 0
   //console.log('counter', ++req.session.counter)
   if (!req.session.cart) req.session.cart = {}
-  if(!req.session.cart[req.body.productId]){
+  if (!req.session.cart[req.body.productId]){
     req.session.cart[req.body.productId] = 0
   }
   next()
@@ -18,7 +18,7 @@ router.get('/:userId', (req, res, next) => {
 })
 
 router.post('/:userId/add', (req, res, next) => {
-  if(!req.session.cart[req.body.productId])req.session.cart[req.body.productId] = 0
+  if (!req.session.cart[req.body.productId])req.session.cart[req.body.productId] = 0
   req.session.cart[req.body.productId] += Number(req.body.quantity)
   res.sendStatus(200)
 })

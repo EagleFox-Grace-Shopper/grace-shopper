@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import { getProductsByCatThunk, getProductsBySearchThunk } from '../store/product'
+import { CartIcon } from './index'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -11,6 +12,7 @@ const Wrapper = styled.div`
   display: flex;
   background-color: #333;
   width: 100%;
+  height: 4em;
 `
 const Title = styled.a`
   width: 25em;
@@ -71,7 +73,7 @@ const CatItem = styled.a`
   }
 `
 
-const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin }) => {
+export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin }) => {
   return (
     <Wrapper>
       <Title href="/"><h1>EAGLEFOX SHOP</h1></Title>
@@ -104,6 +106,7 @@ const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin
           </form>
         </NavLeft>
         <NavRight>
+          <CartIcon />
           {isAdmin ? (
             <NavRight>
               <hr />

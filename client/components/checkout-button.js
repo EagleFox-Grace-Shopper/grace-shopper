@@ -2,7 +2,7 @@ import React from 'react'
 import { checkoutThunk } from '../store/cart'
 import { connect } from 'react-redux'
 
-const ButtonAddToCart = (props) => {
+const CheckoutButton = (props) => {
   return (
     <div>
       <button
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(ButtonAddToCart)
+export default connect(null, mapDispatchToProps)(CheckoutButton)

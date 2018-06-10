@@ -9,8 +9,10 @@ const Wrapper = styled.div`
   padding: 10px;
 `
 const CardImage = styled.img`
-  height: 200px;
-  width: 300px;
+  max-height: 200px;
+  max-width: 300px;
+  height: auto;
+  width: auto;
 `
 
 export default function ProductCard(props) {

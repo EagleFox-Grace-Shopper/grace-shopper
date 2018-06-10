@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ButtonAddToCart } from './index'
 import { Link } from 'react-router-dom'
-
 import { getInitialProductThunk } from '../store'
 
 class SingleProduct extends Component {
@@ -29,40 +28,26 @@ class SingleProduct extends Component {
 
     return (
       <div>
-        <div>
-          <h1>
-            {title}
-          </h1>
-        </div>
-
-        <div>
-          <p>
-            {description}
-          </p>
-        </div>
-
-        <div>
-          <h3>
-            $
-            {price}
-          </h3>
-        </div>
-
-        <div>
-          <p>
-            {quantity} available in store
-          </p>
-        </div>
-
-        <div>
-          <img src={imageUrl} />
-        </div>
+        <h1>
+          {title}
+        </h1>
+        <p>
+          {description}
+        </p>
+        <h3>
+          $
+          {price}
+        </h3>
+        <p>
+          {quantity} available in store
+        </p>
+        <img src={imageUrl} />
         <ButtonAddToCart itemId={productId} />
-
-        <Link to={`/products/${productId}/edit`}>
-          <button type="button">Edit Product</button>
-        </Link>
-
+        {this.props.isAdmin &&
+          <Link to={`/products/${productId}/edit`}>
+            <button type="button">Edit Product</button>
+          </Link>
+        }
       </div>
     )
   }

@@ -7,11 +7,22 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   padding: 10px;
+  width: 310px;
+  height: 310px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
 `
 const CardImage = styled.img`
-  height: 200px;
-  width: 300px;
+  max-height: 200px;
+  max-width: 300px;
+  height: auto;
+  width: auto;
+`
+const H3NoMargin = styled.h3`
+  margin: 0;
 `
 
 export default function ProductCard(props) {
@@ -23,11 +34,9 @@ export default function ProductCard(props) {
   return (
     <Wrapper>
       <Link to={`products/${product.id}`}>
-        <h3>{product.title}</h3>
+        <H3NoMargin>{product.title}</H3NoMargin>
       </Link>
-      <div>
-        <h3>${product.price}</h3>
-      </div>
+      <H3NoMargin>${product.price}</H3NoMargin>
       <Link to={`products/${product.id}`}>
         <CardImage src={product.imageUrl} />
       </Link>

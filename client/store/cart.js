@@ -1,10 +1,11 @@
 import axios from 'axios'
 import history from '../history'
+import { setOrder } from '.'
 
 /**
  * ACTION TYPES
  */
-const COMPLETE_ORDER = 'COMPLETE_ORDER'
+const UPDATE_CART_TOTAL = 'UPDATE_CART_TOTAL'
 const SET_CART = 'SET_CART'
 const MERGE_CART = 'MERGE_CART'
 const CLEAR_CART_SESSION = 'CLEAR_CART_SESSION'
@@ -12,14 +13,15 @@ const CLEAR_CART_SESSION = 'CLEAR_CART_SESSION'
  * INITIAL STATE
  */
 const initialState = {
-  cart: []
+  cart: [],
+  cartTotal: 0
 }
 
 /**
  * ACTION CREATORS
  */
 const setCart = cart => ({ type: SET_CART, cart })
-const completeOrder = (cart, order) => ({ type: COMPLETE_ORDER, cart, order })
+export const updateCartTotal = () => ({ type: UPDATE_CART_TOTAL })
 const mergeCart = () => ({type: MERGE_CART})
 const clearCartSession = () => ({type: CLEAR_CART_SESSION})
 
@@ -35,6 +37,7 @@ export const getInitialCartThunk = () => {
 }
 export const setCartThunk = (cartItem) => {
   return async (dispatch) => {
+    console.log(cartItem)
     const res = await axios.post('/api/cart', cartItem)
     const newCart = res.data
     dispatch(setCart(newCart))
@@ -76,8 +79,13 @@ export default function (state = initialState, action) {
   switch (action.type) {
   case SET_CART:
     return { ...state, cart: action.cart }
-  case COMPLETE_ORDER:
-    return { ...state, cart: action.cart, order: action.order }
+  case UPDATE_CART_TOTAL:
+    const calcTotal = state.cart.reduce((total, item) => {
+      total += item.quantity * item.product.price
+      return total
+    }, 0)
+    const cartTotal = Math.round(calcTotal * 100) / 100
+    return { ...state, cartTotal }
   case MERGE_CART:
     return state
   case CLEAR_CART_SESSION:

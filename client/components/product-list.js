@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProductListThunk: dispatch(getInitialProductListThunk())
+    getProductListThunk: () => dispatch(getInitialProductListThunk())
   }
 }
 

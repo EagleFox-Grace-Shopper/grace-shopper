@@ -297,4 +297,9 @@ router.post('/cart/checkout', async (req, res, next) => {
   res.setStatus(201).json({ cart, orderInfo })
 })
 
+router.delete('/api/cart/clearSession', async (req, res, next) => {
+  req.session.cart = []
+  res.setStatus(201)
+})
+
 module.exports = router

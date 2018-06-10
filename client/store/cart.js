@@ -7,7 +7,7 @@ import history from '../history'
 const COMPLETE_ORDER = 'COMPLETE_ORDER'
 const SET_CART = 'SET_CART'
 const MERGE_CART = 'MERGE_CART'
-
+const CLEAR_CART_SESSION = 'CLEAR_CART_SESSION'
 /**
  * INITIAL STATE
  */
@@ -21,6 +21,7 @@ const initialState = {
 const setCart = cart => ({ type: SET_CART, cart })
 const completeOrder = (cart, order) => ({ type: COMPLETE_ORDER, cart, order })
 const mergeCart = () => ({type: MERGE_CART})
+const clearCartSession = () => ({type: CLEAR_CART_SESSION})
 
 /**
  * THUNK CREATORS
@@ -61,6 +62,12 @@ export const loginMergeCartThunk = () => {
     dispatch(mergeCart())
   }
 }
+export const logoutClearCartThunk = () => {
+  return async (dispatch) => {
+    await axios.delete('/api/cart/clearSession')
+    dispatch(clearCartSession())
+  }
+}
 
 /**
  * REDUCER
@@ -72,7 +79,9 @@ export default function (state = initialState, action) {
   case COMPLETE_ORDER:
     return { ...state, cart: action.cart, order: action.order }
   case MERGE_CART:
-      return state
+    return state
+  case CLEAR_CART_SESSION:
+    return state
   default:
     return state
   }

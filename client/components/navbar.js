@@ -106,7 +106,9 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
                 window.location = `/products?search=${document.getElementById('search').value}`
                 searchProducts(document.getElementById('search').value)
               }}
-            />
+            >
+              Search
+            </button>
           </form>
         </NavLeft>
         <NavRight>

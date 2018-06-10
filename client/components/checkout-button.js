@@ -7,7 +7,7 @@ const CheckoutButton = (props) => {
     <div>
       <button
         type="button"
-        onClick={() => props.checkout(props.cartItem)}
+        onClick={() => props.checkout()}
       >
         Checkout
       </button>

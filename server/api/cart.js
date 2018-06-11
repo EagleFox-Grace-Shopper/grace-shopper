@@ -166,13 +166,17 @@ router.post('/add', async (req, res, next) => {
       cartItemData.dataValues.id :
       undefined
 
+    const cartItemQuantity = cartItemData ?
+      cartItemData.dataValues.quantity + req.body.quantity :
+      req.body.quantity
+
     //upserts data into database by adding the quantity
     await CartItem.upsert(
       {
         id: cartItemId,
         userId: req.user.id,
         productId: req.body.productId,
-        quantity: cartItemData.quantity + req.body.quantity,
+        quantity: cartItemQuantity,
       }
     )
 
@@ -192,7 +196,8 @@ router.put('/merge', async (req, res, next) => {
   if (!req.user) {
     throw new Error('user must be logged in to add item to cart')
   }
-  req.session.cart.map(async (cartItem) => {
+
+  await Promise.all(req.session.cart.map(async (cartItem) => {
     //get the cartItemData, to get its id for use as the unique key
     const cartItemData = await CartItem.findOne({
       where: {
@@ -208,8 +213,9 @@ router.put('/merge', async (req, res, next) => {
 
 
     const cartItemQuantity = cartItemData ?
-      cartItemData.quantity + cartItem.quantity :
+      cartItemData.dataValues.quantity + cartItem.quantity :
       cartItem.quantity
+
 
     //adds cartItem
     await CartItem.upsert(
@@ -220,8 +226,9 @@ router.put('/merge', async (req, res, next) => {
         quantity: cartItemQuantity,
       }
     )
-  })
+  }))
 
+  
   req.session.cart = await getCart(req.user.id)
   res.status(201).json(req.session.cart)
 })

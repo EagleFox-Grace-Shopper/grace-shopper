@@ -22,6 +22,7 @@ const initialState = {
 const setCart = cart => ({ type: SET_CART, cart })
 export const updateCartTotal = () => {
   return { type: UPDATE_CART_TOTAL }
+}
 const mergeCart = () => ({type: MERGE_CART})
 
 /**
@@ -66,8 +67,10 @@ export const checkoutThunk = () => {
 }
 export const loginMergeCartThunk = () => {
   return async (dispatch) => {
-    await axios.put('/api/cart/merge')
-    dispatch(mergeCart())
+    const res = await axios.put('/api/cart/merge')
+    console.log('===========', res.data)
+    const newCart = res.data
+    dispatch(setCart(newCart))
   }
 }
 
@@ -87,8 +90,6 @@ export default function (state = initialState, action) {
       cart: action.cart,
       cartTotal
     }
-  case MERGE_CART:
-    return state
   default:
     return state
   }

@@ -33,11 +33,11 @@ export default function ProductCard(props) {
   }
   return (
     <Wrapper>
-      <Link to={`products/${product.id}`}>
+      <Link to={`/products/${product.id}`}>
         <H3NoMargin>{product.title}</H3NoMargin>
       </Link>
       <H3NoMargin>${product.price}</H3NoMargin>
-      <Link to={`products/${product.id}`}>
+      <Link to={`/products/${product.id}`}>
         <CardImage src={product.imageUrl} />
       </Link>
       <ButtonAddToCart cartItem={cartItem} />

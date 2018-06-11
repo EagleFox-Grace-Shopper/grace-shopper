@@ -14,5 +14,5 @@ export { default as ButtonAddToCart } from './button-add-to-cart.js'
 export { default as CartItemRow } from './cart-item-row'
 export { default as Cart } from './cart'
 export { default as CartIcon } from './cart-icon'
-
+export {adminHome} from './admin-home'
 export {default as categoryForm} from './category-form'

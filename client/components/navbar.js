@@ -112,15 +112,14 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
               Search
             </button>
           </form>
-          <Link to="/categories/catform"><NavItem>Catform</NavItem></Link>
         </NavLeft>
         <NavRight>
           <CartIcon />
           {isAdmin ? (
             <NavRight>
               <hr />
-              <Link to="/products/add">
-                <NavItem>Add Product</NavItem>
+              <Link to="/admin">
+                <NavItem>Admin</NavItem>
               </Link>
             </NavRight>
           ) : (<div />)}

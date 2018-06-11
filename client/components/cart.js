@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { CartItemRow } from './index'
 import { getInitialCartThunk, setCartThunk, removeCartItemThunk } from '../store/cart'
 import styled from 'styled-components'
+import history from '../history'
 
 const Wrapper = styled.div`
   position: relative;
@@ -94,7 +95,7 @@ const Cart = (props) => {
               ${props.cartTotal}
             </td>
             <td>
-              <Checkout>Checkout</Checkout>
+              <Checkout onClick={history.push('checkout')}>Checkout</Checkout>
             </td>
           </tr>
         </tbody>

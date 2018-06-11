@@ -128,13 +128,14 @@ export class CheckoutForm extends React.Component {
       checkoutProps.billZip = this.state.shipZip
     }
   }
-  onToken = async (amount, currency, description) => token => {
+  onToken = (amount) => async (token) => {
+    console.log('in token')
     const checkoutProps = {
       ...this.state,
       stripe: {
-        description,
+        // description,
         source: token.id,
-        currency,
+        // currency,
         amount
       }
     }
@@ -144,8 +145,12 @@ export class CheckoutForm extends React.Component {
       checkoutProps.billState = this.state.shipState
       checkoutProps.billZip = this.state.shipZip
     }
-    this.props.checkout(checkoutProps)
+    const response = await this.props.checkout(checkoutProps)
+    console.log(response)
     // this.setState({redirect: true})
+  }
+  onClose = () => {
+    console.log('checkout complete')
   }
   render() {
     return (
@@ -174,7 +179,7 @@ export class CheckoutForm extends React.Component {
           }
           <CartInfo>
             <h3>Total Cost: </h3>
-            <h3>{this.props.cartTotal / 100}</h3>
+            <h3>${this.props.cartTotal / 100}</h3>
           </CartInfo>
           <StripeCheckout
             name="EagleFox Shopper"
@@ -187,17 +192,17 @@ export class CheckoutForm extends React.Component {
             stripeKey={STRIPE_PUBLISHABLE_KEY}
             // locale="us"
             email={this.state.email}
-            shippingAddress={false}
-            billingAddress={false}
+            // shippingAddress={false}
+            // billingAddress={false}
             // Note: enabling both zipCode checks and billing or shipping address will
             // cause zipCheck to be pulled from billing address (set to shipping if none provided).
             zipCode={false}
             // alipay // accept Alipay (default false)
             // bitcoin // accept Bitcoins (default false)
             allowRememberMe // "Remember Me" option (default true)
-            token={this.onToken} // submit callback
-          // opened={this.onOpened} // called when the checkout popin is opened (no IE6/7)
-          // closed={this.onClosed} // called when the checkout popin is closed (no IE6/7)
+            token={this.onToken(this.props.cartTotal, this)} // submit callback
+            // opened={this.onOpen()} // called when the checkout popin is opened (no IE6/7)
+            closed={this.onClose()} // called when the checkout popin is closed (no IE6/7)
           />
         </Form>
       </Wrapper>

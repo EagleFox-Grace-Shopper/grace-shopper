@@ -39,7 +39,7 @@ const CartIcon = (props) => {
   return (
     <Wrapper>
       <Link to="/cart">
-        <CartImage src="cart-icon.png" />
+        <CartImage src="/cart-icon.png" />
         <CartSize>
           {props.cartSize}
         </CartSize>

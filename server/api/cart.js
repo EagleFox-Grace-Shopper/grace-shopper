@@ -130,7 +130,7 @@ async function clearCartItem(req, productId) {
   } else {
     await CartItem.destroy({
       where: {
-        userId: req.body.userId,
+        userId: req.user.id,
         productId,
       }
     })
@@ -140,13 +140,13 @@ async function clearCartItem(req, productId) {
   return req.session.cart
 }
 
-router.delete('/', async (req, res, next) => {
+router.delete('/:productId', async (req, res, next) => {
   //check if product exists
-  const productData = await Product.findById(req.body.productId)
+  const productData = await Product.findById(req.params.productId)
   if (!productData) {
     throw new Error('product of specified id does not exist')
   }
-  const curCart = clearCartItem(req, req.body.productId)
+  const curCart = await clearCartItem(req, req.params.productId)
   res.status(201).json(curCart)
 })
 

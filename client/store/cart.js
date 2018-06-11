@@ -20,7 +20,9 @@ const initialState = {
  * ACTION CREATORS
  */
 const setCart = cart => ({ type: SET_CART, cart })
-export const updateCartTotal = () => ({ type: UPDATE_CART_TOTAL })
+export const updateCartTotal = () => {
+  return { type: UPDATE_CART_TOTAL }
+}
 
 /**
  * THUNK CREATORS
@@ -34,15 +36,21 @@ export const getInitialCartThunk = () => {
 }
 export const setCartThunk = (cartItem) => {
   return async (dispatch) => {
-    console.log(cartItem)
     const res = await axios.post('/api/cart', cartItem)
+    const newCart = res.data
+    await dispatch(setCart(newCart))
+  }
+}
+export const addToCartThunk = cartItem => {
+  return async dispatch => {
+    const res = await axios.post('/api/cart/add', cartItem)
     const newCart = res.data
     dispatch(setCart(newCart))
   }
 }
-export const removeCartItemThunk = (itemId) => {
+export const removeCartItemThunk = (productId) => {
   return async (dispatch) => {
-    const res = await axios.delete('/api/cart', itemId)
+    const res = await axios.delete(`/api/cart/${productId}`)
     const newCart = res.data
     dispatch(setCart(newCart))
   }
@@ -63,14 +71,16 @@ export const checkoutThunk = () => {
 export default function (state = initialState, action) {
   switch (action.type) {
   case SET_CART:
-    return { ...state, cart: action.cart }
-  case UPDATE_CART_TOTAL:
     const calcTotal = state.cart.reduce((total, item) => {
       total += item.quantity * item.product.price
       return total
     }, 0)
     const cartTotal = Math.round(calcTotal * 100) / 100
-    return { ...state, cartTotal }
+    return {
+      ...state,
+      cart: action.cart,
+      cartTotal
+    }
   default:
     return state
   }

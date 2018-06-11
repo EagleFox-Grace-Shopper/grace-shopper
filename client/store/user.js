@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {loginMergeCartThunk} from './index'
 
 /**
  * ACTION TYPES
@@ -38,22 +39,19 @@ export const auth = (email, password, method) =>
         dispatch(getUser({error: authError}))
       })
       .then( _ =>
-        axios.put('/api/cart/merge')
+        dispatch(loginMergeCartThunk())
       )
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
 export const logout = () =>
-  dispatch =>
+  dispatch => {
     axios.post('/auth/logout')
       .then(_ => {
         dispatch(removeUser())
-        diespatch(clearCart())
         history.push('/login')
       })
-      .then( _ =>
-        axios.delete('/api/cart/clearSession')
-      )
       .catch(err => console.log(err))
+  }
 
 /**
  * REDUCER

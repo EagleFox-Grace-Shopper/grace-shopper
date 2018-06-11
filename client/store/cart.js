@@ -8,7 +8,6 @@ import { setOrder } from '.'
 const UPDATE_CART_TOTAL = 'UPDATE_CART_TOTAL'
 const SET_CART = 'SET_CART'
 const MERGE_CART = 'MERGE_CART'
-const CLEAR_CART_SESSION = 'CLEAR_CART_SESSION'
 /**
  * INITIAL STATE
  */
@@ -65,12 +64,6 @@ export const loginMergeCartThunk = () => {
     dispatch(mergeCart())
   }
 }
-export const logoutClearCartThunk = () => {
-  return async (dispatch) => {
-    await axios.delete('/api/cart/clearSession')
-    dispatch(clearCartSession())
-  }
-}
 
 /**
  * REDUCER
@@ -87,8 +80,6 @@ export default function (state = initialState, action) {
     const cartTotal = Math.round(calcTotal * 100) / 100
     return { ...state, cartTotal }
   case MERGE_CART:
-    return state
-  case CLEAR_CART_SESSION:
     return state
   default:
     return state

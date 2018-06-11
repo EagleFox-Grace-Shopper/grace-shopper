@@ -15,9 +15,13 @@ const Wrapper = styled.div`
   height: 4em;
 `
 const Title = styled.a`
-  width: 25em;
+  width: 11em;
   padding-left: 10px;
   color: white;
+  font-size: 2em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
 `
 const Nav = styled.div`
   display: flex;
@@ -62,7 +66,7 @@ const CatDropdown = styled.ul`
     display: block;
   }
 `
-const CatItem = styled.a`
+const CatItem = styled.div`
   color: black;
   padding: 12px 16px;
   text - decoration: none;
@@ -76,7 +80,7 @@ const CatItem = styled.a`
 export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, isAdmin }) => {
   return (
     <Wrapper>
-      <Title href="/"><h1>EAGLEFOX SHOP</h1></Title>
+      <Title href="/">EAGLEFOX SHOP</Title>
       <Nav>
         <NavLeft>
           <CatDropdown>
@@ -86,7 +90,8 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
                 <Link
                   to={`/browse/${cat.name}`}
                   key={cat.id}
-                  onClick={() => getProducts(cat.id)}><CatItem>{cat.name}</CatItem>
+                  onClick={() => getProducts(cat.id)}>
+                  <CatItem>{cat.name}</CatItem>
                 </Link>
               ))}
             </CatDropdownContent>
@@ -94,17 +99,18 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
           <form className="search-container">
 
             <input type="text" placeholder="Enter product name..." name="search" id="search" />
-            <input
-              type="submit"
+            <button
+              type="button"
               value="Search"
               onClick={(event) => {
                 event.preventDefault()
                 console.log('search term', document.getElementById('search').value)
                 window.location = `/products?search=${document.getElementById('search').value}`
                 searchProducts(document.getElementById('search').value)
-
               }}
-            />
+            >
+              Search
+            </button>
           </form>
           <Link to="/catform"><NavItem>Catform</NavItem></Link>
         </NavLeft>

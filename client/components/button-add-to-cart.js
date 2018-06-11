@@ -1,13 +1,17 @@
 import React from 'react'
-import { setCartThunk } from '../store/cart'
+import { addToCartThunk } from '../store/cart'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const ButtonAddToCart = (props) => {
   return (
     <div>
       <button
         type="button"
-        onClick={() => props.addToCart(props.cartItem)}
+        onClick={() => {
+          props.addToCart(props.cartItem)
+          props.redirect && props.history.push('/cart')
+        }}
       >
         Add to Cart
       </button>
@@ -18,9 +22,9 @@ const ButtonAddToCart = (props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     addToCart(cartItem) {
-      return dispatch(setCartThunk(cartItem))
+      return dispatch(addToCartThunk(cartItem))
     }
   }
 }
 
-export default connect(null, mapDispatchToProps)(ButtonAddToCart)
+export default withRouter(connect(null, mapDispatchToProps)(ButtonAddToCart))

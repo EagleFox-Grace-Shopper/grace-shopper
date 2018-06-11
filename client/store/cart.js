@@ -1,26 +1,28 @@
 import axios from 'axios'
 import history from '../history'
+import { setOrder } from '.'
 
 /**
  * ACTION TYPES
  */
-const GET_CART = 'GET_CART'
-const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM'
+const UPDATE_CART_TOTAL = 'UPDATE_CART_TOTAL'
 const SET_CART = 'SET_CART'
 
 /**
  * INITIAL STATE
  */
 const initialState = {
-  cart: []
+  cart: [],
+  cartTotal: 0
 }
 
 /**
  * ACTION CREATORS
  */
-const getCart = cart => ({ type: GET_CART, cart })
 const setCart = cart => ({ type: SET_CART, cart })
-const removeCartItem = itemId => ({ type: REMOVE_CART_ITEM, itemId })
+export const updateCartTotal = () => {
+  return { type: UPDATE_CART_TOTAL }
+}
 
 /**
  * THUNK CREATORS
@@ -36,12 +38,35 @@ export const setCartThunk = (cartItem) => {
   return async (dispatch) => {
     const res = await axios.post('/api/cart', cartItem)
     const newCart = res.data
+    await dispatch(setCart(newCart))
+  }
+}
+export const addToCartThunk = cartItem => {
+  return async dispatch => {
+    const res = await axios.post('/api/cart/add', cartItem)
+    const newCart = res.data
     dispatch(setCart(newCart))
   }
 }
-export const removeCartItemThunk = (itemId) => {
+export const removeCartItemThunk = (productId) => {
   return async (dispatch) => {
-    const res = await axios.delete('/api/cart', itemId)
+    const res = await axios.delete(`/api/cart/${productId}`)
+    const newCart = res.data
+    dispatch(setCart(newCart))
+  }
+}
+export const checkoutThunk = () => {
+  return async (dispatch) => {
+    const res = await axios.post('/api/cart/checkout')
+    const newCart = res.data.cart
+    const orderInfo = res.data.orderInfo
+    dispatch(setCart(newCart))
+    dispatch(setOrder(orderInfo))
+  }
+}
+export const loginMergeCartThunk = () => {
+  return async (dispatch) => {
+    const res = await axios.put('/api/cart/merge')
     const newCart = res.data
     dispatch(setCart(newCart))
   }
@@ -52,12 +77,17 @@ export const removeCartItemThunk = (itemId) => {
  */
 export default function (state = initialState, action) {
   switch (action.type) {
-  case GET_CART:
-    return { ...state, cart: action.cart }
   case SET_CART:
-    return { ...state, cart: action.cart }
-  case REMOVE_CART_ITEM:
-    return { ...state, cart: action.cart }
+    const calcTotal = state.cart.reduce((total, item) => {
+      total += item.quantity * item.product.price
+      return total
+    }, 0)
+    const cartTotal = Math.round(calcTotal * 100) / 100
+    return {
+      ...state,
+      cart: action.cart,
+      cartTotal
+    }
   default:
     return state
   }

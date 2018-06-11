@@ -51,7 +51,7 @@ const CartIcon = (props) => {
 
 const mapStateToProps = (store) => {
   return {
-    cartSize: store.cart.cartQuantity,
+    cartSize: store.cart.cartSize,
   }
 }
 

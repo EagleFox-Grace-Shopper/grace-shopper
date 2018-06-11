@@ -62,7 +62,8 @@ export const checkoutThunk = () => {
     const newCart = res.data.cart
     const orderInfo = res.data.orderInfo
     dispatch(setCart(newCart))
-    dispatch(setOrder(orderInfo))
+    await dispatch(setOrder(orderInfo))
+    history.push(`/order/${orderInfo.id}`)
   }
 }
 export const loginMergeCartThunk = () => {
@@ -80,7 +81,7 @@ export default function (state = initialState, action) {
   switch (action.type) {
   case SET_CART:
     let cartSize = 0
-    const calcTotal = state.cart.reduce((total, item) => {
+    const calcTotal = action.cart.reduce((total, item) => {
       cartSize += item.quantity
       total += item.quantity * item.product.price
       return total

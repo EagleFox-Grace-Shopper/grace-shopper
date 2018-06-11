@@ -1,40 +1,50 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { addProductThunk, editProductThunk, getInitialProductThunk } from '../store'
+import { checkoutThunk } from '../store'
+import styled from 'styled-components'
+import stripeCheckout from 'react-stripe-checkout'
+
+const Wrapper = styled.div`
+  position: relative;
+`
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+`
 
 /**
  * COMPONENT
  */
-export class ProductForm extends React.Component {
+export class CheckoutForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedProduct: {
-        title: '',
-        description: '',
-        price: 0,
-        quantity: 0,
-        imageUrl: ''
+      name: '',
+      email: '',
+      shipping: {
+        address: '',
+        city: '',
+        state: '',
+        zip: 10000,
       },
-      redirect: false
+      billing: {
+        firstName: '',
+        lastName: '',
+        address: '',
+        city: '',
+        state: '',
+        zip: 10000,
+      }
     }
   }
   async componentDidMount() {
-    const urlId = Number(this.props.match.params.id)
-    if (urlId && Number(this.props.selectedProduct.id) !== urlId) {
-      await this.props.getInitialProduct(urlId)
-    }
-    this.setState({ selectedProduct: this.props.selectedProduct })
   }
   handleChange = (evt) => {
-    const curItem = { ...this.state.selectedProduct }
+    const prevState = { ...this.state }
     this.setState({
-      selectedProduct: {
-        ...curItem,
-        [evt.target.name]: evt.target.value
-      }
+      ...prevState,
+      [evt.target.name]: evt.target.value
     })
   }
   handleSubmit = async (evt) => {
@@ -51,75 +61,67 @@ export class ProductForm extends React.Component {
     })
   }
   render() {
-    if (this.state.redirect) {
-      return <Redirect to={`/products/${this.props.selectedProduct.id}`} />
-    }
     return (
-      <div>
-        <h2>{this.props.displayName} Product Form</h2>
-        <form onSubmit={this.handleSubmit} name={this.props.name} onChange={this.handleChange}>
+      <Wrapper>
+        <h2>Check Out</h2>
+        <Form onSubmit={this.handleSubmit} name={this.props.name} onChange={this.handleChange} >
           <div>
-            <label htmlFor="title"><small>Product Title</small></label>
-            <input name="title" type="text" value={this.state.selectedProduct.title} />
+            <label htmlFor="name"><small>Full Name</small>
+              <input name="name" type="text" value={this.state.name} />
+            </label>
           </div>
           <div>
-            <label htmlFor="description"><small>Description</small></label>
-            <textarea name="description" value={this.state.selectedProduct.description} />
+            <label htmlFor="email"><small>Email</small>
+              <input name="email" type="text" value={this.state.email} />
+            </label>
           </div>
           <div>
-            <label htmlFor="price"><small>Product Price</small></label>
-            <input name="price" type="text" value={this.state.selectedProduct.price} />
+            <label htmlFor="address"><small>Address</small>
+              <input name="address" type="text" value={this.state.shipping.address} />
+            </label>
           </div>
           <div>
-            <label htmlFor="quantity"><small>Inventory Qty</small></label>
-            <input name="quantity" type="number" value={this.state.selectedProduct.quantity} />
+            <label htmlFor="city"><small>City</small>
+              <input name="city" type="number" value={this.state.shipping.city} />
+            </label>
           </div>
           <div>
-            <label htmlFor="imageUrl"><small>Image URL</small></label>
-            <input name="imageUrl" type="text" value={this.state.selectedProduct.imageUrl || ''} />
+            <label htmlFor="state"><small>State</small>
+              <input name="state" type="text" value={this.state.shipping.state || ''} />
+            </label>
           </div>
           <div>
-            <button type="submit">{this.props.displayName}</button>
+            <label htmlFor="zip"><small>State</small>
+              <input name="zip" type="text" value={this.state.shipping.zip || ''} />
+            </label>
           </div>
-        </form>
-      </div>
+          <div>
+            <button type="submit">Checkout</button>
+          </div>
+        </Form>
+      </Wrapper>
     )
   }
 }
 
 
-const mapAddProduct = (store) => {
+const mapStateToProps = (store) => {
   return {
-    name: 'addProduct',
-    displayName: 'Add',
-    selectedProduct: store.product.selectedProduct
+    user: store.user,
+    cartTotal: store.cart.cartTotal,
+    order: store.order
   }
 }
 
-const mapEditProduct = (store) => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    name: 'editProduct',
-    displayName: 'Edit',
-    selectedProduct: store.product.selectedProduct
-  }
-}
-
-const mapDispatch = (dispatch) => {
-  return {
-    getInitialProduct: (productId) => {
-      return dispatch(getInitialProductThunk(productId))
+    checkout: () => {
+      return dispatch(checkoutThunk())
     },
-    addProduct: (product) => {
-      return dispatch(addProductThunk(product))
-    },
-    editProduct: (product) => {
-      return dispatch(editProductThunk(product))
-    }
   }
 }
 
-export const AddProduct = connect(mapAddProduct, mapDispatch)(ProductForm)
-export const EditProduct = connect(mapEditProduct, mapDispatch)(ProductForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CheckoutForm)
 
 /**
  * PROP TYPES

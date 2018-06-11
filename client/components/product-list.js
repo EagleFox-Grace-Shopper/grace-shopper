@@ -39,7 +39,6 @@ class ProductList extends Component {
   render() {
 
     const productList = this.props.productList
-    console.log('productlist:', productList)
     return (
       <Wrapper>
         <h2>All Products</h2>

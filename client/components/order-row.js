@@ -1,10 +1,14 @@
 import React from 'react'
 
-export default function OrderRow(){
+export default function OrderRow(props){
+  console.log(props)
+  const order = props.order
   return (
-    <h3>Title</h3>
-    <h3>Price</h3>
-    <h3>Quantity</h3>
+    <div>
+      <h3>{order.id}</h3>
+      <h3>Total Amount: {order.totalAmount}</h3>
+      <h3>Quantity</h3>
+    </div>
   )
 }
 

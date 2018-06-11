@@ -13,7 +13,8 @@ const SET_CART = 'SET_CART'
  */
 const initialState = {
   cart: [],
-  cartTotal: 0
+  cartTotal: 0,
+  cartSize: 0
 }
 
 /**
@@ -71,7 +72,9 @@ export const checkoutThunk = () => {
 export default function (state = initialState, action) {
   switch (action.type) {
   case SET_CART:
+    let cartSize = 0
     const calcTotal = state.cart.reduce((total, item) => {
+      cartSize += item.quantity
       total += item.quantity * item.product.price
       return total
     }, 0)
@@ -79,7 +82,8 @@ export default function (state = initialState, action) {
     return {
       ...state,
       cart: action.cart,
-      cartTotal
+      cartTotal,
+      cartSize
     }
   default:
     return state

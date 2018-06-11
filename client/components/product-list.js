@@ -24,7 +24,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getProductListThunk: dispatch(getInitialProductListThunk())
+    getProductListThunk: () => dispatch(getInitialProductListThunk())
   }
 }
 
@@ -32,7 +32,6 @@ class ProductList extends Component {
 
   async componentDidMount() {
     if (this.props.productList.length === 0) {
-      console.log('didmount, productList length is 0')
       await this.props.getProductListThunk()
     }
   }
@@ -40,7 +39,6 @@ class ProductList extends Component {
   render() {
 
     const productList = this.props.productList
-    console.log('productlist:', this.props)
     return (
       <Wrapper>
         <h2>All Products</h2>

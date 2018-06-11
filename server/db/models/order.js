@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Orders = db.define('orders', {
+const Order = db.define('order', {
   totalAmount: {
     type: Sequelize.DECIMAL,
     allowNull: false
   },
-  orderEmail: {
+  email: {
     type: Sequelize.STRING
   },
   tokenId: {
@@ -55,5 +55,5 @@ const Orders = db.define('orders', {
   },
 })
 
-module.exports = Orders
+module.exports = Order
 

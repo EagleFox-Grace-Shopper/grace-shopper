@@ -1,7 +1,7 @@
 'use strict'
 
 const db = require('../server/db')
-const { User, Product, Category, CartItem} = require('../server/db/models')
+const { User, Product, Category, CartItem, Order, OrderLine } = require('../server/db/models')
 
 
 async function seed () {
@@ -123,8 +123,23 @@ async function seed () {
     { userId: 2, productId: crocksocks.id, quantity: 2},
   ]
 
-
   await CartItem.bulkCreate(cartItemsData)
+
+  await Promise.all([
+    Order.create({ totalAmount: 19.99, email: 'chan@email.com', userId: 1}),
+    Order.create({ totalAmount: 29.99, email: 'chan@email.com', userId: 1}),
+    Order.create({ totalAmount: 39.99, email: 'chan@email.com', userId: 1}),
+    Order.create({ totalAmount: 49.99, email: 'chan@email.com', userId: 1}),
+    Order.create({ totalAmount: 200, email: 'andrew@email.com'}),
+    Order.create({ totalAmount: 300, email: 'homum@email.com'}),
+    Order.create({ totalAmount: 400, email: 'justin@email.com'}),
+    Order.create({ totalAmount: 500, email: 'cody@email.com'}),
+  ])
+
+  await Promise.all([
+    OrderLine.create({ productId: 1, title: 'Crocs with socks', description: 'Roomba for your grill', price: 19.99, imageUrl: 'https://i.redd.it/nyjqg5zjas111.png', qtyPurchased: 1, orderId: 1}),
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 49.99, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1})
+  ])
 
   console.log(`seeded ${users.length} users`)
   // console.log(`seeded ${products.length} products and ${categories.length} categories`)

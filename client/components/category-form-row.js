@@ -1,7 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import category from '../store/category'
-import $ from 'jquery'
+
 
 export default function CategoryFormRow(props) {
   const cat = props.cat
@@ -9,17 +8,32 @@ export default function CategoryFormRow(props) {
     <tr>
       <td />
       <td>
-        <input disabled type="text" value={cat.name} />
+        <input disabled="true" type="text" placeholder={cat.name} id={cat.id} onChange={(event) => props.onCatEdit({id: cat.id, name: event.target.value})} />
       </td>
       <td>
         <a
-          href="#" onClick={(event) => {
+          href="#"
+          onClick={event => {
             event.preventDefault()
-            console.log('previous', $(this))
-          }}>Edit
+            document.getElementById(cat.id).disabled = false
+            document.getElementById(cat.id).focus()
+          }}
+        >
+          Edit
         </a>
       </td>
-      <td>Remove</td>
+      <td>
+        <a
+          href="#"
+          onClick={
+            event => {
+              event.preventDefault()
+              console.log('passing', cat.id)
+              props.removeCategory(cat.id)
+            }}
+        >Remove
+        </a>
+      </td>
     </tr>
   )
 }

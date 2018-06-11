@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import {getCategoriesThunk, editCategoryThunk } from '../store'
+import {getCategoriesThunk, editCategoriesThunk } from '../store'
 
 export class CategoryList extends Component {
 

@@ -112,7 +112,7 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
               Search
             </button>
           </form>
-          <Link to="/catform"><NavItem>Catform</NavItem></Link>
+          <Link to="/categories/catform"><NavItem>Catform</NavItem></Link>
         </NavLeft>
         <NavRight>
           <CartIcon />

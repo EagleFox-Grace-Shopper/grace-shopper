@@ -65,6 +65,13 @@ export const checkoutThunk = () => {
     dispatch(setOrder(orderInfo))
   }
 }
+export const loginMergeCartThunk = () => {
+  return async (dispatch) => {
+    const res = await axios.put('/api/cart/merge')
+    const newCart = res.data
+    dispatch(setCart(newCart))
+  }
+}
 
 /**
  * REDUCER

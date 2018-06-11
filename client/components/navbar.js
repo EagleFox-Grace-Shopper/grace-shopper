@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
-import { getProductsByCatThunk, getProductsBySearchThunk} from '../store/product'
+import { getProductsByCatThunk, getProductsBySearchThunk } from '../store/product'
 import { CartIcon } from './index'
 import styled from 'styled-components'
 

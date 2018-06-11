@@ -1,8 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { CartItemRow } from './index'
-import { Link } from 'react-router-dom'
-import { getInitialCartThunk, setCartThunk, removeCartItemThunk, updateCartTotal } from '../store/cart'
+import { getInitialCartThunk, setCartThunk, removeCartItemThunk } from '../store/cart'
 import styled from 'styled-components'
 
 const Wrapper = styled.div`
@@ -37,8 +36,7 @@ const ThPrice = styled.th`
 const ThForm = styled.th`
   width: 10em;
 `
-const CartItem = styled.div`
-  width: 100%;
+const CartItem = styled.td`
   text-align: center;
 `
 const Header = styled.div`
@@ -51,14 +49,10 @@ const Checkout = styled.button`
 `
 
 const Cart = (props) => {
-  props.updateCartTotalCost()
   return (
     <Wrapper>
       <Header>
         <h2>Cart</h2>
-        <Checkout type="button">
-          Checkout
-        </Checkout>
       </Header>
       <CartList>
         <tbody>
@@ -80,21 +74,23 @@ const Cart = (props) => {
             </ThForm>
           </tr>
           {!props.cart.length ?
-            <CartItem>
-              There are no items in your cart!
-            </CartItem>
+            <tr>
+              <CartItem colSpan="5" >
+                There are no items in your cart!
+              </CartItem>
+            </tr>
             : props.cart.map(cartItem => {
               return (
-                <CartItemRow key={cartItem.id} cartItem={cartItem} handleClick={props.setCart} />
+                <CartItemRow key={cartItem.id} cartItem={cartItem} handleClick={props.setCart} removeFromCart={props.removeCartItem} />
               )
             })}
           <tr style={{ height: '2em' }}>
             <td />
             <td />
-            <td style={{ 'text-align': 'right', 'font-weight': 'bold' }}>
+            <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
               Total Cost:
             </td>
-            <td style={{ 'font-weight': 'bold' }}>
+            <td style={{ fontWeight: 'bold' }}>
               ${props.cartTotal}
             </td>
             <td>
@@ -124,12 +120,9 @@ const mapDispatchToProps = (dispatch) => {
     setCart(item) {
       return dispatch(setCartThunk(item))
     },
-    removeCartItem(itemId) {
-      return dispatch(removeCartItemThunk(itemId))
+    removeCartItem(productId) {
+      return dispatch(removeCartItemThunk(productId))
     },
-    updateCartTotalCost() {
-      return dispatch(updateCartTotal())
-    }
   }
 }
 

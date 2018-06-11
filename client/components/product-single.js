@@ -9,23 +9,38 @@ class SingleProduct extends Component {
     super(props)
     this.state = {
       selectedProduct: this.props.selectedProduct,
+      cartItem: {
+        productId: this.props.selectedProduct.id,
+        quantity: 1
+      },
     }
   }
   async componentDidMount() {
     const urlId = Number(this.props.match.params.id)
     await this.props.getInitialProduct(urlId)
-    this.setState({ selectedProduct: this.props.selectedProduct })
+    this.setState({
+      selectedProduct: this.props.selectedProduct,
+      cartItem: {
+        productId: this.props.selectedProduct.id,
+        quantity: 1
+      }
+    })
   }
-
+  handleClick = (evt) => {
+    this.setState({
+      cartItem: {
+        ...this.state.cartItem,
+        quantity: evt.target.value
+      }
+    })
+  }
   render() {
     const productId = Number(this.props.match.params.id)
-
     const title = this.state.selectedProduct.title
     const description = this.state.selectedProduct.description
     const price = this.state.selectedProduct.price
     const quantity = this.state.selectedProduct.quantity
     const imageUrl = this.state.selectedProduct.imageUrl
-
     return (
       <div>
         <h1>
@@ -42,7 +57,18 @@ class SingleProduct extends Component {
           {quantity} available in store
         </p>
         <img src={imageUrl} />
-        <ButtonAddToCart itemId={productId} />
+        <form>
+          <label name="quantity">Qty:
+            <input
+              type="number"
+              name="quantity"
+              min="1"
+              defaultValue={this.state.cartItem.quantity}
+              onClick={this.handleClick}
+            />
+          </label>
+          <ButtonAddToCart redirect={true} cartItem={this.state.cartItem} />
+        </form>
         {this.props.isAdmin &&
           <Link to={`/products/${productId}/edit`}>
             <button type="button">Edit Product</button>

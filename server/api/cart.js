@@ -192,8 +192,6 @@ router.put('/merge', async (req, res, next) => {
   if (!req.user) {
     throw new Error('user must be logged in to add item to cart')
   }
-  console.log('req.session.cart in login phase is: ', req.session.cart)
-
   req.session.cart.map(async (cartItem) => {
     //get the cartItemData, to get its id for use as the unique key
     const cartItemData = await CartItem.findOne({

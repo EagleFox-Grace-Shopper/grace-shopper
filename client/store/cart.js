@@ -22,7 +22,6 @@ const initialState = {
 const setCart = cart => ({ type: SET_CART, cart })
 export const updateCartTotal = () => ({ type: UPDATE_CART_TOTAL })
 const mergeCart = () => ({type: MERGE_CART})
-const clearCartSession = () => ({type: CLEAR_CART_SESSION})
 
 /**
  * THUNK CREATORS

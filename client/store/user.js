@@ -39,30 +39,30 @@ export const auth = (email, password, method) =>
         dispatch(getUser({error: authError}))
       })
       .then( _ =>
-        dispatch(loginMergeCartThunk())
+        axios.put('/api/cart/merge')
       )
+       // dispatch(loginMergeCartThunk()))
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
 export const logout = () =>
-  dispatch => {
+  dispatch =>
     axios.post('/auth/logout')
       .then(_ => {
         dispatch(removeUser())
         history.push('/login')
       })
       .catch(err => console.log(err))
-  }
 
 /**
  * REDUCER
  */
 export default function (state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
-      return action.user
-    case REMOVE_USER:
-      return defaultUser
-    default:
-      return state
+  case GET_USER:
+    return action.user
+  case REMOVE_USER:
+    return defaultUser
+  default:
+    return state
   }
 }

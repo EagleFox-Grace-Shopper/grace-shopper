@@ -56,9 +56,9 @@ export const removeCartItemThunk = (productId) => {
     dispatch(setCart(newCart))
   }
 }
-export const checkoutThunk = () => {
+export const checkoutThunk = (checkoutInfo) => {
   return async (dispatch) => {
-    const res = await axios.post('/api/cart/checkout')
+    const res = await axios.post('/api/cart/checkout', checkoutInfo)
     const newCart = res.data.cart
     const orderInfo = res.data.orderInfo
     dispatch(setCart(newCart))
@@ -86,7 +86,7 @@ export default function (state = initialState, action) {
       total += item.quantity * item.product.price
       return total
     }, 0)
-    const cartTotal = Math.round(calcTotal * 100) / 100
+    const cartTotal = Math.round(calcTotal * 100)
     return {
       ...state,
       cart: action.cart,

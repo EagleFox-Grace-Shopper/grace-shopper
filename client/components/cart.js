@@ -107,7 +107,7 @@ const Cart = (props) => {
 const mapStateToProps = (store) => {
   return {
     cart: store.cart.cart,
-    cartTotal: store.cart.cartTotal,
+    cartTotal: store.cart.cartTotal / 100,
     isAdmin: !!store.user.isAdmin,
   }
 }

@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const { CartItem, Product, Order, OrderLine } = require('../db/models')
+const configureStripe = require('stripe')
+const { STRIPE_SECRET_KEY } = require('../../secrets')
+const stripe = configureStripe(STRIPE_SECRET_KEY)
 
 //this sets up the cart if one does not exist.
 router.use((req, res, next) => {
@@ -11,7 +14,7 @@ router.use((req, res, next) => {
 })
 
 const getCart = async (id) => {
-//access the cart from the db
+  //access the cart from the db
   const cartItems = await CartItem.findAll({
     where: {
       userId: id,
@@ -48,7 +51,7 @@ example req.body is:
 */
 
 router.post('/', async (req, res, next) => {
-//check if product exists
+  //check if product exists
   const productData = await Product.findById(req.body.productId)
   if (!productData) {
     throw new Error('product of specified id does not exist')
@@ -56,7 +59,7 @@ router.post('/', async (req, res, next) => {
 
   //if not a user
   if (!req.user) {
-  //create a cartItemObject
+    //create a cartItemObject
     const cartItemObject = {
       productId: req.body.productId,
       quantity: req.body.quantity,
@@ -79,7 +82,7 @@ router.post('/', async (req, res, next) => {
 
   } else {
 
-  //get the cartItemData, to get its id for use as the unique key
+    //get the cartItemData, to get its id for use as the unique key
     const cartItemData = await CartItem.findOne({
       where: {
         userId: req.user.id,
@@ -120,7 +123,7 @@ example req.body is:
 */
 
 router.post('/add', async (req, res, next) => {
-//check if product exists
+  //check if product exists
   const productData = await Product.findById(req.body.productId)
   if (!productData) {
     throw new Error('product of specified id does not exist')
@@ -129,18 +132,18 @@ router.post('/add', async (req, res, next) => {
   //if not a user
   if (!req.user) {
 
-  //find index of the cart in our session
+    //find index of the cart in our session
     const itemIdx = req.session.cart.findIndex((item) => {
       return item.productId === req.body.productId
     })
 
     //update or create cartItemObject in our session array
     if (itemIdx !== -1) {
-    //if the instance of the product exists:
+      //if the instance of the product exists:
       //adds the quantity to the existing quantity
       req.session.cart[itemIdx].quantity += req.body.quantity
     } else {
-    //push the new cart object into the session
+      //push the new cart object into the session
       req.session.cart.push({
         productId: req.body.productId,
         quantity: req.body.quantity,
@@ -148,7 +151,7 @@ router.post('/add', async (req, res, next) => {
       })
     }
   } else {
-  //if this is a user
+    //if this is a user
 
     //get the cartItemData, to get its id for use as the unique key
     const cartItemData = await CartItem.findOne({
@@ -180,7 +183,7 @@ router.post('/add', async (req, res, next) => {
     const cartItems = await getCart(req.user.id)
     req.session.cart = cartItems
   }
-    res.status(201).json(req.session.cart)
+  res.status(201).json(req.session.cart)
 })
 
 /*
@@ -189,7 +192,7 @@ adds all the items in the 'session cart' to the 'database cart'
 when logging in
 */
 router.put('/merge', async (req, res, next) => {
-//make sure the user is logged in before migrating
+  //make sure the user is logged in before migrating
   if (!req.user) {
     throw new Error('user must be logged in to merge item to cart')
   }
@@ -225,7 +228,7 @@ router.put('/merge', async (req, res, next) => {
     )
   }))
 
-  
+
   req.session.cart = await getCart(req.user.id)
   res.status(201).json(req.session.cart)
 })
@@ -272,24 +275,43 @@ router.delete('/:productId', async (req, res, next) => {
   res.status(201).json(curCart)
 })
 
-router.post('/cart/checkout', async (req, res, next) => {
+const buildOrder = async (req) => {
+  const orderInfo = req.body.checkoutInfo
   const userId = req.user ? req.user.id : null
-  const orderEmail = req.user ? req.user.email : req.body.email
-  const totalAmount = req.body.cart.reduce((total, item) => {
-    total += item.price * item.quantity
-  })
-  const orderCart = req.body.cart.map(async (item) => {
-    const product = await Product.findById(item.productId)
+  const orderEmail = req.user ? req.user.email : orderInfo.email
+  const totalAmount = orderInfo.stripe.amount
+  const tokenId = orderInfo.stripe.source
+
+  const orderCart = await Promise.all(req.session.cart.map(async (item) => {
+    const product = Product.findById(item.productId)
     return product.dataValues
-  })
-  const orderInfo = await Order.create({
+  }))
+  const shipping = {
+    name: orderInfo.name,
+    shippingAddress: orderInfo.shipAddress,
+    shippingCity: orderInfo.shipCity,
+    shippingState: orderInfo.shipState,
+    shippingZip: orderInfo.shipZip,
+  }
+  const billing = {
+    billingName: orderInfo.billName,
+    billingAddress: orderInfo.billAddress,
+    billingCity: orderInfo.billCity,
+    billingState: orderInfo.billState,
+    billingZip: orderInfo.billZip,
+  }
+
+  const orderRes = await Order.create({
     userId,
     orderEmail,
     totalAmount,
+    tokenId,
+    ...shipping,
+    ...billing,
   })
   await OrderLine.bulkCreate(orderCart.map(item => {
     return {
-      orderId: orderInfo.dataValues.id,
+      orderId: orderRes.dataValues.id,
       productId: item.id,
       title: item.title,
       description: item.description,
@@ -298,11 +320,17 @@ router.post('/cart/checkout', async (req, res, next) => {
       quantity: item.quantity,
     }
   }))
+  return orderRes.dataValues
+}
+
+router.post('/checkout', async (req, res, next) => {
+  const chargeOutput = stripe.charges.create(req.body.checkoutInfo.stripe)
+  const order = buildOrder(req, chargeOutput)
   req.body.cart.forEach(item => {
     clearCartItem(req, item.id)
   })
   const cart = await getCart()
-  res.setStatus(201).json({ cart, orderInfo })
+  res.setStatus(201).json({ cart, order })
 })
 
 module.exports = router

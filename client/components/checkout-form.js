@@ -1,17 +1,87 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { checkoutThunk } from '../store'
+import { checkoutThunk, setOrder } from '../store'
 import styled from 'styled-components'
-import stripeCheckout from 'react-stripe-checkout'
+import StripeCheckout from 'react-stripe-checkout'
+import axios from 'axios'
+import { STRIPE_PUBLISHABLE_KEY } from '../../secrets'
 
 const Wrapper = styled.div`
   position: relative;
+  width: 80%;
+  max-width: 30em;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+`
+const Header = styled.h2`
+  text-align: center;
 `
 const Form = styled.form`
   display: flex;
   flex-direction: column;
 `
+const LabelFull = styled.label`
+  padding: 5px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+`
+const LabelLeft = styled.label`
+  padding: 5px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+`
+const LabelSmall = styled.small`
+  width: 6em;
+  text-align: right;
+  padding-right: .5em;
+`
+const InputFull = styled.input`
+  width: 100%;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+`
+const InnerHeader = styled.div`
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 0;
+`
+const CartInfo = styled.div`
+  border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  margin: 5px;
+`
+
+const FieldSet = styled.fieldset`
+  display: flex;
+  flex-direction: column;
+  border: none;
+`
+const AddressField = (props) => {
+  return (
+    <FieldSet onChange={props.handleChange}>
+      <LabelFull htmlFor={`${props.name}Address`}><LabelSmall>Address: </LabelSmall>
+        <InputFull name={`${props.name}Address`} type="text" value={props.state.sAddress} />
+      </LabelFull>
+      <LabelFull htmlFor={`${props.name}City`}> <LabelSmall>City: </LabelSmall>
+        <InputFull name={`${props.name}City`} type="text" value={props.state.sCity} />
+      </LabelFull >
+      <LabelFull htmlFor={`${props.name}State`}> <LabelSmall>State: </LabelSmall>
+        <InputFull name={`${props.name}State`} type="text" value={props.state.sState} />
+      </LabelFull >
+      <LabelFull htmlFor={`${props.name}Zip`}> <LabelSmall>Zip Code: </LabelSmall>
+        <InputFull name={`${props.name}Zip`} type="text" value={props.state.sZip} />
+      </LabelFull >
+    </FieldSet >
+  )
+}
 
 /**
  * COMPONENT
@@ -22,82 +92,113 @@ export class CheckoutForm extends React.Component {
     this.state = {
       name: '',
       email: '',
-      shipping: {
-        address: '',
-        city: '',
-        state: '',
-        zip: 10000,
-      },
-      billing: {
-        firstName: '',
-        lastName: '',
-        address: '',
-        city: '',
-        state: '',
-        zip: 10000,
-      }
+      shipAddress: '',
+      shipCity: '',
+      shipState: '',
+      shipZip: 10000,
+      billName: '',
+      billAddress: '',
+      billCity: '',
+      billState: '',
+      billZip: 10000,
+      shipBillSame: false,
+      redirect: false,
     }
   }
   async componentDidMount() {
   }
   handleChange = (evt) => {
     const prevState = { ...this.state }
-    this.setState({
-      ...prevState,
-      [evt.target.name]: evt.target.value
-    })
+    if (evt.target.name === 'shipBillSame') {
+      this.setState({ shipBillSame: !prevState.shipBillSame })
+    } else {
+      this.setState({
+        ...prevState,
+        [evt.target.name]: evt.target.value
+      })
+    }
   }
   handleSubmit = async (evt) => {
     evt.preventDefault()
-    const formName = evt.target.name
-    if (formName === 'addProduct') {
-      await this.props.addProduct(this.state.selectedProduct)
-    } else {
-      await this.props.editProduct(this.state.selectedProduct)
+    const checkoutProps = { ...this.state }
+    if (checkoutProps.shipBillSame) {
+      checkoutProps.billAddress = this.state.shipAddress
+      checkoutProps.billCity = this.state.shipCity
+      checkoutProps.billState = this.state.shipState
+      checkoutProps.billZip = this.state.shipZip
     }
-    await this.setState({
-      selectedProduct: this.props.selectedProduct,
-      redirect: true
-    })
+  }
+  onToken = async (amount, currency, description) => token => {
+    const checkoutProps = {
+      ...this.state,
+      stripe: {
+        description,
+        source: token.id,
+        currency,
+        amount
+      }
+    }
+    if (checkoutProps.shipBillSame) {
+      checkoutProps.billAddress = this.state.shipAddress
+      checkoutProps.billCity = this.state.shipCity
+      checkoutProps.billState = this.state.shipState
+      checkoutProps.billZip = this.state.shipZip
+    }
+    this.props.checkout(checkoutProps)
+    // this.setState({redirect: true})
   }
   render() {
     return (
       <Wrapper>
-        <h2>Check Out</h2>
-        <Form onSubmit={this.handleSubmit} name={this.props.name} onChange={this.handleChange} >
-          <div>
-            <label htmlFor="name"><small>Full Name</small>
-              <input name="name" type="text" value={this.state.name} />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="email"><small>Email</small>
-              <input name="email" type="text" value={this.state.email} />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="address"><small>Address</small>
-              <input name="address" type="text" value={this.state.shipping.address} />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="city"><small>City</small>
-              <input name="city" type="number" value={this.state.shipping.city} />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="state"><small>State</small>
-              <input name="state" type="text" value={this.state.shipping.state || ''} />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="zip"><small>State</small>
-              <input name="zip" type="text" value={this.state.shipping.zip || ''} />
-            </label>
-          </div>
-          <div>
-            <button type="submit">Checkout</button>
-          </div>
+        <Header>Check Out</Header>
+        <Form onSubmit={this.handleSubmit} name="checkout-form" onChange={this.handleChange} >
+          <LabelFull htmlFor="name">
+            <LabelSmall>Full Name: </LabelSmall>
+            <InputFull name="name" type="text" value={this.state.name} />
+          </LabelFull>
+          <LabelFull htmlFor="email"><LabelSmall>Email: </LabelSmall>
+            <InputFull name="email" type="text" value={this.state.email} />
+          </LabelFull>
+          <InnerHeader>Shipping Address</InnerHeader>
+          <AddressField onChange={this.handleChange} name="ship" state={this.state} />
+          <LabelLeft htmlFor="shipBillSame">
+            <LabelSmall />
+            <input id="shipBillSame" name="shipBillSame" type="checkbox" />
+            <small>Billing address same as shipping address?</small>
+          </LabelLeft>
+          {!this.state.shipBillSame &&
+            <React.Fragment>
+              <InnerHeader>Billing Address</InnerHeader>
+              <AddressField onChange={this.handleChange} name="bill" state={this.state} />
+            </React.Fragment>
+          }
+          <CartInfo>
+            <h3>Total Cost: </h3>
+            <h3>{this.props.cartTotal / 100}</h3>
+          </CartInfo>
+          <StripeCheckout
+            name="EagleFox Shopper"
+            description=""
+            image="/favicon.ico" // the pop-in header image (default none)
+            ComponentClass="div"
+            panelLabel=""
+            amount={this.props.cartTotal} // cents
+            currency="USD"
+            stripeKey={STRIPE_PUBLISHABLE_KEY}
+            // locale="us"
+            email={this.state.email}
+            shippingAddress={false}
+            billingAddress={false}
+            // Note: enabling both zipCode checks and billing or shipping address will
+            // cause zipCheck to be pulled from billing address (set to shipping if none provided).
+            zipCode={false}
+            // alipay // accept Alipay (default false)
+            // bitcoin // accept Bitcoins (default false)
+            allowRememberMe // "Remember Me" option (default true)
+            token={this.onToken} // submit callback
+          // opened={this.onOpened} // called when the checkout popin is opened (no IE6/7)
+          // closed={this.onClosed} // called when the checkout popin is closed (no IE6/7)
+          />
         </Form>
       </Wrapper>
     )
@@ -115,9 +216,12 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    checkout: () => {
-      return dispatch(checkoutThunk())
+    checkout: (checkoutData) => {
+      return dispatch(checkoutThunk(checkoutData))
     },
+    setOrder: (orderData) => {
+      return dispatch(setOrder(orderData))
+    }
   }
 }
 

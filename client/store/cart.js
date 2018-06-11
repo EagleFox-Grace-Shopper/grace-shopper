@@ -7,7 +7,7 @@ import { setOrder } from '.'
  */
 const UPDATE_CART_TOTAL = 'UPDATE_CART_TOTAL'
 const SET_CART = 'SET_CART'
-const MERGE_CART = 'MERGE_CART'
+
 /**
  * INITIAL STATE
  */
@@ -23,7 +23,6 @@ const setCart = cart => ({ type: SET_CART, cart })
 export const updateCartTotal = () => {
   return { type: UPDATE_CART_TOTAL }
 }
-const mergeCart = () => ({type: MERGE_CART})
 
 /**
  * THUNK CREATORS
@@ -68,7 +67,6 @@ export const checkoutThunk = () => {
 export const loginMergeCartThunk = () => {
   return async (dispatch) => {
     const res = await axios.put('/api/cart/merge')
-    console.log('===========', res.data)
     const newCart = res.data
     dispatch(setCart(newCart))
   }

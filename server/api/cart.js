@@ -147,9 +147,6 @@ router.post('/add', async (req, res, next) => {
         product: productData,
       })
     }
-
-    res.status(201).json(req.session.cart)
-
   } else {
   //if this is a user
 
@@ -182,8 +179,8 @@ router.post('/add', async (req, res, next) => {
 
     const cartItems = await getCart(req.user.id)
     req.session.cart = cartItems
-    res.status(201).json(cartItems)
   }
+    res.status(201).json(req.session.cart)
 })
 
 /*
@@ -194,7 +191,7 @@ when logging in
 router.put('/merge', async (req, res, next) => {
 //make sure the user is logged in before migrating
   if (!req.user) {
-    throw new Error('user must be logged in to add item to cart')
+    throw new Error('user must be logged in to merge item to cart')
   }
 
   await Promise.all(req.session.cart.map(async (cartItem) => {

@@ -40,7 +40,6 @@ export const auth = (email, password, method) =>
         dispatch(getUser({error: authError}))
       })
       .then( _ => {
-        console.log('in test login merge')
         dispatch(loginMergeCartThunk())
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))

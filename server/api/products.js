@@ -36,7 +36,7 @@ router.get('/categories', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    const productById = await Product.findById(req.params.id)
+    const productById = await Product.findById(req.params.id, {include: [{model: Category}]})
     res.json(productById)
   } catch (error) {
     next(error)

@@ -65,7 +65,7 @@ export default function CartRow(props) {
                 quantity: evt.target.value
               })} />
           </form>
-          <button type="button">Remove</button>
+          <button type="button" onClick={() => props.removeFromCart(props.cartItem.product.id)} >Remove</button>
         </CartRowForm>
       </TdForm>
     </TableRow>

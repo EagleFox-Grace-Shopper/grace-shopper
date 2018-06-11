@@ -1,5 +1,6 @@
 import axios from 'axios'
 import history from '../history'
+import {loginMergeCartThunk, getInitialCartThunk} from './index'
 
 /**
  * ACTION TYPES
@@ -33,9 +34,13 @@ export const auth = (email, password, method) =>
     axios.post(`/auth/${method}`, { email, password })
       .then(res => {
         dispatch(getUser(res.data))
+        return dispatch(getInitialCartThunk())
         history.push('/home')
       }, authError => { // rare example: a good use case for parallel (non-catch) error handler
         dispatch(getUser({error: authError}))
+      })
+      .then( _ => {
+        dispatch(loginMergeCartThunk())
       })
       .catch(dispatchOrHistoryErr => console.error(dispatchOrHistoryErr))
 
@@ -53,11 +58,11 @@ export const logout = () =>
  */
 export default function (state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER:
-      return action.user
-    case REMOVE_USER:
-      return defaultUser
-    default:
-      return state
+  case GET_USER:
+    return action.user
+  case REMOVE_USER:
+    return defaultUser
+  default:
+    return state
   }
 }

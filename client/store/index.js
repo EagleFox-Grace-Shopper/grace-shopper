@@ -19,4 +19,8 @@ export default store
 export * from './user'
 export * from './product'
 export * from './category'
+<<<<<<< HEAD
 export * from './order'
+=======
+export * from './cart'
+>>>>>>> 81f96ed49a0e4af7723d7fe8cd1571c7a8b76d74

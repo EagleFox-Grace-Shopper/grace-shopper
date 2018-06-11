@@ -98,7 +98,7 @@ describe('Cart Redux', () => {
     })
 
     it('removeCartItemThunk', async () => {
-      mockAxios.onDelete('api/cart', edit1.id).replyOnce(200, [])
+      mockAxios.onDelete(`api/cart/${edit1.id}`).replyOnce(200, [])
       await store.dispatch(removeCartItemThunk(edit1.id))
       const actions = store.getActions()
       expect(actions[0].type).to.equal('SET_CART')

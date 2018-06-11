@@ -10,9 +10,7 @@ router.get('/', async (req, res, next) => {
       include: [{
         model: OrderLine,
       }]
-    }
-    )
-    console.log('allOrders', allOrders)
+    })
     res.json(allOrders)
   } catch (error) {
     next(error)

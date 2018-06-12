@@ -2,8 +2,7 @@ import axios from 'axios'
 
 
 const defaultState = {
-  users: [],
-  selecteduser: {}
+  users: []
 }
 
 
@@ -76,7 +75,6 @@ export const addUserThunk = user => {
 export const editUserThunk = user => {
   return async dispatch => {
     const {data} = await axios.put(`/api/admin/users/${user.id}/edit`, user)
-    console.log('data in thunk', data)
     dispatch(editUser(data))
   }
 }

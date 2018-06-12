@@ -15,7 +15,6 @@ router.get('/:id/edit', async (req, res, next) => {
 })
 
 router.put('/:id/edit', async (req, res, next) => {
-  console.log('req body', req.body)
   const entry = await User.update({
     name: req.body.name,
     email: req.body.email,
@@ -27,7 +26,6 @@ router.put('/:id/edit', async (req, res, next) => {
   })
 
   const editedUser = entry[1][0].dataValues
-  console.log('editedUser', editedUser)
   res.status(201).json(editedUser)
 })
 

@@ -47,10 +47,10 @@ export default function CartRow(props) {
         </Link>
       </TdTitle>
       <TdPrice>
-        ${product.price}
+        ${(product.price / 100).toFixed(2)}
       </TdPrice>
       <TdPrice>
-        ${product.price * props.cartItem.quantity}
+        ${(product.price * props.cartItem.quantity / 100).toFixed(2)}
       </TdPrice>
       <TdForm>
         <CartRowForm>

@@ -281,7 +281,6 @@ const buildOrder = async (req) => {
   const orderEmail = orderInfo.email
   const totalAmount = orderInfo.stripe.amount
   const tokenId = orderInfo.stripe.source
-  console.log('session cart', req.session.cart)
   const shipping = {
     name: orderInfo.name,
     shippingAddress: orderInfo.shipAddress,

@@ -104,7 +104,6 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
               value="Search"
               onClick={(event) => {
                 event.preventDefault()
-                console.log('search term', document.getElementById('search').value)
                 window.location = `/products?search=${document.getElementById('search').value}`
                 searchProducts(document.getElementById('search').value)
               }}

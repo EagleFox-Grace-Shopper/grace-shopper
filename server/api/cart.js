@@ -2,8 +2,13 @@ const express = require('express')
 const router = express.Router()
 const { CartItem, Product, Order, OrderLine } = require('../db/models')
 const configureStripe = require('stripe')
-const { STRIPE_SECRET_KEY } = require('../../secrets')
+const { STRIPE_SECRET_KEY, MAILER_AUTH } = require('../../secrets')
 const stripe = configureStripe(STRIPE_SECRET_KEY)
+const nodemailer = require('nodemailer')
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: MAILER_AUTH
+})
 
 //this sets up the cart if one does not exist.
 router.use((req, res, next) => {
@@ -318,6 +323,19 @@ const buildOrder = async (req) => {
   return orderRes.dataValues
 }
 
+const sendConfirmationEmail = (email, orderId) => {
+  const mailOptions = {
+    from: 'eaglefoxshopper@gmail.com',
+    to: email,
+    subject: `EagleFox Shopper Order Complete - ${orderId}`,
+    html: '<p>Order complete</p>'
+  }
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) { console.log(err) }
+    else { console.log(info) }
+  })
+}
+
 router.post('/checkout', async (req, res, next) => {
   const chargeOutput = await stripe.charges.create(req.body.stripe)
   const order = await buildOrder(req, chargeOutput)
@@ -325,6 +343,7 @@ router.post('/checkout', async (req, res, next) => {
     clearCartItem(req, item.productId)
   })
   const cart = await getCart()
+  sendConfirmationEmail(req.body.email, order.id)
   res.status(201).json({ cart, order })
 })
 

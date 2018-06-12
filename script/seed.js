@@ -244,6 +244,10 @@ async function seed() {
 
   await Promise.all([
     OrderLine.create({ productId: 1, title: 'Crocs with socks', description: 'Roomba for your grill', price: 1999, imageUrl: 'https://i.redd.it/nyjqg5zjas111.png', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 }),
     OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 })
   ])
 

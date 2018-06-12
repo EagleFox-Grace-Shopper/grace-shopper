@@ -53,6 +53,10 @@ const Order = db.define('order', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  status: {
+    type: Sequelize.ENUM('processing', 'shipped', 'complete'),
+    defaultValue: 'processing'
+  }
 })
 
 module.exports = Order

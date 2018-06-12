@@ -13,7 +13,8 @@ const SET_CART = 'SET_CART'
  */
 const initialState = {
   cart: [],
-  cartTotal: 0
+  cartTotal: 0,
+  cartSize: 0
 }
 
 /**
@@ -55,13 +56,14 @@ export const removeCartItemThunk = (productId) => {
     dispatch(setCart(newCart))
   }
 }
-export const checkoutThunk = () => {
+export const checkoutThunk = (checkoutInfo) => {
   return async (dispatch) => {
-    const res = await axios.post('/api/cart/checkout')
+    const res = await axios.post('/api/cart/checkout', checkoutInfo)
     const newCart = res.data.cart
     const orderInfo = res.data.orderInfo
     dispatch(setCart(newCart))
-    dispatch(setOrder(orderInfo))
+    await dispatch(setOrder(orderInfo))
+    history.push(`/order/${orderInfo.id}`)
   }
 }
 export const loginMergeCartThunk = () => {
@@ -78,15 +80,18 @@ export const loginMergeCartThunk = () => {
 export default function (state = initialState, action) {
   switch (action.type) {
   case SET_CART:
-    const calcTotal = state.cart.reduce((total, item) => {
+    let cartSize = 0
+    const calcTotal = action.cart.reduce((total, item) => {
+      cartSize += item.quantity
       total += item.quantity * item.product.price
       return total
     }, 0)
-    const cartTotal = Math.round(calcTotal * 100) / 100
+    const cartTotal = Math.round(calcTotal * 100)
     return {
       ...state,
       cart: action.cart,
-      cartTotal
+      cartTotal,
+      cartSize
     }
   default:
     return state

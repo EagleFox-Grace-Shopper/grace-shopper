@@ -60,10 +60,10 @@ export const checkoutThunk = (checkoutInfo) => {
   return async (dispatch) => {
     const res = await axios.post('/api/cart/checkout', checkoutInfo)
     const newCart = res.data.cart
-    const orderInfo = res.data.orderInfo
+    const orderInfo = res.data.order
     dispatch(setCart(newCart))
-    await dispatch(setOrder(orderInfo))
-    history.push(`/order/${orderInfo.id}`)
+    dispatch(setOrder(orderInfo))
+    return orderInfo.id
   }
 }
 export const loginMergeCartThunk = () => {

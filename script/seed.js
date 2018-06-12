@@ -4,7 +4,7 @@ const db = require('../server/db')
 const { User, Product, Category, CartItem, Order, OrderLine, Review} = require('../server/db/models')
 
 
-async function seed () {
+async function seed() {
   await db.sync({ force: true })
   console.log('db synced!')
 
@@ -117,10 +117,10 @@ async function seed () {
   await db.models.productCategory.bulkCreate(productCategoryData)
 
   const cartItemsData = [
-    { userId: 1, productId: crocksocks.id, quantity: 2},
-    { userId: 1, productId: grillba.id, quantity: 4},
-    { userId: 1, productId: licki.id, quantity: 5},
-    { userId: 2, productId: crocksocks.id, quantity: 2},
+    { userId: 1, productId: crocksocks.id, quantity: 2 },
+    { userId: 1, productId: grillba.id, quantity: 4 },
+    { userId: 1, productId: licki.id, quantity: 5 },
+    { userId: 2, productId: crocksocks.id, quantity: 2 },
   ]
 
   await CartItem.bulkCreate(cartItemsData)
@@ -137,19 +137,125 @@ async function seed () {
   await Review.bulkCreate(reviewsData)
 
   await Promise.all([
-    Order.create({ totalAmount: 19.99, email: 'chan@email.com', userId: 1}),
-    Order.create({ totalAmount: 29.99, email: 'chan@email.com', userId: 1}),
-    Order.create({ totalAmount: 39.99, email: 'chan@email.com', userId: 1}),
-    Order.create({ totalAmount: 49.99, email: 'chan@email.com', userId: 1}),
-    Order.create({ totalAmount: 200, email: 'andrew@email.com'}),
-    Order.create({ totalAmount: 300, email: 'homum@email.com'}),
-    Order.create({ totalAmount: 400, email: 'justin@email.com'}),
-    Order.create({ totalAmount: 500, email: 'cody@email.com'}),
+    Order.create({
+      totalAmount: 19.99,
+      email: 'chan@email.com',
+      userId: 1,
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
+    Order.create({
+      totalAmount: 29.99, email: 'chan@email.com', userId: 1,
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
+    Order.create({
+      totalAmount: 39.99, email: 'chan@email.com', userId: 1,
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
+    Order.create({
+      totalAmount: 49.99, email: 'chan@email.com', userId: 1,
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
+    Order.create({
+      totalAmount: 200, email: 'andrew@email.com',
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
+    Order.create({
+      totalAmount: 300, email: 'homum@email.com',
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
+    Order.create({
+      totalAmount: 400, email: 'justin@email.com',
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
+    Order.create({
+      totalAmount: 500, email: 'cody@email.com',
+      tokenId: 'tok_123',
+      name: 'chan',
+      shippingAddress: 'shippingAddress',
+      shippingCity: 'shippingCity',
+      shippingState: 'shippingState',
+      shippingZip: 12345,
+      billingName: 'chan',
+      billingAddress: 'billingAddress',
+      billingCity: 'billingCity',
+      billingState: 'billingState',
+      billingZip: 12345,
+    }),
   ])
 
   await Promise.all([
-    OrderLine.create({ productId: 1, title: 'Crocs with socks', description: 'Roomba for your grill', price: 19.99, imageUrl: 'https://i.redd.it/nyjqg5zjas111.png', qtyPurchased: 1, orderId: 1}),
-    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 49.99, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1})
+    OrderLine.create({ productId: 1, title: 'Crocs with socks', description: 'Roomba for your grill', price: 19.99, imageUrl: 'https://i.redd.it/nyjqg5zjas111.png', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 49.99, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 })
   ])
 
   console.log(`seeded ${users.length} users`)

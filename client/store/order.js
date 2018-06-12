@@ -10,7 +10,8 @@ const SET_ORDER = 'SET_ORDER'
  * INITIAL STATE
  */
 const orderState = {
-  orderList: []
+  orderList: [],
+  selectedOrder: {}
 }
 
 /**
@@ -22,12 +23,12 @@ const getOrders = orderList => {
     orderList
   }
 }
-// const setOrder = order => {
-//   return {
-//     type: SET_ORDER,
-//     order
-//   }
-// }
+export const setOrder = order => {
+  return {
+    type: SET_ORDER,
+    order
+  }
+}
 
 /**
  * THUNK CREATORS
@@ -47,6 +48,8 @@ export default function (state = orderState, action) {
   switch (action.type) {
   case GET_ORDERS:
     return { ...state, orderList: action.orderList }
+  case SET_ORDER:
+    return { ...state, selectedOrder: action.order }
   default:
     return state
   }

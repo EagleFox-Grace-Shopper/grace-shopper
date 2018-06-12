@@ -28,7 +28,6 @@ export default function CategoryFormRow(props) {
           onClick={
             event => {
               event.preventDefault()
-              console.log('passing', cat.id)
               props.removeCategory(cat.id)
             }}
         >Remove

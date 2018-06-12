@@ -8,7 +8,7 @@ export const adminHome = () => {
       <br />
       <Link to="/categories/editForm">Edit Categories</Link>
       <br />
-      <Link to="">Manage Users</Link>
+      <Link to="/users/manage">Manage Users</Link>
       <br />
       <Link to="">Manage Orders</Link>
     </div>)

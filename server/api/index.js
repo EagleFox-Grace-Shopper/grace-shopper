@@ -20,6 +20,7 @@ router.use('/cart', require('./cart'))
 router.use('/users', require('./users'))
 router.use('/products', require('./products'))
 router.use('/admin', adminGateway, require('./admin'))
+router.use('/reviews', require('./review'))
 
 
 router.use((req, res, next) => {

@@ -13,6 +13,8 @@ const Wrapper = styled.div`
   background-color: #333;
   width: 100%;
   height: 4em;
+  background-color: #000b43;
+  padding: 5px 5px 0 5px;
 `
 const Title = styled.a`
   width: 11em;

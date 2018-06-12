@@ -10,30 +10,54 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  width: 80%;
+  max-width: 80%;
   margin: auto;
 `
 const Details = styled.div`
   position: relative;
   display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
 `
 const Image = styled.img`
   max-height: 35em;
+  max-width: 50%;
   width: auto;
   height: auto;
-  padding: 1em;
+  padding: .5em;
 `
 const ProductInfo = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  margin: .5em;
+  padding: 1em;
+  border: 1px solid rgb(201, 161, 109);
+  background-color: rgb(235, 235, 235);
+  border-radius: 5px;
+  min-width: 50%;
 `
 const CartUI = styled.div`
   display: flex;
   position: relative;
+  flex-direction: column;
 `
 const Form = styled.form`
   display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const H1 = styled.div`
+  font-size: 2em;
+  font-weight: bold;
+`
+const Input = styled.input`
+  width: 3em;
+`
+const Hr = styled.hr`
+  border-top: 1px solid rgb(201, 161, 109);
+  width: 90%;
 `
 
 class SingleProduct extends Component {
@@ -75,20 +99,17 @@ class SingleProduct extends Component {
     const imageUrl = this.state.selectedProduct.imageUrl
     return (
       <Wrapper>
-        <h1>{title}</h1>
         <Details>
           <Image src={imageUrl} />
           <ProductInfo>
-            <p>
-              {description}
-            </p>
+            <H1>{title}</H1>
+            <h3>Price: ${price}</h3>
+            <p>{description}</p>
+            <Hr />
             <CartUI>
-              <h3>
-                ${price}
-              </h3>
               <Form>
                 <label name="quantity">Qty:
-                  <input
+                  <Input
                     type="number"
                     name="quantity"
                     min="1"
@@ -100,7 +121,7 @@ class SingleProduct extends Component {
               </Form>
               <p>
                 {quantity} available in store
-                </p>
+              </p>
               {this.props.isAdmin &&
                 <Link to={`/products/${productId}/edit`}>
                   <button type="button">Edit Product</button>
@@ -109,6 +130,7 @@ class SingleProduct extends Component {
             </CartUI>
           </ProductInfo>
         </Details>
+        <Hr />
         <ReviewList prodId={productId} />
       </Wrapper>
     )

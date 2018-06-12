@@ -92,7 +92,7 @@ const Cart = (props) => {
               Total Cost:
             </td>
             <td style={{ fontWeight: 'bold' }}>
-              ${props.cartTotal}
+              ${(props.cartTotal / 100).toFixed(2)}
             </td>
             <td>
               <Checkout onClick={() => history.push('checkout')}>Checkout</Checkout>
@@ -108,7 +108,7 @@ const Cart = (props) => {
 const mapStateToProps = (store) => {
   return {
     cart: store.cart.cart,
-    cartTotal: store.cart.cartTotal / 100,
+    cartTotal: store.cart.cartTotal,
     isAdmin: !!store.user.isAdmin,
   }
 }

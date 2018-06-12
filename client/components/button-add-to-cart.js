@@ -8,8 +8,8 @@ const ButtonAddToCart = (props) => {
     <div>
       <button
         type="button"
-        onClick={() => {
-          props.addToCart(props.cartItem)
+        onClick={async () => {
+          await props.addToCart(props.cartItem)
           props.redirect && props.history.push('/cart')
         }}
       >

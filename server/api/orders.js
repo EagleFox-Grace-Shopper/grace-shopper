@@ -1,5 +1,11 @@
 const router = require('express').Router()
 const { Order, OrderLine } = require('../db/models')
+const { MAILER_AUTH } = require('../../secrets')
+const nodemailer = require('nodemailer')
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: MAILER_AUTH
+})
 
 router.get('/', async (req, res, next) => {
   try {
@@ -29,6 +35,19 @@ router.get('/:orderid', async (req, res, next) => {
     next(error)
   }
 })
+
+const sendShippingConfirmation = (email, orderId) => {
+  const mailOptions = {
+    from: 'eaglefoxshopper@gmail.com',
+    to: email,
+    subject: `EagleFox Shopper: Order ${orderId} Has Shipped!`,
+    html: '<p>Order shipped</p>'
+  }
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) { console.log(err) }
+    else { console.log(info) }
+  })
+}
 
 module.exports = router
 

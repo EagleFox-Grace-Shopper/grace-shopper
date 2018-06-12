@@ -180,7 +180,7 @@ export class CheckoutForm extends React.Component {
           }
           <CartInfo>
             <h3>Total Cost: </h3>
-            <h3>${this.props.cartTotal / 100}</h3>
+            <h3>${(this.props.cartTotal / 100).toFixed(2)}</h3>
           </CartInfo>
           <StripeCheckout
             name="EagleFox Shopper"

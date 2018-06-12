@@ -10,15 +10,23 @@ router.post('/add', async (req, res, next) => {
   res.status(201).json(addedCategory)
 })
 
-router.put('/:id', async (req, res, next) => {
-  const entry = await Category.update({
-    name: req.body.name
-  }, {
-    where: { id: req.params.id },
-    returning: true
-  })
-  const editedCategory = entry[1][0].dataValues
-  res.status(201).json(editedCategory)
+router.put('/edit', async (req, res, next) => {
+  try {
+    req.body.forEach(async cat => {
+      await Category.update({
+        name: cat.name
+      }, {
+        where: { id: cat.id },
+        returning: true
+      })
+
+      const allcats = await Category.findAll()
+      res.json(allcats)
+
+    })
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.delete('/:id', (req, res, next) => {

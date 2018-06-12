@@ -4,20 +4,32 @@ import { connect } from 'react-redux'
 
 class OrderDetail extends Component {
 
-  async componentDidMount() {
-    if (this.props.selectedOrder.length === 0) {
-      await this.props.getOrderThunk()
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
+  async UNSAFE_componentWillMount() {
+    if (this.props.orderLines.length === 0) {
+      await this.props.getOrder(Number(this.props.match.params.orderid))
     }
   }
 
   render() {
-
-    const selectedOrder = this.props.selectedOrder
+    const orderLines = this.props.orderLines
+    console.log('*****', orderLines)
     return (
       <div>
-        <h3>{selectedOrder.title}</h3>
-        <h3>Price</h3>
-        <h3>Quantity</h3>
+      {orderLines.map(order => {
+        return (
+          <div key={order.id}>
+            <h3>{order.title}</h3>
+            <h3>Price</h3>
+            <h3>Quantity</h3>
+          </div>
+        )
+       }
+       )}
       </div>
     )
   }
@@ -25,13 +37,14 @@ class OrderDetail extends Component {
 
 const mapStateToProps = (store) => {
   return {
-    selectedOrder: store.order.selectedOrder
+    selectedOrder: store.order.selectedOrder,
+    orderLines: store.order.orderLines
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getOrderThunk: () => dispatch(getOrderThunk())
+    getOrder: (id) => dispatch(getOrderThunk(id))
   }
 }
 

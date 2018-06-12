@@ -11,7 +11,8 @@ const SET_ORDER = 'SET_ORDER'
  */
 const orderState = {
   orderList: [],
-  selectedOrder: {}
+  selectedOrder: {},
+  orderLines: []
 }
 
 /**
@@ -44,8 +45,9 @@ export const getOrderListThunk = () => {
 export const getOrderThunk = (orderId) => {
   return async (dispatch) => {
     const res = await axios.get(`/api/orders/${orderId}`)
-    const gotOrder = res.data
-    dispatch(setOrder(gotOrder))
+    const gotOrderLines = res.data
+    console.log('gotOrderLines', gotOrderLines)
+    dispatch(setOrder(gotOrderLines))
   }
 }
 
@@ -57,7 +59,7 @@ export default function (state = orderState, action) {
   case GET_ORDERS:
     return { ...state, orderList: action.orderList }
   case SET_ORDER:
-    return { ...state, selectedOrder: action.order }
+    return { ...state, orderLines: action.order }
   default:
     return state
   }

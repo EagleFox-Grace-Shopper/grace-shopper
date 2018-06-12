@@ -57,7 +57,10 @@ class UserForm extends Component {
             <label htmlFor="address"><small>Address</small></label>
             <input address="address" type="text" value={this.state.selectedUser.address} />
             <label htmlFor="isAdmin"><small>Admin?</small></label>
-            <input name="isAdmin" type="checkbox" checked={this.state.selectedUser.isAdmin ? 'checked' : ''} />
+            <input
+              htmlFor="isAdmin" type="checkbox" checked={this.state.selectedUser.isAdmin ? 'checked' : ''} onClick={() => {
+                this.state.selectedUser.isAdmin = !this.state.selectedUser.isAdmin
+              }} />
             <br />
             <button type="submit">Submit</button>
           </div>

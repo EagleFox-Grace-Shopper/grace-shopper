@@ -35,7 +35,7 @@ export class ProductForm extends React.Component {
       this.setState({
         selectedProduct: {
           ...curItem,
-          price: evt.target.value
+          price: evt.target.value * 100
         }
       })
     } else {

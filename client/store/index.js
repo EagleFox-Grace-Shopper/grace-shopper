@@ -5,7 +5,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import user from './user'
 import product from './product'
 import cart from './cart'
-import category from './category'
+import category, { getCategoriesThunk } from './category'
 import order from './order'
 import review from './review'
 
@@ -15,6 +15,8 @@ const middleware = composeWithDevTools(applyMiddleware(
   createLogger({ collapsed: true })
 ))
 const store = createStore(reducer, middleware)
+
+store.dispatch(getCategoriesThunk())
 
 export default store
 export * from './user'

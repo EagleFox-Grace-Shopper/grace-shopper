@@ -6,7 +6,7 @@ import axios from 'axios'
 
 const GET_CATEGORIES = 'GET_CATEGORIES'
 const ADD_CATEGORY = 'ADD_CATEGORY'
-const EDIT_CATEGORY = 'EDIT_CATEGORY'
+const EDIT_CATEGORIES = 'EDIT_CATEGORIES'
 const REMOVE_CATEGORY = 'REMOVE_CATEGORY'
 
 /**
@@ -32,11 +32,10 @@ const addCategory = category => {
   }
 }
 
-const editCategory = (id, category) => {
+const editCategories = (categories) => {
   return {
-    type: EDIT_CATEGORY,
-    id,
-    category
+    type: EDIT_CATEGORIES,
+    categories
   }
 }
 
@@ -66,16 +65,19 @@ export const addCategoryThunk = category => {
   }
 }
 
-export const editCategoryThunk = (id, category) => {
+export const editCategoriesThunk = (categories) => {
   return async dispatch => {
-    const {data} = await axios.put(`/api/admin/categories/${id}`, category)
-    dispatch(editCategory(data))
+
+    const {data} = await axios.put('/api/admin/categories/edit', categories)
+    dispatch(editCategories(data))
   }
+
 }
+
 
 export const removeCategoryThunk = id => {
   return async dispatch => {
-    const {data} = await axios.delete(`api/admin/categories/${id}`)
+    const {data} = await axios.delete(`/api/admin/categories/${id}`)
     dispatch(removeCategory(id))
   }
 }
@@ -91,16 +93,9 @@ export default function (state = defaultState, action){
     return {...state, categories: action.categories}
   case ADD_CATEGORY:
     return {...state, categories: state.categories.concat(action.category)}
-  case EDIT_CATEGORY:
-    return {...state, categories: [
-      ...state.categories.filter(cat => {
-        if ([action.id].indexOf(cat.id) === -1) {
-          return true
-        }
-        return false
-      }),
-      action.category
-    ]}
+  case EDIT_CATEGORIES:
+    return {...state, categories: action.categories}
+
   case REMOVE_CATEGORY:
     return {...state,
       categories: [state.categories.filter(cat => cat.id !== action.id)][0]}

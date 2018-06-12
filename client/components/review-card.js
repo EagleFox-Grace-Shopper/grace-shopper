@@ -4,11 +4,14 @@ export default function ReviewCard(props) {
   const review = props.review
   return (
     <div>
-      <h1>
-        {review.description}
-      </h1>
+      <h4>
+        {review.title}
+      </h4>
+      <h6>
+        RATING: {review.rating}
+      </h6>
       <p>
-        what is going on?
+        {review.description}
       </p>
     </div>
   )

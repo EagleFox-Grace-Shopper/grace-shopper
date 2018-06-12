@@ -74,7 +74,7 @@ class SingleProduct extends Component {
             <button type="button">Edit Product</button>
           </Link>
         }
-        <ReviewList />
+        <ReviewList prodId={productId}/>
       </div>
     )
   }

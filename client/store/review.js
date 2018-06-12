@@ -1,3 +1,4 @@
+import axios from 'axios'
 /**
  * ACTION TYPES
  */
@@ -7,7 +8,7 @@ const GET_PRODUCT_REVIEWS = 'GET_PRODUCT_REVIEWS'
  * INITIAL STATE
  */
 const defaultReviews = {
-  reviewList: [],
+  productReviewList: [],
 }
 /**
  * ACTION CREATORS
@@ -22,14 +23,11 @@ const getProductReviews = (reviews) => {
 /**
  * THUNK CREATORS
  */
-const fetchProductReviews = (product) => {
+
+export const fetchProductReviews = (productId) => {
   return async (dispatch) => {
-    //PLACEHOLDER:
-    //const reviewData = axios.get('/api/productId/')
-
-
-
-
+    const reviewData = await axios.get(`/api/reviews/${productId}/`)
+    dispatch(getProductReviews(reviewData.data))
   }
 }
 
@@ -43,7 +41,7 @@ export default function (state = defaultReviews, action) {
   case GET_PRODUCT_REVIEWS:
     return {
       ...state,
-      reviewList: action.reviews,
+      productReviewList: action.reviews,
     }
   default:
     return state

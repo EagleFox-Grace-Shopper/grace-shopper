@@ -1,46 +1,45 @@
 import React, { Component } from 'react'
 import { connect }  from 'react-redux'
 import { ReviewCard } from './index'
+import { fetchProductReviews } from '../store'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (store, ownProps) => {
   return {
-    reviewList: state.review.reviewList
+    productReviewList: store.review.productReviewList,
+    prodId: ownProps.prodId
   }
 }
 
-const fakeReviews = [
-  {
-    tite: 'review1',
-    description: 'cool review',
-  },
-  {
-    description: 'review 2',
-    tite: 'not cool review',
-  },
-  {
-    description: 'review 3',
-    tite: 'awesome review',
-  },
-  {
-    description: 'review 4',
-    tite: 'crazy review',
-  }
-]
+const mapDispatchToProps = (dispatch) => {
+  return ({
+    fetchReviews: (id) => {
+      return dispatch( fetchProductReviews(id) )
+    }
+  })
+}
 
-class ReviewList extends Component {
-  constructor() {
-    super()
+class ReviewList extends Component  {
+  constructor(props) {
+    super(props)
     this.state = {
-      reviewList: fakeReviews
+      productReviewList: this.props.productReviewList
     }
   }
 
-  render() {
-    const reviewList = this.state.reviewList
+  async componentDidMount() {
+    const prodId = this.props.prodId
+    await this.props.fetchReviews(prodId)
+    this.setState({
+      productReviewList: this.props.productReviewList
+    })
+  }
+
+  render(){
+    const reviewList = this.state.productReviewList
     return (
       <div>
         <h1>
-          Reviews:
+            Reviews:
         </h1>
         {
           reviewList.map((reviewX, idx) => {
@@ -52,4 +51,4 @@ class ReviewList extends Component {
   }
 }
 
-export default connect(mapStateToProps, null)(ReviewList)
+export default connect(mapStateToProps, mapDispatchToProps)(ReviewList)

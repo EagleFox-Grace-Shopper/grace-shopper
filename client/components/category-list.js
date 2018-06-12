@@ -1,37 +1,43 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
+import {getCategoriesThunk, editCategoriesThunk } from '../store'
 
+export class CategoryList extends Component {
 
-const categoryList = (props) => {
-  const cats = props.categories
-  return (
-    <div>
-      <table>
-        <tr>
-          <th />
-          <th>Name</th>
-          <th />
-          <th />
-        </tr>
-        {cats.map(cat => {
-          <tr>
-            <td>
-              <input disabled type="text" value={cat.name} />
-            </td>
-            <td>Edit</td>
-            <td>Remove</td>
-          </tr>
-        })}
-      </table>
-    </div>
-  )
-}
+  async componentDidMount() {
+    if (this.props.catList.length === 0) {
+      await this.props.getCategories()
+    }
+  }
 
-const mapStateToProps = props => {
-  return {
-    categories: state.category.categories
+  render() {
+    const cats = this.props.catList
+
+    return (
+      <div>
+        {cats.map(cat => (
+          <Link
+            to={`/browse/${cat.name}`}
+            key={cat.id}
+            onClick={() => getProducts(cat.id)}><CatItem>{cat.name}</CatItem>
+          </Link>
+        ))}
+      </div>
+    )
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    catList: state.category.categories
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getCategories: dispatch(getCategoriesThunk())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryList)

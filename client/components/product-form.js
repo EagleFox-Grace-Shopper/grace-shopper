@@ -16,7 +16,8 @@ export class ProductForm extends React.Component {
         description: '',
         price: 0,
         quantity: 0,
-        imageUrl: ''
+        imageUrl: '',
+        categories: []
       },
       redirect: false
     }
@@ -79,6 +80,14 @@ export class ProductForm extends React.Component {
             <input name="imageUrl" type="text" value={this.state.selectedProduct.imageUrl || ''} />
           </div>
           <div>
+            <label><small>Categories</small></label>
+            <select multiple>
+              {this.props.categories.map(cat => (
+                <option value={cat.id} key={cat.id}>{cat.name}</option>
+              ))}
+            </select>
+          </div>
+          <div>
             <button type="submit">{this.props.displayName}</button>
           </div>
         </form>
@@ -92,7 +101,8 @@ const mapAddProduct = (store) => {
   return {
     name: 'addProduct',
     displayName: 'Add',
-    selectedProduct: store.product.selectedProduct
+    selectedProduct: store.product.selectedProduct,
+    categories: store.category.categories
   }
 }
 
@@ -100,7 +110,8 @@ const mapEditProduct = (store) => {
   return {
     name: 'editProduct',
     displayName: 'Edit',
-    selectedProduct: store.product.selectedProduct
+    selectedProduct: store.product.selectedProduct,
+    categories: store.category.categories
   }
 }
 

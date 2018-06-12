@@ -3,7 +3,7 @@ const db = require('../db')
 
 const Order = db.define('order', {
   totalAmount: {
-    type: Sequelize.DECIMAL,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   email: {

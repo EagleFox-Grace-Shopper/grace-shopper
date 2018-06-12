@@ -5,11 +5,9 @@ export default function OrderRow(props) {
   return (
     <div>
       <h3>{order.id}</h3>
-      <h3>Total Amount: {order.totalAmount}</h3>
+      <h3>Total Amount: {(order.totalAmount / 100).toFixed(2)}</h3>
       <h3>Quantity</h3>
     </div>
   )
 }
-
-
 

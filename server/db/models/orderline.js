@@ -15,7 +15,7 @@ const OrderLine = db.define('orderline', {
     allowNull: false
   },
   price: {
-    type: Sequelize.DECIMAL,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   imageUrl: {

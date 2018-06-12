@@ -48,7 +48,6 @@ class Routes extends Component {
           <Route exact path="/products/add" component={AddProduct} />
         }
         <Route exact path="/products/:id" component={SingleProduct} />
-        <Route exact path="/products/:id/reviews" component={ReviewList} />
         {
           isAdmin &&
           <Route exact path="/products/:id/edit" component={EditProduct} />

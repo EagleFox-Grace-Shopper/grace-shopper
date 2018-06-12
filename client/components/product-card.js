@@ -14,6 +14,7 @@ const Wrapper = styled.div`
   border: 1px solid black;
   border-radius: 5px;
   margin: 5px;
+  background-color: rgb(235, 235, 235)
 `
 const CardImage = styled.img`
   max-height: 200px;

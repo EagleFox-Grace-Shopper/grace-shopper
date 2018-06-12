@@ -126,12 +126,12 @@ async function seed () {
   await CartItem.bulkCreate(cartItemsData)
 
   const reviewsData = [
-    { userId: users[0].id, productId: crocksocks.id, title: 'warm', description: 'keeps my feet warm'},
-    { userId: users[0].id, productId: sauna.id, title: 'indespensible', description: 'So useful, I use it all the time when I travel'},
-    { userId: users[0].id, productId: mug.id, title: 'coast', description: 'who needs coasters?'},
-    { userId: users[2].id, productId: crocksocks.id, title: 'only long socks', description: 'they dont make these with ankle socks, so I had to roll them down'},
-    { userId: users[2].id, productId: nightstand.id, title: 'be careful', description: 'Accidentally sent my husband to the hospital'},
-    { userId: users[2].id, productId: mug.id, title: 'excellent gift', description: 'bought one for my mom and she loves it'},
+    { userId: users[0].id, rating: 5, productId: crocksocks.id, title: 'warm', description: 'keeps my feet warm'},
+    { userId: users[0].id, rating: 4, productId: sauna.id, title: 'indespensible', description: 'So useful, I use it all the time when I travel'},
+    { userId: users[0].id, rating: 4, productId: mug.id, title: 'coast', description: 'who needs coasters?'},
+    { userId: users[2].id, rating: 2, productId: crocksocks.id, title: 'only long socks', description: 'they dont make these with ankle socks, so I had to roll them down'},
+    { userId: users[2].id, rating: 1, productId: nightstand.id, title: 'be careful', description: 'Accidentally sent my husband to the hospital'},
+    { userId: users[2].id, rating: 4, productId: mug.id, title: 'excellent gift', description: 'bought one for my mom and she loves it'},
   ]
 
   await Review.bulkCreate(reviewsData)

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { checkoutThunk, setOrder } from '../store'
 import styled from 'styled-components'
@@ -129,13 +130,11 @@ export class CheckoutForm extends React.Component {
     }
   }
   onToken = (amount) => async (token) => {
-    console.log('in token')
     const checkoutProps = {
       ...this.state,
       stripe: {
-        // description,
         source: token.id,
-        // currency,
+        currency: 'USD',
         amount
       }
     }
@@ -146,13 +145,15 @@ export class CheckoutForm extends React.Component {
       checkoutProps.billZip = this.state.shipZip
     }
     const response = await this.props.checkout(checkoutProps)
-    console.log(response)
-    // this.setState({redirect: true})
+    this.setState({ redirect: response })
   }
   onClose = () => {
     console.log('checkout complete')
   }
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={`orders/${this.state.redirect}`} />
+    }
     return (
       <Wrapper>
         <Header>Check Out</Header>

@@ -1,4 +1,5 @@
 import React from 'react'
+import history from '../history'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -96,18 +97,18 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
               ))}
             </CatDropdownContent>
           </CatDropdown>
-          <form className="search-container">
+          <form
+            className="search-container"
+            onSubmit={(event) => {
+              event.preventDefault()
+              history.push(`/products?search=${document.getElementById('search').value}`)
+              searchProducts(document.getElementById('search').value)
+            }}>
 
             <input type="text" placeholder="Enter product name..." name="search" id="search" />
             <button
-              type="button"
+              type="submit"
               value="Search"
-              onClick={(event) => {
-                event.preventDefault()
-                console.log('search term', document.getElementById('search').value)
-                window.location = `/products?search=${document.getElementById('search').value}`
-                searchProducts(document.getElementById('search').value)
-              }}
             >
               Search
             </button>

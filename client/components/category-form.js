@@ -28,10 +28,12 @@ class CategoryForm extends Component {
         return false
       }), newCat]}
     })
+    console.log('curstate', this.state)
   }
 
   saveButton = (event) => {
     event.preventDefault()
+    console.log('savebutton', this.state.categories)
     this.props.editCategories(this.state.categories)
     const inputs = [...document.getElementsByTagName('input')]
     inputs.forEach(inp => {

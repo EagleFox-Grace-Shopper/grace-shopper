@@ -102,7 +102,9 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
             <button
               type="button"
               value="Search"
-              onClick={() => {
+              onClick={(event) => {
+                event.preventDefault()
+                console.log('search term', document.getElementById('search').value)
                 window.location = `/products?search=${document.getElementById('search').value}`
                 searchProducts(document.getElementById('search').value)
               }}
@@ -116,8 +118,8 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
           {isAdmin ? (
             <NavRight>
               <hr />
-              <Link to="/products/add">
-                <NavItem>Add Product</NavItem>
+              <Link to="/admin">
+                <NavItem>Admin</NavItem>
               </Link>
             </NavRight>
           ) : (<div />)}
@@ -157,7 +159,7 @@ const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
     isAdmin: !!state.user.isAdmin,
-    cats: [{ id: 1, name: 'wacky' }, { id: 2, name: 'clothing' }, { id: 3, name: 'kitchen' }, { id: 4, name: 'stuff' }]
+    cats: state.category.categories
   }
 }
 

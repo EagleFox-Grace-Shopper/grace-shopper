@@ -95,7 +95,7 @@ const Cart = (props) => {
               ${props.cartTotal}
             </td>
             <td>
-              <Checkout onClick={history.push('checkout')}>Checkout</Checkout>
+              <Checkout onClick={() => history.push('checkout')}>Checkout</Checkout>
             </td>
           </tr>
         </tbody>

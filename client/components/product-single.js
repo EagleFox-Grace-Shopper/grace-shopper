@@ -3,6 +3,28 @@ import { connect } from 'react-redux'
 import { ButtonAddToCart } from './index'
 import { Link } from 'react-router-dom'
 import { getInitialProductThunk } from '../store'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+`
+const Details = styled.div`
+  position: relative;
+  display: flex;
+`
+const Image = styled.img`
+  max-height: 35em;
+  width: auto;
+  height: auto;
+`
+const ProductInfo = styled.div`
+  position: relative;
+  display: flex;
+`
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -42,39 +64,40 @@ class SingleProduct extends Component {
     const quantity = this.state.selectedProduct.quantity
     const imageUrl = this.state.selectedProduct.imageUrl
     return (
-      <div>
-        <h1>
-          {title}
-        </h1>
-        <p>
-          {description}
-        </p>
-        <h3>
-          $
-          {price}
-        </h3>
-        <p>
-          {quantity} available in store
-        </p>
-        <img src={imageUrl} />
-        <form>
-          <label name="quantity">Qty:
-            <input
-              type="number"
-              name="quantity"
-              min="1"
-              value={this.state.cartItem.quantity}
-              onChange={this.handleChange}
-            />
-          </label>
-          <ButtonAddToCart redirect={true} cartItem={this.state.cartItem} />
-        </form>
-        {this.props.isAdmin &&
-          <Link to={`/products/${productId}/edit`}>
-            <button type="button">Edit Product</button>
-          </Link>
-        }
-      </div>
+      <Wrapper>
+        <h1>{title}</h1>
+        <Details>
+          <Image src={imageUrl} />
+          <ProductInfo>
+            <p>
+              {description}
+            </p>
+            <p>
+              {quantity} available in store
+            </p>
+            <h3>
+              ${price}
+            </h3>
+            <form>
+              <label name="quantity">Qty:
+                <input
+                  type="number"
+                  name="quantity"
+                  min="1"
+                  value={this.state.cartItem.quantity}
+                  onChange={this.handleChange}
+                />
+              </label>
+              <ButtonAddToCart redirect={true} prodQty={quantity} cartItem={this.state.cartItem} />
+            </form>
+            {this.props.isAdmin &&
+              <Link to={`/products/${productId}/edit`}>
+                <button type="button">Edit Product</button>
+              </Link>
+            }
+          </ProductInfo>
+        </Details>
+      </Wrapper>
     )
   }
 }

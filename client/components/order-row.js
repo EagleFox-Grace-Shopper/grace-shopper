@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function OrderRow(props){
+export default function OrderRow(props) {
   const order = props.order
   return (
     <div>

@@ -11,6 +11,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 80%;
+  margin: auto;
 `
 const Details = styled.div`
   position: relative;
@@ -20,9 +21,18 @@ const Image = styled.img`
   max-height: 35em;
   width: auto;
   height: auto;
+  padding: 1em;
 `
 const ProductInfo = styled.div`
   position: relative;
+  display: flex;
+  flex-direction: column;
+`
+const CartUI = styled.div`
+  display: flex;
+  position: relative;
+`
+const Form = styled.form`
   display: flex;
 `
 
@@ -72,29 +82,31 @@ class SingleProduct extends Component {
             <p>
               {description}
             </p>
-            <p>
-              {quantity} available in store
-            </p>
-            <h3>
-              ${price}
-            </h3>
-            <form>
-              <label name="quantity">Qty:
-                <input
-                  type="number"
-                  name="quantity"
-                  min="1"
-                  value={this.state.cartItem.quantity}
-                  onChange={this.handleChange}
-                />
-              </label>
-              <ButtonAddToCart redirect={true} prodQty={quantity} cartItem={this.state.cartItem} />
-            </form>
-            {this.props.isAdmin &&
-              <Link to={`/products/${productId}/edit`}>
-                <button type="button">Edit Product</button>
-              </Link>
-            }
+            <CartUI>
+              <h3>
+                ${price}
+              </h3>
+              <Form>
+                <label name="quantity">Qty:
+                  <input
+                    type="number"
+                    name="quantity"
+                    min="1"
+                    value={this.state.cartItem.quantity}
+                    onChange={this.handleChange}
+                  />
+                </label>
+                <ButtonAddToCart redirect={true} prodQty={quantity} cartItem={this.state.cartItem} />
+              </Form>
+              <p>
+                {quantity} available in store
+                </p>
+              {this.props.isAdmin &&
+                <Link to={`/products/${productId}/edit`}>
+                  <button type="button">Edit Product</button>
+                </Link>
+              }
+            </CartUI>
           </ProductInfo>
         </Details>
         <ReviewList prodId={productId} />

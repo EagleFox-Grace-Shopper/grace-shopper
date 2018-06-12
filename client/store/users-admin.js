@@ -58,6 +58,13 @@ export const addUserThunk = user => {
   }
 }
 
+export const editUserThunk = user => {
+  return async dispatch => {
+    const {data} = await axios.put()
+    dispatch(editUser(data))
+  }
+}
+
 export const deleteUserThunk = id => {
   return async dispatch => {
     const {data} = await axios.delete(`/api/admin/users/${id}`)
@@ -75,11 +82,9 @@ export default function (state = defaultState, action){
     return {...state, users: state.users.concat(action.user)}
   case EDIT_USER:
     return {...state, users: action.users}
-
   case DELETE_USER:
     return {...state,
       users: [state.users.filter(user => user.id !== action.id)][0]}
-
   default:
     return defaultState
   }

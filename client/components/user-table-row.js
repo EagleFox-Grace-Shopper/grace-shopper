@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 import history from '../history'
 
-export default function UserFormRow(props) {
+export default function UserTableRow(props) {
   const user = props.user
   return (
     <tr>
@@ -36,7 +36,10 @@ export default function UserFormRow(props) {
           type="submit"
           onClick={(event) => {
             event.preventDefault()
-            confirm(`Are you user you want to delete user ${user.name}?`)}}> Delete
+            if (confirm(`Are you user you want to delete user ${user.name}?`)){
+              props.deleteUser(user.id)
+            }
+          }}> Delete
         </button>
 
       </td>

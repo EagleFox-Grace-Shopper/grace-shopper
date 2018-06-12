@@ -14,7 +14,7 @@ export default function OrderRow(props) {
       <td>{order.id}</td>
       <td>{order.createdAt}</td>
       <td>{order.totalAmount}</td>
-      <td>Status</td>
+      <td>{order.status}</td>
     </TableRow>
   )
 }

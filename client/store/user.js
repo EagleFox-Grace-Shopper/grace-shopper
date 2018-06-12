@@ -6,7 +6,6 @@ import { loginMergeCartThunk, getInitialCartThunk } from './index'
  * ACTION TYPES
  */
 const GET_USER = 'GET_USER'
-const FETCH_USERS = 'FETCH_USERS'
 const REMOVE_USER = 'REMOVE_USER'
 
 /**
@@ -18,7 +17,6 @@ const defaultUser = {}
  * ACTION CREATORS
  */
 const getUser = user => ({ type: GET_USER, user })
-const fetchUsers = (users) => ({type: FETCH_USERS, users})
 const removeUser = () => ({ type: REMOVE_USER })
 
 /**

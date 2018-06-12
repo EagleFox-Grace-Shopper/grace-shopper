@@ -326,7 +326,6 @@ router.post('/checkout', async (req, res, next) => {
     clearCartItem(req, item.productId)
   })
   const cart = await getCart()
-  console.log('response', cart, order)
   res.status(201).json({ cart, order })
 })
 

@@ -278,7 +278,7 @@ router.delete('/:productId', async (req, res, next) => {
 const buildOrder = async (req) => {
   const orderInfo = req.body
   const userId = req.user ? req.user.id : null
-  const orderEmail = orderInfo.email
+  const email = orderInfo.email
   const totalAmount = orderInfo.stripe.amount
   const tokenId = orderInfo.stripe.source
   const shipping = {
@@ -298,7 +298,7 @@ const buildOrder = async (req) => {
 
   const orderRes = await Order.create({
     userId,
-    orderEmail,
+    email,
     totalAmount,
     tokenId,
     ...shipping,

@@ -276,16 +276,12 @@ router.delete('/:productId', async (req, res, next) => {
 })
 
 const buildOrder = async (req) => {
-  const orderInfo = req.body.checkoutInfo
+  const orderInfo = req.body
   const userId = req.user ? req.user.id : null
-  const orderEmail = req.user ? req.user.email : orderInfo.email
+  const orderEmail = orderInfo.email
   const totalAmount = orderInfo.stripe.amount
   const tokenId = orderInfo.stripe.source
-
-  const orderCart = await Promise.all(req.session.cart.map(async (item) => {
-    const product = Product.findById(item.productId)
-    return product.dataValues
-  }))
+  console.log('session cart', req.session.cart)
   const shipping = {
     name: orderInfo.name,
     shippingAddress: orderInfo.shipAddress,
@@ -309,28 +305,28 @@ const buildOrder = async (req) => {
     ...shipping,
     ...billing,
   })
-  await OrderLine.bulkCreate(orderCart.map(item => {
-    return {
+  await Promise.all(req.session.cart.map((item) => {
+    return OrderLine.create({
       orderId: orderRes.dataValues.id,
-      productId: item.id,
-      title: item.title,
-      description: item.description,
-      price: item.price,
-      imageUrl: item.imageUrl,
-      quantity: item.quantity,
-    }
+      qtyPurchased: item.quantity,
+      productId: item.product.id,
+      title: item.product.title,
+      description: item.product.description,
+      price: item.product.price,
+      imageUrl: item.product.imageUrl,
+    })
   }))
   return orderRes.dataValues
 }
 
 router.post('/checkout', async (req, res, next) => {
-  const chargeOutput = stripe.charges.create(req.body.checkoutInfo.stripe)
-  const order = buildOrder(req, chargeOutput)
-  req.body.cart.forEach(item => {
-    clearCartItem(req, item.id)
+  const chargeOutput = await stripe.charges.create(req.body.stripe)
+  const order = await buildOrder(req, chargeOutput)
+  req.session.cart.forEach(item => {
+    clearCartItem(req, item.productId)
   })
   const cart = await getCart()
-  res.setStatus(201).json({ cart, order })
+  res.status(201).json({ cart, order })
 })
 
 module.exports = router

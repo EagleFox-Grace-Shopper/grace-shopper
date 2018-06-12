@@ -2,6 +2,13 @@ import React, { Component } from 'react'
 import OrderRow from './order-row'
 import { connect } from 'react-redux'
 import { getOrderListThunk } from '../store'
+import styled from 'styled-components'
+
+const Wrapper = styled.div`
+  position: relative;
+  margin: auto;
+  width: 80%;
+`
 
 class OrderPage extends Component {
 
@@ -15,10 +22,10 @@ class OrderPage extends Component {
 
     const orderList = this.props.orderList
     return (
-      <div>
+      <Wrapper>
         <h2>Orders</h2>
         {orderList.map(order => <OrderRow order={order} key={order.id} />)}
-      </div>
+      </Wrapper>
     )
   }
 }

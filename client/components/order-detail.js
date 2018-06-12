@@ -1,6 +1,21 @@
 import React, { Component } from 'react'
 import { getOrderThunk } from '../store'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  width: 310px;
+  height: 310px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px;
+`
 
 class OrderDetail extends Component {
 
@@ -19,7 +34,7 @@ class OrderDetail extends Component {
     const orderLines = this.props.orderLines
     console.log('*****', orderLines)
     return (
-      <div>
+      <Wrapper>
       {orderLines.map(order => {
         return (
           <div key={order.id}>
@@ -30,7 +45,7 @@ class OrderDetail extends Component {
         )
        }
        )}
-      </div>
+      </Wrapper>
     )
   }
 }

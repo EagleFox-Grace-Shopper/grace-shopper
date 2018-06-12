@@ -26,11 +26,11 @@ class SingleProduct extends Component {
       }
     })
   }
-  handleClick = (evt) => {
+  handleChange = (evt) => {
     this.setState({
       cartItem: {
         ...this.state.cartItem,
-        quantity: evt.target.value
+        quantity: Number(evt.target.value)
       }
     })
   }
@@ -38,7 +38,7 @@ class SingleProduct extends Component {
     const productId = Number(this.props.match.params.id)
     const title = this.state.selectedProduct.title
     const description = this.state.selectedProduct.description
-    const price = this.state.selectedProduct.price
+    const price = (this.state.selectedProduct.price / 100).toFixed(2)
     const quantity = this.state.selectedProduct.quantity
     const imageUrl = this.state.selectedProduct.imageUrl
     return (
@@ -63,8 +63,8 @@ class SingleProduct extends Component {
               type="number"
               name="quantity"
               min="1"
-              defaultValue={this.state.cartItem.quantity}
-              onClick={this.handleClick}
+              value={this.state.cartItem.quantity}
+              onChange={this.handleChange}
             />
           </label>
           <ButtonAddToCart redirect={true} cartItem={this.state.cartItem} />

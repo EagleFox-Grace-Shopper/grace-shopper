@@ -81,12 +81,11 @@ export default function (state = initialState, action) {
   switch (action.type) {
   case SET_CART:
     let cartSize = 0
-    const calcTotal = action.cart.reduce((total, item) => {
+    const cartTotal = action.cart.reduce((total, item) => {
       cartSize += item.quantity
       total += item.quantity * item.product.price
       return total
     }, 0)
-    const cartTotal = Math.round(calcTotal * 100)
     return {
       ...state,
       cart: action.cart,

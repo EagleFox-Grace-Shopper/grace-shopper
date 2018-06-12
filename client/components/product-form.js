@@ -31,12 +31,21 @@ export class ProductForm extends React.Component {
   }
   handleChange = (evt) => {
     const curItem = { ...this.state.selectedProduct }
-    this.setState({
-      selectedProduct: {
-        ...curItem,
-        [evt.target.name]: evt.target.value
-      }
-    })
+    if (evt.target.name === 'price') {
+      this.setState({
+        selectedProduct: {
+          ...curItem,
+          price: evt.target.value * 100
+        }
+      })
+    } else {
+      this.setState({
+        selectedProduct: {
+          ...curItem,
+          [evt.target.name]: evt.target.value
+        }
+      })
+    }
   }
   handleSubmit = async (evt) => {
     evt.preventDefault()
@@ -69,7 +78,7 @@ export class ProductForm extends React.Component {
           </div>
           <div>
             <label htmlFor="price"><small>Product Price</small></label>
-            <input name="price" type="text" value={this.state.selectedProduct.price} />
+            <input name="price" type="text" value={(this.state.selectedProduct.price / 100).toFixed(2)} />
           </div>
           <div>
             <label htmlFor="quantity"><small>Inventory Qty</small></label>

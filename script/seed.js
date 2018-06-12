@@ -27,70 +27,70 @@ async function seed() {
     Product.create({
       title: 'Crocs with socks',
       description: 'These crocs have built in socks!',
-      price: 19.99,
+      price: 1999,
       quantity: 43,
       imageUrl: 'https://i.redd.it/nyjqg5zjas111.png'
     }),
     Product.create({
       title: 'Grillba',
       description: 'Roomba for your grill',
-      price: 49.99,
+      price: 4999,
       quantity: 87,
       imageUrl: 'https://i.redd.it/287mfbuf7x111.gif'
     }),
     Product.create({
       title: 'Licki Brush',
       description: 'Lick your cat!',
-      price: 15.99,
+      price: 1599,
       quantity: 62,
       imageUrl: 'https://i.redd.it/orqpr3q0vl111.jpg'
     }),
     Product.create({
       title: 'Rejuvenator Portable Sauna',
       description: 'The finest airline experience possible',
-      price: 149.99,
+      price: 14999,
       quantity: 22,
       imageUrl: 'https://i.imgur.com/FZkpsst.jpg'
     }),
     Product.create({
       title: 'Magnetic Cookie Dunker',
       description: 'One step closer to a world without war',
-      price: 9.99,
+      price: 999,
       quantity: 103,
       imageUrl: 'http://i.imgur.com/FQR4nrT.jpg?1'
     }),
     Product.create({
       title: 'The Floating Mug',
       description: 'No more coasters!',
-      price: 9.99,
+      price: 999,
       quantity: 149,
       imageUrl: 'https://tinyurl.com/ybs3ydxr'
     }),
     Product.create({
       title: 'Bat and Shield Night Stand',
       description: 'Night stand that turns into a bat and shield',
-      price: 59.99,
+      price: 5999,
       quantity: 52,
       imageUrl: 'https://i.redd.it/12sxmkwqovr01.jpg'
     }),
     Product.create({
       title: 'Experience Tube',
       description: 'Never be distracted by your phone again',
-      price: 29.99,
+      price: 2999,
       quantity: 89,
       imageUrl: 'https://i.redd.it/0u0xt3ymumzz.jpg'
     }),
     Product.create({
       title: 'Lettuce Umbrella',
       description: 'An umbrella that looks like lettuce.  (Not edible)',
-      price: 24.99,
+      price: 2499,
       quantity: 12,
       imageUrl: 'https://i.redd.it/ck0u2asgcvw01.jpg'
     }),
     Product.create({
       title: 'Handitaur',
       description: 'A centaur for your hand',
-      price: 12.99,
+      price: 1299,
       quantity: 40,
       imageUrl: 'https://i.redd.it/ja8qovp7qukz.jpg'
     }),
@@ -141,7 +141,7 @@ async function seed() {
 
   await Promise.all([
     Order.create({
-      totalAmount: 19.99,
+      totalAmount: 1999,
       email: 'chan@email.com',
       userId: 1,
       tokenId: 'tok_123',
@@ -157,7 +157,7 @@ async function seed() {
       billingZip: 12345,
     }),
     Order.create({
-      totalAmount: 29.99, email: 'chan@email.com', userId: 1,
+      totalAmount: 2999, email: 'chan@email.com', userId: 1,
       tokenId: 'tok_123',
       name: 'chan',
       shippingAddress: 'shippingAddress',
@@ -171,7 +171,7 @@ async function seed() {
       billingZip: 12345,
     }),
     Order.create({
-      totalAmount: 39.99, email: 'chan@email.com', userId: 1,
+      totalAmount: 3999, email: 'chan@email.com', userId: 1,
       tokenId: 'tok_123',
       name: 'chan',
       shippingAddress: 'shippingAddress',
@@ -185,7 +185,7 @@ async function seed() {
       billingZip: 12345,
     }),
     Order.create({
-      totalAmount: 49.99, email: 'chan@email.com', userId: 1,
+      totalAmount: 4999, email: 'chan@email.com', userId: 1,
       tokenId: 'tok_123',
       name: 'chan',
       shippingAddress: 'shippingAddress',
@@ -257,8 +257,8 @@ async function seed() {
   ])
 
   await Promise.all([
-    OrderLine.create({ productId: 1, title: 'Crocs with socks', description: 'Roomba for your grill', price: 19.99, imageUrl: 'https://i.redd.it/nyjqg5zjas111.png', qtyPurchased: 1, orderId: 1 }),
-    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 49.99, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 })
+    OrderLine.create({ productId: 1, title: 'Crocs with socks', description: 'Roomba for your grill', price: 1999, imageUrl: 'https://i.redd.it/nyjqg5zjas111.png', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 })
   ])
 
   console.log(`seeded ${users.length} users`)

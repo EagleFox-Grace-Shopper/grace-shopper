@@ -36,7 +36,7 @@ export default function ProductCard(props) {
       <Link to={`/products/${product.id}`}>
         <H3NoMargin>{product.title}</H3NoMargin>
       </Link>
-      <H3NoMargin>${product.price}</H3NoMargin>
+      <H3NoMargin>${(product.price / 100).toFixed(2)}</H3NoMargin>
       <Link to={`/products/${product.id}`}>
         <CardImage src={product.imageUrl} />
       </Link>

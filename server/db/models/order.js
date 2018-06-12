@@ -3,7 +3,7 @@ const db = require('../db')
 
 const Order = db.define('order', {
   totalAmount: {
-    type: Sequelize.DECIMAL,
+    type: Sequelize.INTEGER,
     allowNull: false
   },
   email: {
@@ -53,6 +53,10 @@ const Order = db.define('order', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  status: {
+    type: Sequelize.ENUM('processing', 'shipped', 'complete'),
+    defaultValue: 'processing'
+  }
 })
 
 module.exports = Order

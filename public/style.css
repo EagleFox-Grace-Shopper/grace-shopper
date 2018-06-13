@@ -1,9 +1,13 @@
 body {
   font-family: sans-serif;
+  background-color: rgb(255, 227, 191);
+  margin: 0;
+  width: 100%;
 }
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 label {

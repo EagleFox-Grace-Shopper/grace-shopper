@@ -27,6 +27,7 @@ const CartImage = styled.img`
   height: 100%;
 `
 const Wrapper = styled.div`
+  text-align: right;
   position: relative;
   padding: 5px;
   &:hover ${CartSize}{

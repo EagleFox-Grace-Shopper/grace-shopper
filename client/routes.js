@@ -46,6 +46,10 @@ class Routes extends Component {
         }
         {
           isLoggedIn &&
+          <Route exact path="/orders/:orderid" component={OrderDetail} />
+        }
+        {
+          isLoggedIn &&
           <Route exact path="/products/:id/editReview" component={ReviewForm} />
         }
         {

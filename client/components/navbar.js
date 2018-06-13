@@ -14,15 +14,17 @@ const Wrapper = styled.div`
   background-color: #333;
   width: 100%;
   height: 4em;
+  background-color: #000b43;
+  padding: 5px 5px 0 5px;
 `
 const Title = styled.a`
-  width: 11em;
   padding-left: 10px;
   color: white;
   font-size: 2em;
   font-weight: bold;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 `
 const Nav = styled.div`
   display: flex;
@@ -127,8 +129,8 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
           {isLoggedIn ? (
             <NavRight>
               <hr />
-              <Link to="/home">
-                <NavItem>Home</NavItem>
+              <Link to="/orders">
+                <NavItem>Orders</NavItem>
               </Link>
               <hr />
               <a href="/" onClick={logOut}>

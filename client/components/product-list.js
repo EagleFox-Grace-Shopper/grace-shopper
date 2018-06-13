@@ -16,18 +16,6 @@ const ProductListContent = styled.ul`
   flex-wrap: wrap;
 `
 
-const mapStateToProps = (state) => {
-  return {
-    productList: state.product.productList
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getProductListThunk: () => dispatch(getInitialProductListThunk())
-  }
-}
-
 class ProductList extends Component {
 
   async componentDidMount() {
@@ -47,6 +35,18 @@ class ProductList extends Component {
         </ProductListContent>
       </Wrapper>
     )
+  }
+}
+
+const mapStateToProps = (store) => {
+  return {
+    productList: store.product.productList
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProductListThunk: () => dispatch(getInitialProductListThunk())
   }
 }
 

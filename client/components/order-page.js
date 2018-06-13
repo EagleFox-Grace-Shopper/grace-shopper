@@ -58,7 +58,7 @@ class OrderPage extends Component {
 
 
 
-    const orderList = this.props.orderList
+    const orderList = this.props.orderList.sort((a, b) => a.id < b.id)
     return (
       <Wrapper>
         <Header>

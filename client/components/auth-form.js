@@ -1,17 +1,28 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import {auth} from '../store'
+import {auth, newUserThunk} from '../store'
+import history from '../history'
 
 /**
  * COMPONENT
  */
 const AuthForm = (props) => {
-  const {name, displayName, handleSubmit, error} = props
+  const {name, displayName, handleSubmit, handleNewuser, error} = props
 
   return (
     <div>
-      <form onSubmit={handleSubmit} name={name}>
+      <form onSubmit={(displayName === 'Sign Up') ? handleNewuser : handleSubmit} name={name}>
+        {displayName === 'Sign Up' &&
+        <div>
+          <label htmlFor="name"><small>Name</small></label>
+          <input name="name" type="text" />
+        </div>}
+        {displayName === 'Sign Up' &&
+        <div>
+          <label htmlFor="address"><small>Address</small></label>
+          <input name="address" type="text" />
+        </div>}
         <div>
           <label htmlFor="email"><small>Email</small></label>
           <input name="email" type="text" />
@@ -61,6 +72,16 @@ const mapDispatch = (dispatch) => {
       const email = evt.target.email.value
       const password = evt.target.password.value
       dispatch(auth(email, password, formName))
+    },
+    handleNewuser (evt) {
+      evt.preventDefault()
+      const formName = evt.target.name
+      const name = evt.target.name.value
+      const address = evt.target.address.value
+      const email = evt.target.email.value
+      const password = evt.target.password.value
+      dispatch(newUserThunk(name, email, address, password))
+      history.push('/')
     }
   }
 }

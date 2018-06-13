@@ -51,7 +51,7 @@ class ReviewForm extends Component {
     return (
       <div>
         <h1>
-          ReviewFormTesting
+          Review Form
         </h1>
       </div>
     )

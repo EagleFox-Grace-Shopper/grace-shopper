@@ -18,8 +18,10 @@ const Wrapper = styled.div`
 const CartList = styled.table`
   border-collapse: collapse;
   position: relative;
-  background-color: rgba(255, 193, 128, .6);
+  background-color: rgb(235, 235, 235);
+  border: 1px solid rgb(201, 161, 109);
   padding: .25em;
+  border-collapse: collapse;
   width: 100%;
   text-align: center;
   margin: 5px 0;

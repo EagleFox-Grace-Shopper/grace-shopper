@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
-import { Login, Signup, UserHome, AddProduct, EditProduct, SingleProduct, ProductList, Cart, Checkout, OrderPage, OrderDetail, categoryForm, adminHome, ReviewList, UserTable, UserForm} from './components'
+import { Login, Signup, UserHome, AddProduct, EditProduct, SingleProduct, ProductList, Cart, Checkout, OrderPage, OrderDetail, categoryForm, adminHome, ReviewList, ReviewForm, UserTable, UserForm} from './components'
 import { me } from './store'
 
 
@@ -14,6 +14,7 @@ import { me } from './store'
 /**
  * COMPONENT
  */
+
 class Routes extends Component {
   componentDidMount() {
     this.props.loadInitialData()
@@ -46,6 +47,10 @@ class Routes extends Component {
         {
           isLoggedIn &&
           <Route exact path="/orders/:orderid" component={OrderDetail} />
+        }
+        {
+          isLoggedIn &&
+          <Route exact path="/products/:id/editReview" component={ReviewForm} />
         }
         {
           isAdmin &&

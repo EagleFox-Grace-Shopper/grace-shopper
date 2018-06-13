@@ -28,7 +28,7 @@ const Wrapper2 = styled.div`
   border-radius: 5px;
   margin: auto;
 `
-const H3NoMargin = styled.h3`
+const H4NoMargin = styled.h4`
   margin: 0;
 `
 const H1NoMargin = styled.h1`
@@ -104,8 +104,8 @@ class OrderDetail extends Component {
                     <Link to={`/products/${order.productId}`}>
                       <H1NoMargin>{order.title}</H1NoMargin>
                     </Link>
-                    <H3NoMargin>Total Price: ${(order.price/100).toFixed(2)}</H3NoMargin>
-                    <H3NoMargin>Quantity Purchased: {order.qtyPurchased}</H3NoMargin>
+                    <h3>Total Price: ${(order.price/100).toFixed(2)}</h3>
+                    <H4NoMargin>Quantity Purchased: {order.qtyPurchased}</H4NoMargin>
                   </OrderInfo>
                 </Details>
               </Wrapper2>

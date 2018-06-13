@@ -29,8 +29,8 @@ router.put('/edit', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', (req, res, next) => {
-  Category.destroy({
+router.delete('/:id', async (req, res, next) => {
+  await Category.destroy({
     where: {
       id: req.params.id
     }

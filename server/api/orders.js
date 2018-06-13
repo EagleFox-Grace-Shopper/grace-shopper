@@ -9,14 +9,23 @@ const transporter = nodemailer.createTransport({
 
 router.get('/', async (req, res, next) => {
   try {
-    const allOrders = await Order.findAll({
-      where: {
-        userId: req.user.id
-      },
-      include: [{
-        model: OrderLine,
-      }]
-    })
+    let allOrders
+    if (req.user.isAdmin) {
+      allOrders = await Order.findAll({
+        include: [{
+          model: OrderLine,
+        }]
+      })
+    } else {
+      allOrders = await Order.findAll({
+        where: {
+          userId: req.user.id
+        },
+        include: [{
+          model: OrderLine,
+        }]
+      })
+    }
     res.json(allOrders)
   } catch (error) {
     next(error)

@@ -44,6 +44,10 @@ class Routes extends Component {
           <Route exact path="/orders" component={OrderPage} />
         }
         {
+          isLoggedIn &&
+          <Route exact path="/orders/:orderid" component={OrderDetail} />
+        }
+        {
           isAdmin &&
           <Route exact path="/products/add" component={AddProduct} />
         }

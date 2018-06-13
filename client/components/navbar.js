@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   padding: 5px 5px 0 5px;
 `
 const Title = styled.a`
-  width: 11em;
   padding-left: 10px;
   color: white;
   font-size: 2em;
@@ -130,8 +129,8 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
           {isLoggedIn ? (
             <NavRight>
               <hr />
-              <Link to="/home">
-                <NavItem>Home</NavItem>
+              <Link to="/orders">
+                <NavItem>Orders</NavItem>
               </Link>
               <hr />
               <a href="/" onClick={logOut}>

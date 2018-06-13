@@ -258,8 +258,14 @@ async function seed() {
 
   await Promise.all([
     OrderLine.create({ productId: 1, title: 'Crocs with socks', description: 'Roomba for your grill', price: 1999, imageUrl: 'https://i.redd.it/nyjqg5zjas111.png', qtyPurchased: 1, orderId: 1 }),
-    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 })
+    OrderLine.create({ productId: 2, title: 'Grillba', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/287mfbuf7x111.gif', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 3, title: 'Licki Brush', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://i.redd.it/orqpr3q0vl111.jpg', qtyPurchased: 5, orderId: 1 }),
+    OrderLine.create({ productId: 4, title: 'Rejuvenator Portable Sauna', description: 'These crocs have built in socks!', price: 5999, imageUrl: 'https://i.imgur.com/FZkpsst.jpg', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 5, title: 'Magnetic Cookie Dunker', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'http://i.imgur.com/FQR4nrT.jpg?1', qtyPurchased: 1, orderId: 1 }),
+    OrderLine.create({ productId: 6, title: 'The Floating Mug', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://tinyurl.com/ybs3ydxr', qtyPurchased: 1, orderId: 1 })
   ])
+
+
 
   console.log(`seeded ${users.length} users`)
   // console.log(`seeded ${products.length} products and ${categories.length} categories`)

@@ -2,9 +2,14 @@ const router = require('express').Router()
 const { Order, OrderLine } = require('../db/models')
 const { MAILER_AUTH } = require('../../secrets')
 const nodemailer = require('nodemailer')
+
+const MAILER_AUTHENTICATION = {
+  user: process.env.MAILER_USER || MAILER_AUTH.user,
+  pass: process.env.MAILER_PASSWORD || MAILER_AUTH.pass
+}
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-  auth: MAILER_AUTH
+  auth: MAILER_AUTHENTICATION
 })
 
 router.get('/', async (req, res, next) => {

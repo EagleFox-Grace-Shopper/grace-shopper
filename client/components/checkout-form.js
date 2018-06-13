@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import StripeCheckout from 'react-stripe-checkout'
 import axios from 'axios'
 import { STRIPE_PUBLISHABLE_KEY } from '../../secrets'
+const STRIPE_PUB_KEY = process.env.STRIPE_PUBLISHABLE_KEY || STRIPE_PUBLISHABLE_KEY
 
 const Wrapper = styled.div`
   position: relative;
@@ -194,7 +195,7 @@ export class CheckoutForm extends React.Component {
             panelLabel=""
             amount={this.props.cartTotal} // cents
             currency="USD"
-            stripeKey={STRIPE_PUBLISHABLE_KEY}
+            stripeKey={STRIPE_PUB_KEY}
             // locale="us"
             email={this.state.email}
             // shippingAddress={false}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { connect }  from 'react-redux'
+import { connect } from 'react-redux'
 import { ReviewCard } from './index'
 import { fetchProductReviews } from '../store'
 
@@ -13,12 +13,12 @@ const mapStateToProps = (store, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return ({
     fetchReviews: (id) => {
-      return dispatch( fetchProductReviews(id) )
+      return dispatch(fetchProductReviews(id))
     }
   })
 }
 
-class ReviewList extends Component  {
+class ReviewList extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -34,12 +34,12 @@ class ReviewList extends Component  {
     })
   }
 
-  render(){
+  render() {
     const reviewList = this.state.productReviewList
     return (
-      <div>
+      <div style={{ width: '95%' }}>
         <h1>
-            Reviews:
+          Reviews:
         </h1>
         {
           reviewList.map((reviewX, idx) => {

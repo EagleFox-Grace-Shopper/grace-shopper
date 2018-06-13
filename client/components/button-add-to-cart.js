@@ -4,19 +4,36 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 const ButtonAddToCart = (props) => {
-  return (
-    <div>
-      <button
-        type="button"
-        onClick={async () => {
-          await props.addToCart(props.cartItem)
-          props.redirect && props.history.push('/cart')
-        }}
-      >
-        Add to Cart
-      </button>
-    </div>
-  )
+  if (props.prodQty <= 0) {
+    return (
+      <div>
+        <button
+          type="button"
+          disabled
+          onClick={async () => {
+            await props.addToCart(props.cartItem)
+            props.redirect && props.history.push('/cart')
+          }}
+        >
+          No More Available
+        </button>
+      </div>
+    )
+  } else {
+    return (
+      <div>
+        <button
+          type="button"
+          onClick={async () => {
+            await props.addToCart(props.cartItem)
+            props.redirect && props.history.push('/cart')
+          }}
+        >
+          Add to Cart
+        </button>
+      </div>
+    )
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {

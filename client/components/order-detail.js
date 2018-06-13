@@ -74,11 +74,6 @@ const ImageLeft = styled.div`
 
 class OrderDetail extends Component {
 
-  constructor(props) {
-    super(props)
-    this.state = {}
-  }
-
   async UNSAFE_componentWillMount() {
     await this.props.getOrder(Number(this.props.match.params.orderid))
   }

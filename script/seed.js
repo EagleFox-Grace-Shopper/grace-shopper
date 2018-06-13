@@ -127,7 +127,6 @@ async function seed() {
 
   const reviewsData = [
     { userId: users[0].id, rating: 5, productId: crocksocks.id, title: 'warm', description: 'keeps my feet warm'},
-    { userId: users[0].id, rating: 4, productId: sauna.id, title: 'indespensible', description: 'So useful, I use it all the time when I travel'},
     { userId: users[0].id, rating: 4, productId: mug.id, title: 'coast', description: 'who needs coasters?'},
     { userId: users[2].id, rating: 2, productId: crocksocks.id, title: 'only long socks', description: 'they dont make these with ankle socks, so I had to roll them down'},
     { userId: users[2].id, rating: 1, productId: nightstand.id, title: 'be careful', description: 'Accidentally sent my husband to the hospital'},
@@ -135,6 +134,11 @@ async function seed() {
     { userId: users[1].id, rating: 4, productId: licki.id, title: 'purrfect', description: 'cat loves me'},
     { userId: users[1].id, rating: 2, productId: dunker.id, title: 'weak', description: 'Magnets are too weak'},
     { userId: users[1].id, rating: 5, productId: nightstand.id, title: 'save money on home protection', description: 'Hit the burglar on the head.  He ran away'},
+    { userId: users[3].id, rating: 5, productId: dunker.id, title: 'thunky', description: 'Makes my cookies thunky!!!'},
+    { userId: users[3].id, rating: 5, productId: handitaur.id, title: 'animals for hands', description: 'why wouldnt you want centaurs for hands?'},
+    { userId: users[4].id, rating: 1, productId: lettuce.id, title: 'disgusting', description: 'tastes like polyester! :( '},
+    { userId: users[4].id, rating: 4, productId: grillba.id, title: 'works', description: 'works as described'},
+    { userId: users[1].id, rating: 1, productId: tube.id, title: 'cant escape', description: 'help, im lost in this experience tube and cant get out'},
   ]
 
   await Review.bulkCreate(reviewsData)

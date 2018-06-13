@@ -10,7 +10,7 @@ export const adminHome = () => {
       <br />
       <Link to="/users/manage">Manage Users</Link>
       <br />
-      <Link to="">Manage Orders</Link>
+      <Link to="/orders">Manage Orders</Link>
     </div>)
 
 }

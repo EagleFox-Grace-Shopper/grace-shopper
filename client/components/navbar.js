@@ -18,7 +18,6 @@ const Wrapper = styled.div`
   padding: 5px 5px 0 5px;
 `
 const Title = styled.a`
-  width: 11em;
   padding-left: 10px;
   color: white;
   font-size: 2em;

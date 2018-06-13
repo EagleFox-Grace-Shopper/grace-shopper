@@ -25,6 +25,7 @@ const Title = styled.a`
   font-weight: bold;
   display: flex;
   align-items: center;
+  white-space: nowrap;
 `
 const Nav = styled.div`
   display: flex;

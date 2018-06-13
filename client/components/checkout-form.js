@@ -12,9 +12,13 @@ const Wrapper = styled.div`
   position: relative;
   width: 80%;
   max-width: 30em;
-  margin: auto;
+  margin: .5em auto;
   display: flex;
   flex-direction: column;
+  background-color: rgb(235, 235, 235);
+  border: 1px solid rgb(201, 161, 109);
+  padding: 1em;
+  border-radius: 5px
 `
 const Header = styled.h2`
   text-align: center;

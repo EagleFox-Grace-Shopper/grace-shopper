@@ -3,11 +3,17 @@ const router = express.Router()
 const { CartItem, Product, Order, OrderLine } = require('../db/models')
 const configureStripe = require('stripe')
 const { STRIPE_SECRET_KEY, MAILER_AUTH } = require('../../secrets')
-const stripe = configureStripe(STRIPE_SECRET_KEY)
+const STRIPE_SECRET = process.env.STRIPE_SECRET_KEY || STRIPE_SECRET_KEY
+const MAILER_AUTHENTICATION = {
+  user: process.env.MAILER_USER || MAILER_AUTH.user,
+  pass: process.env.MAILER_PASSWORD || MAILER_AUTH.pass
+}
+
+const stripe = configureStripe(STRIPE_SECRET)
 const nodemailer = require('nodemailer')
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-  auth: MAILER_AUTH
+  auth: MAILER_AUTHENTICATION
 })
 
 //this sets up the cart if one does not exist.

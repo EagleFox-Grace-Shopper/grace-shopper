@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import { fetchUserProductReview, postUserProductReview} from '../store'
+import history from '../history'
 
 const mapStateToProps = ( store ) => {
   return ({
@@ -32,6 +34,7 @@ class ReviewForm extends Component {
       title: '',
       rating: '',
       description: '',
+      redirect: false,
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -53,23 +56,35 @@ class ReviewForm extends Component {
     })
   }
 
-  handleSubmit = async(evt) => {
+  handleSubmit = async (evt) => {
     evt.preventDefault()
     const productId = Number(this.props.match.params.id)
+    console.log('this.State is: ', this.state)
     await this.props.postUserProductReview(productId, this.state)
+    console.log('this.State is: ', this.state)
     await this.setState({
       title: this.props.userProductReview.title,
       rating: this.props.userProductReview.rating,
       description: this.props.userProductReview.description,
+      redirect: true,
     })
+    history.push('/')
   }
 
   render() {
+    //if (this.state.redirect) {
+    //  console.log('this.state', this.state)
+    //  return <Redirect to='/' />
+    //}
     return (
+
       <div>
         <h1> Review Form       </h1>
         <h2> Product Title     </h2>
         <form onSubmit={this.handleSubmit} >
+          <button>
+            hello world
+          </button>
           <div>
             <label > Review Title </label>
             <input

@@ -265,6 +265,8 @@ async function seed() {
     OrderLine.create({ productId: 6, title: 'The Floating Mug', description: 'These crocs have built in socks!', price: 4999, imageUrl: 'https://tinyurl.com/ybs3ydxr', qtyPurchased: 1, orderId: 1 })
   ])
 
+
+
   console.log(`seeded ${users.length} users`)
   // console.log(`seeded ${products.length} products and ${categories.length} categories`)
   console.log('seeded successfully')

@@ -12,12 +12,15 @@ export default function OrderRow(props) {
   const order = props.order
   return (
     <TableRow>
-      <Link to={`/orders/${order.id}`}>
-        <td>{order.id}</td>
-      </Link>
-        <td>{order.createdAt}</td>
-        <td>{(order.totalAmount/100).toFixed(2)}</td>
-        <td>{order.status}</td>
+
+      <td>
+        <Link to={`/orders/${order.id}`}>
+          {order.id}
+        </Link>
+      </td>
+      <td>{order.createdAt}</td>
+      <td>{(order.totalAmount/100).toFixed(2)}</td>
+      <td>{order.status}</td>
     </TableRow>
   )
 }

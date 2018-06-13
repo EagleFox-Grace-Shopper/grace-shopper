@@ -127,8 +127,8 @@ export const Navbar = ({ searchProducts, getProducts, cats, logOut, isLoggedIn, 
           {isLoggedIn ? (
             <NavRight>
               <hr />
-              <Link to="/home">
-                <NavItem>Home</NavItem>
+              <Link to="/orders">
+                <NavItem>Orders</NavItem>
               </Link>
               <hr />
               <a href="/" onClick={logOut}>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { fetchUserProductReview , postUserProductReview} from '../store'
+import { fetchUserProductReview, postUserProductReview} from '../store'
 
 const mapStateToProps = ( store ) => {
   return ({
@@ -29,38 +29,38 @@ class ReviewForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title       : '',
-      rating      : '',
-      description : '',
+      title: '',
+      rating: '',
+      description: '',
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
-  async UNSAFE_componentWillMount() {
+  async componentDidMount() {
     const productId = Number(this.props.match.params.id)
     await this.props.fetchUserProductReview(productId)
     this.setState({
-      title       : this.props.userProductReview.title,
-      rating      : this.props.userProductReview.rating,
-      description : this.props.userProductReview.description,
+      title: this.props.userProductReview.title,
+      rating: this.props.userProductReview.rating,
+      description: this.props.userProductReview.description,
     })
   }
 
   handleChange(evt) {
     this.setState({
-      [evt.target.className] : evt.target.value
+      [evt.target.className]: evt.target.value
     })
   }
-  
+
   handleSubmit = async(evt) => {
     evt.preventDefault()
     const productId = Number(this.props.match.params.id)
     await this.props.postUserProductReview(productId, this.state)
     await this.setState({
-      title       : this.props.userProductReview.title,
-      rating      : this.props.userProductReview.rating,
-      description : this.props.userProductReview.description,
+      title: this.props.userProductReview.title,
+      rating: this.props.userProductReview.rating,
+      description: this.props.userProductReview.description,
     })
   }
 
@@ -72,29 +72,29 @@ class ReviewForm extends Component {
         <form onSubmit={this.handleSubmit} >
           <div>
             <label > Review Title </label>
-            <input 
+            <input
               className="title"
               value={this.state.title}
               onChange={this.handleChange}
-              type="text"/>
+              type="text" />
           </div>
           <div>
             <label > Review Rating </label>
-            <input 
-              className="rating"      
-              value={this.state.rating}      
+            <input
+              className="rating"
+              value={this.state.rating}
               onChange={this.handleChange}
-              type="number" 
+              type="number"
               min="1"
               max="5" />
           </div>
           <div>
             <label > Review Description </label>
-            <input 
-              className="description" 
-              value={this.state.description} 
+            <input
+              className="description"
+              value={this.state.description}
               onChange={this.handleChange}
-              type="text"/>
+              type="text" />
           </div>
           <button onClick={this.handleSubmit}>
             Submit

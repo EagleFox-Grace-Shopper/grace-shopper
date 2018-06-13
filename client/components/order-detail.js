@@ -74,8 +74,8 @@ const ImageLeft = styled.div`
 
 class OrderDetail extends Component {
 
-  async UNSAFE_componentWillMount() {
-    await this.props.getOrder(Number(this.props.match.params.orderid))
+  UNSAFE_componentWillMount() {
+    this.props.getOrder(Number(this.props.match.params.orderid))
   }
 
   render() {
@@ -97,14 +97,13 @@ class OrderDetail extends Component {
                     <Link to={`/products/${order.productId}`}>
                       <H1NoMargin>{order.title}</H1NoMargin>
                     </Link>
-                    <h3>Total Price: ${(order.price/100).toFixed(2)}</h3>
+                    <h3>Total Price: ${(order.price / 100).toFixed(2)}</h3>
                     <H4NoMargin>Quantity Purchased: {order.qtyPurchased}</H4NoMargin>
                   </OrderInfo>
                 </Details>
               </Wrapper2>
             )
-          }
-          )}
+          })}
         </OrderListContent>
       </Wrapper>
     )

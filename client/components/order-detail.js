@@ -80,9 +80,7 @@ class OrderDetail extends Component {
   }
 
   async UNSAFE_componentWillMount() {
-    if (this.props.orderLines.length === 0) {
-      await this.props.getOrder(Number(this.props.match.params.orderid))
-    }
+    await this.props.getOrder(Number(this.props.match.params.orderid))
   }
 
   render() {

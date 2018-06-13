@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ButtonAddToCart , ReviewList } from './index'
+import { ButtonAddToCart, ReviewList, ButtonAddReview} from './index'
 import { Link } from 'react-router-dom'
 import { getInitialProductThunk } from '../store'
 
@@ -69,12 +69,14 @@ class SingleProduct extends Component {
           </label>
           <ButtonAddToCart redirect={true} cartItem={this.state.cartItem} />
         </form>
-        {this.props.isAdmin &&
+        {
+          this.props.isAdmin &&
           <Link to={`/products/${productId}/edit`}>
             <button type="button">Edit Product</button>
           </Link>
         }
-        <ReviewList prodId={productId}/>
+        <ReviewList prodId={productId} />
+        {this.props.isAdmin && <ButtonAddReview prodId={productId} />}
       </div>
     )
   }

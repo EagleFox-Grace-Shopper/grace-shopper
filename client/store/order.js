@@ -46,7 +46,6 @@ export const getOrderThunk = (orderId) => {
   return async (dispatch) => {
     const res = await axios.get(`/api/orders/${orderId}`)
     const gotOrderLines = res.data
-    console.log('gotOrderLines', gotOrderLines)
     dispatch(setOrder(gotOrderLines))
   }
 }
